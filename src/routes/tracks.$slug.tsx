@@ -121,7 +121,23 @@ function TrackDetailPage() {
               {slug === "terraform" && (
                 <Button className="mt-4 w-full" asChild>
                   <Link to="/tracks/terraform">
-                    <Wifi className="mr-1 h-4 w-4" /> Open sandbox
+                    <Wifi className="mr-1 h-4 w-4" /> Open full experience
+                    <ArrowRight className="ml-1 h-4 w-4" />
+                  </Link>
+                </Button>
+              )}
+              {slug === "cicd" && (
+                <Button className="mt-4 w-full" asChild>
+                  <Link to="/tracks/cicd">
+                    <Wifi className="mr-1 h-4 w-4" /> Open full experience
+                    <ArrowRight className="ml-1 h-4 w-4" />
+                  </Link>
+                </Button>
+              )}
+              {slug === "linux" && (
+                <Button className="mt-4 w-full" asChild>
+                  <Link to="/tracks/linux">
+                    <Wifi className="mr-1 h-4 w-4" /> Open full experience
                     <ArrowRight className="ml-1 h-4 w-4" />
                   </Link>
                 </Button>

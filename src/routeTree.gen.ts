@@ -15,6 +15,8 @@ import { Route as TracksRouteImport } from './routes/tracks'
 import { Route as BooksBookIdRouteImport } from './routes/books.$bookId'
 import { Route as TracksIndexRouteImport } from './routes/tracks.index'
 import { Route as TracksSlugRouteImport } from './routes/tracks.$slug'
+import { Route as TracksCicdRouteImport } from './routes/tracks.cicd'
+import { Route as TracksLinuxRouteImport } from './routes/tracks.linux'
 import { Route as TracksTerraformRouteImport } from './routes/tracks.terraform'
 
 const IndexRoute = IndexRouteImport.update({
@@ -47,6 +49,16 @@ const TracksSlugRoute = TracksSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => TracksRoute,
 } as any)
+const TracksCicdRoute = TracksCicdRouteImport.update({
+  id: '/cicd',
+  path: '/cicd',
+  getParentRoute: () => TracksRoute,
+} as any)
+const TracksLinuxRoute = TracksLinuxRouteImport.update({
+  id: '/linux',
+  path: '/linux',
+  getParentRoute: () => TracksRoute,
+} as any)
 const TracksTerraformRoute = TracksTerraformRouteImport.update({
   id: '/terraform',
   path: '/terraform',
@@ -59,6 +71,8 @@ export interface FileRoutesByFullPath {
   '/tracks': typeof TracksRouteWithChildren
   '/books/$bookId': typeof BooksBookIdRoute
   '/tracks/$slug': typeof TracksSlugRoute
+  '/tracks/cicd': typeof TracksCicdRoute
+  '/tracks/linux': typeof TracksLinuxRoute
   '/tracks/terraform': typeof TracksTerraformRoute
   '/tracks/': typeof TracksIndexRoute
 }
@@ -67,6 +81,8 @@ export interface FileRoutesByTo {
   '/roadmap': typeof RoadmapRoute
   '/books/$bookId': typeof BooksBookIdRoute
   '/tracks/$slug': typeof TracksSlugRoute
+  '/tracks/cicd': typeof TracksCicdRoute
+  '/tracks/linux': typeof TracksLinuxRoute
   '/tracks/terraform': typeof TracksTerraformRoute
   '/tracks': typeof TracksIndexRoute
 }
@@ -77,6 +93,8 @@ export interface FileRoutesById {
   '/tracks': typeof TracksRouteWithChildren
   '/books/$bookId': typeof BooksBookIdRoute
   '/tracks/$slug': typeof TracksSlugRoute
+  '/tracks/cicd': typeof TracksCicdRoute
+  '/tracks/linux': typeof TracksLinuxRoute
   '/tracks/terraform': typeof TracksTerraformRoute
   '/tracks/': typeof TracksIndexRoute
 }
@@ -88,6 +106,8 @@ export interface FileRouteTypes {
     | '/tracks'
     | '/books/$bookId'
     | '/tracks/$slug'
+    | '/tracks/cicd'
+    | '/tracks/linux'
     | '/tracks/terraform'
     | '/tracks/'
   fileRoutesByTo: FileRoutesByTo
@@ -96,6 +116,8 @@ export interface FileRouteTypes {
     | '/roadmap'
     | '/books/$bookId'
     | '/tracks/$slug'
+    | '/tracks/cicd'
+    | '/tracks/linux'
     | '/tracks/terraform'
     | '/tracks'
   id:
@@ -105,6 +127,8 @@ export interface FileRouteTypes {
     | '/tracks'
     | '/books/$bookId'
     | '/tracks/$slug'
+    | '/tracks/cicd'
+    | '/tracks/linux'
     | '/tracks/terraform'
     | '/tracks/'
   fileRoutesById: FileRoutesById
@@ -160,6 +184,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TracksSlugRouteImport
       parentRoute: typeof TracksRoute
     }
+    '/tracks/cicd': {
+      id: '/tracks/cicd'
+      path: '/cicd'
+      fullPath: '/tracks/cicd'
+      preLoaderRoute: typeof TracksCicdRouteImport
+      parentRoute: typeof TracksRoute
+    }
+    '/tracks/linux': {
+      id: '/tracks/linux'
+      path: '/linux'
+      fullPath: '/tracks/linux'
+      preLoaderRoute: typeof TracksLinuxRouteImport
+      parentRoute: typeof TracksRoute
+    }
     '/tracks/terraform': {
       id: '/tracks/terraform'
       path: '/terraform'
@@ -172,12 +210,16 @@ declare module '@tanstack/react-router' {
 
 interface TracksRouteChildren {
   TracksSlugRoute: typeof TracksSlugRoute
+  TracksCicdRoute: typeof TracksCicdRoute
+  TracksLinuxRoute: typeof TracksLinuxRoute
   TracksTerraformRoute: typeof TracksTerraformRoute
   TracksIndexRoute: typeof TracksIndexRoute
 }
 
 const TracksRouteChildren: TracksRouteChildren = {
   TracksSlugRoute: TracksSlugRoute,
+  TracksCicdRoute: TracksCicdRoute,
+  TracksLinuxRoute: TracksLinuxRoute,
   TracksTerraformRoute: TracksTerraformRoute,
   TracksIndexRoute: TracksIndexRoute,
 }

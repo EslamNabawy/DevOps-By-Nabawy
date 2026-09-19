@@ -5,8 +5,12 @@ import {
   Download,
   ExternalLink,
   FileText,
+  Maximize,
+  Minimize,
+  ZoomIn,
+  ZoomOut,
 } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { books, pdfUrl, readUrl } from "@/lib/library";
 import { tracks } from "@/lib/tracks";
@@ -36,6 +40,10 @@ function BookReaderPage() {
   const { bookId } = Route.useParams();
   const book = books.find((item) => item.id === bookId);
   const [section, setSection] = useState(0);
+  const [zoom, setZoom] = useState(100);
+  const [wide, setWide] = useState(false);
+  const [full, setFull] = useState(false);
+  const frameBox = useRef<HTMLDivElement>(null);
   if (!book) throw notFound();
   const track = tracks.find((item) => item.slug === book.track);
   const url = readUrl(book);
@@ -100,14 +108,75 @@ function BookReaderPage() {
       </section>
 
       {url ? (
-        <section className="mx-auto max-w-7xl px-6 py-12">
-          <div className="mb-6">
-            <p className="font-mono text-xs font-bold text-primary">
-              READ ONLINE
-            </p>
-            <h2 className="font-display mt-2 text-3xl font-extrabold">
-              Full book
-            </h2>
+        <section
+          className={`mx-auto px-6 py-12 ${wide ? "max-w-[110rem]" : "max-w-7xl"}`}
+        >
+          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="font-mono text-xs font-bold text-primary">
+                READ ONLINE
+              </p>
+              <h2 className="font-display mt-2 text-3xl font-extrabold">
+                Full book
+              </h2>
+            </div>
+            <div className="flex flex-wrap items-center gap-1 rounded-md border border-border bg-card p-1 shadow-card">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setZoom((z) => Math.max(70, z - 10))}
+                disabled={zoom <= 70}
+                aria-label="Zoom out"
+              >
+                <ZoomOut className="h-4 w-4" />
+              </Button>
+              <button
+                onClick={() => setZoom(100)}
+                className="min-w-14 rounded px-2 py-1 font-mono text-xs font-bold text-muted-foreground hover:bg-accent"
+                aria-label="Reset zoom"
+              >
+                {zoom}%
+              </button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setZoom((z) => Math.min(150, z + 10))}
+                disabled={zoom >= 150}
+                aria-label="Zoom in"
+              >
+                <ZoomIn className="h-4 w-4" />
+              </Button>
+              <span className="mx-1 h-5 w-px bg-border" />
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setWide((w) => !w)}
+                aria-label="Toggle wide view"
+                className={wide ? "bg-accent" : undefined}
+              >
+                {wide ? "Narrow" : "Wide"}
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  if (document.fullscreenElement) {
+                    void document.exitFullscreen();
+                    setFull(false);
+                  } else {
+                    void frameBox.current?.requestFullscreen();
+                    setFull(true);
+                  }
+                }}
+                aria-label="Toggle fullscreen"
+              >
+                {full ? (
+                  <Minimize className="h-4 w-4" />
+                ) : (
+                  <Maximize className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
           </div>
           <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
             <aside className="border border-border bg-card p-4 shadow-card lg:sticky lg:top-24 lg:max-h-[80vh] lg:overflow-y-auto">
@@ -137,11 +206,18 @@ function BookReaderPage() {
                 </p>
               )}
             </aside>
-            <div className="overflow-hidden border border-border bg-card shadow-card">
+            <div
+              ref={frameBox}
+              className="overflow-auto border border-border bg-card shadow-card"
+            >
               <iframe
                 title={book.title}
                 src={url}
-                className="h-[80vh] w-full"
+                className="h-[80vh] w-full origin-top-left bg-white"
+                style={{
+                  zoom: `${zoom}%`,
+                  height: full ? "100vh" : "80vh",
+                }}
                 loading="lazy"
               />
             </div>

@@ -58,6 +58,8 @@ export default defineConfig({
       { path: "/", prerender: { enabled: true } },
       { path: "/tracks", prerender: { enabled: true } },
       { path: "/tracks/terraform", prerender: { enabled: true } },
+      { path: "/tracks/cicd", prerender: { enabled: true } },
+      { path: "/tracks/linux", prerender: { enabled: true } },
       { path: "/roadmap", prerender: { enabled: true } },
       ...trackSlugs.map((slug) => ({
         path: `/tracks/${slug}`,
