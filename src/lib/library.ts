@@ -20,7 +20,7 @@ export const RELEASE_BASE =
 export const pdfUrl = (book: Book) => `${RELEASE_BASE}/${book.pdfName}`;
 
 export const readUrl = (book: Book) =>
-  book.htmlName ? `${import.meta.env.BASE_URL}books/${book.htmlName}` : null;
+  book.htmlName ? `${import.meta.env.BASE_URL}read/${book.htmlName}` : null;
 
 export const booksByTrack = (slug: string) =>
   books.filter((book) => book.track === slug);

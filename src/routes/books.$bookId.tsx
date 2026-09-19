@@ -2,9 +2,11 @@ import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import {
   ArrowLeft,
   BookOpen,
+  Check,
   Download,
   ExternalLink,
   FileText,
+  Link2,
   Maximize,
   Minimize,
   ZoomIn,
@@ -43,11 +45,52 @@ function BookReaderPage() {
   const [zoom, setZoom] = useState(100);
   const [wide, setWide] = useState(false);
   const [full, setFull] = useState(false);
+  const [copied, setCopied] = useState<string | null>(null);
   const frameBox = useRef<HTMLDivElement>(null);
   if (!book) throw notFound();
+  const copyLink = async (label: string, value: string) => {
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch {
+      const ta = document.createElement("textarea");
+      ta.value = value;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+    }
+    setCopied(label);
+    window.setTimeout(() => setCopied((c) => (c === label ? null : c)), 1600);
+  };
   const track = tracks.find((item) => item.slug === book.track);
   const url = readUrl(book);
   const shown = book.chapters.slice(0, 60);
+  const sectionList = (
+    <>
+      {shown.map((chapter, i) => (
+        <button
+          key={`${chapter}-${i}`}
+          onClick={() => setSection(i)}
+          className={`mb-1 w-full rounded-md p-3 text-left text-sm ${
+            section === i
+              ? "bg-primary text-primary-foreground"
+              : "hover:bg-accent"
+          }`}
+        >
+          <span className="mr-2 font-mono text-xs">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          {chapter}
+        </button>
+      ))}
+      {book.chapters.length > shown.length && (
+        <p className="p-3 text-xs text-muted-foreground">
+          + {book.chapters.length - shown.length} more inside the full book
+          below.
+        </p>
+      )}
+    </>
+  );
 
   return (
     <div>
@@ -120,10 +163,11 @@ function BookReaderPage() {
                 Full book
               </h2>
             </div>
-            <div className="flex flex-wrap items-center gap-1 rounded-md border border-border bg-card p-1 shadow-card">
+            <div className="flex max-w-full items-center gap-1 overflow-x-auto rounded-md border border-border bg-card p-1 shadow-card">
               <Button
                 variant="ghost"
                 size="sm"
+                className="shrink-0"
                 onClick={() => setZoom((z) => Math.max(70, z - 10))}
                 disabled={zoom <= 70}
                 aria-label="Zoom out"
@@ -132,7 +176,7 @@ function BookReaderPage() {
               </Button>
               <button
                 onClick={() => setZoom(100)}
-                className="min-w-14 rounded px-2 py-1 font-mono text-xs font-bold text-muted-foreground hover:bg-accent"
+                className="min-w-14 shrink-0 rounded px-2 py-1 font-mono text-xs font-bold text-muted-foreground hover:bg-accent"
                 aria-label="Reset zoom"
               >
                 {zoom}%
@@ -140,25 +184,27 @@ function BookReaderPage() {
               <Button
                 variant="ghost"
                 size="sm"
+                className="shrink-0"
                 onClick={() => setZoom((z) => Math.min(150, z + 10))}
                 disabled={zoom >= 150}
                 aria-label="Zoom in"
               >
                 <ZoomIn className="h-4 w-4" />
               </Button>
-              <span className="mx-1 h-5 w-px bg-border" />
+              <span className="mx-1 h-5 w-px shrink-0 bg-border" />
               <Button
                 variant="ghost"
                 size="sm"
+                className={`hidden shrink-0 sm:inline-flex ${wide ? "bg-accent" : ""}`}
                 onClick={() => setWide((w) => !w)}
                 aria-label="Toggle wide view"
-                className={wide ? "bg-accent" : undefined}
               >
                 {wide ? "Narrow" : "Wide"}
               </Button>
               <Button
                 variant="ghost"
                 size="sm"
+                className="shrink-0"
                 onClick={() => {
                   if (document.fullscreenElement) {
                     void document.exitFullscreen();
@@ -176,35 +222,46 @@ function BookReaderPage() {
                   <Maximize className="h-4 w-4" />
                 )}
               </Button>
+              <span className="mx-1 h-5 w-px shrink-0 bg-border" />
+              <Button
+                variant="ghost"
+                size="sm"
+                className="shrink-0"
+                onClick={() =>
+                  copyLink(
+                    "page",
+                    window.location.href.split("#", 1)[0] ??
+                      window.location.href,
+                  )
+                }
+                aria-label="Copy link to this book"
+              >
+                {copied === "page" ? (
+                  <Check className="h-4 w-4 text-primary" />
+                ) : (
+                  <Link2 className="h-4 w-4" />
+                )}
+                <span className="ml-1 hidden text-xs md:inline">
+                  {copied === "page" ? "Copied" : "Copy link"}
+                </span>
+              </Button>
             </div>
           </div>
           <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
-            <aside className="border border-border bg-card p-4 shadow-card lg:sticky lg:top-24 lg:max-h-[80vh] lg:overflow-y-auto">
+            <details className="border border-border bg-card p-4 shadow-card lg:hidden">
+              <summary className="flex cursor-pointer items-center gap-2 text-xs font-bold uppercase text-muted-foreground">
+                <FileText className="h-4 w-4" /> Sections ·{" "}
+                {book.chapters.length}
+              </summary>
+              <div className="mt-3 max-h-[50dvh] overflow-y-auto">
+                {sectionList}
+              </div>
+            </details>
+            <aside className="hidden border border-border bg-card p-4 shadow-card lg:sticky lg:top-24 lg:block lg:max-h-[80dvh] lg:overflow-y-auto">
               <p className="mb-3 flex items-center gap-2 text-xs font-bold uppercase text-muted-foreground">
                 <FileText className="h-4 w-4" /> Sections
               </p>
-              {shown.map((chapter, i) => (
-                <button
-                  key={`${chapter}-${i}`}
-                  onClick={() => setSection(i)}
-                  className={`mb-1 w-full rounded-md p-3 text-left text-sm ${
-                    section === i
-                      ? "bg-primary text-primary-foreground"
-                      : "hover:bg-accent"
-                  }`}
-                >
-                  <span className="mr-2 font-mono text-xs">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  {chapter}
-                </button>
-              ))}
-              {book.chapters.length > shown.length && (
-                <p className="p-3 text-xs text-muted-foreground">
-                  + {book.chapters.length - shown.length} more inside the full
-                  book below.
-                </p>
-              )}
+              {sectionList}
             </aside>
             <div
               ref={frameBox}
@@ -213,10 +270,10 @@ function BookReaderPage() {
               <iframe
                 title={book.title}
                 src={url}
-                className="h-[80vh] w-full origin-top-left bg-white"
+                className="h-[75dvh] w-full origin-top-left bg-white"
                 style={{
                   zoom: `${zoom}%`,
-                  height: full ? "100vh" : "80vh",
+                  height: full ? "100dvh" : "75dvh",
                 }}
                 loading="lazy"
               />
