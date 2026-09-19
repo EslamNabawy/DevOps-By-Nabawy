@@ -1,15 +1,12 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
   BookMarked,
   CheckCircle2,
   Globe2,
-  Search,
   Sparkles,
   WifiOff,
 } from "lucide-react";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { tracks } from "@/lib/tracks";
 
 export const Route = createFileRoute("/")({
@@ -35,16 +32,8 @@ export const Route = createFileRoute("/")({
 
 // IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
-  const [query, setQuery] = useState("");
-  const navigate = useNavigate();
   const guidebooks = tracks.filter((track) => track.kind === "guide");
   const labs = tracks.filter((track) => track.kind === "lab");
-  const submit = () =>
-    navigate({
-      to: query.toLowerCase().includes("terraform")
-        ? "/tracks/terraform"
-        : "/tracks",
-    });
   return (
     <div>
       <section className="relative overflow-hidden border-b border-border bg-hero">
@@ -58,44 +47,8 @@ function Index() {
             <span className="text-primary">one page at a time.</span>
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-            Search anything, read at your own pace — free, and yours to keep
-            coming back to.
+            Read at your own pace — free, and yours to keep coming back to.
           </p>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              submit();
-            }}
-            className="mx-auto mt-9 flex max-w-2xl items-center rounded-lg border border-border bg-card p-2 shadow-search"
-          >
-            <Search className="ml-3 h-5 w-5 text-muted-foreground" />
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="h-11 flex-1 min-w-0 bg-transparent px-3 outline-none"
-              placeholder="What do you want to learn?"
-            />
-            <Button type="submit">
-              Search <ArrowRight />
-            </Button>
-          </form>
-          <div className="mx-auto mt-4 flex max-w-2xl flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
-            <span>Try:</span>
-            {[
-              "kubernetes ingress",
-              "docker volumes",
-              "ansible roles",
-              "terraform s3 backend",
-            ].map((tag) => (
-              <button
-                onClick={() => setQuery(tag)}
-                className="rounded-full border border-border bg-background px-3 py-1.5 transition-colors hover:border-primary hover:text-primary"
-                key={tag}
-              >
-                {tag}
-              </button>
-            ))}
-          </div>
         </div>
       </section>
       <section className="mx-auto max-w-7xl px-6 py-18">
