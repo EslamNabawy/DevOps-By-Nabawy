@@ -46,7 +46,7 @@ export const companions: Record<string, Companion[]> = {
     {
       title: "CI/CD by Nabawy",
       url: "https://eslamnabawy.github.io/cicd-by-nabawy/",
-      note: "8 handbooks: start, build, deliver, observability, Jenkins, platforms, labs, cheatsheet",
+      note: "8 handbooks, hosted above — full course version with extra drills",
     },
   ],
   linux: [

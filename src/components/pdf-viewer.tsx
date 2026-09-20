@@ -414,32 +414,71 @@ export function PdfViewer({
     return current.pageOrder;
   }, [matches, matchIndex, page]);
 
-  const highlightKey = `${debouncedQuery}|${matches.length}|${matchIndex}|${selectedPageOrder}`;
+  const paintGenRef = useRef(0);
 
+  // Canvas paint: awaited, generation-guarded. A cancelled or stale paint
+  // must never leave a white canvas behind, and paint errors must surface
+  // instead of failing silently.
   useEffect(() => {
     const document = pdfRef.current;
-    const pdfjs = pdfjsRef.current;
     const canvas = canvasRef.current;
-    const textLayerDiv = textRef.current;
-    if (!document || !pdfjs || !canvas || !textLayerDiv) return;
+    if (!document || !canvas) return;
+    const generation = paintGenRef.current + 1;
+    paintGenRef.current = generation;
     let cancelled = false;
-    const render = async () => {
+    const paint = async () => {
       try {
         const pageProxy = await document.getPage(page);
-        if (cancelled) return;
+        if (cancelled || paintGenRef.current !== generation) return;
         const viewport = pageProxy.getViewport({ scale });
         canvas.width = Math.floor(viewport.width);
         canvas.height = Math.floor(viewport.height);
         canvas.style.width = `${viewport.width}px`;
         canvas.style.height = `${viewport.height}px`;
-        textLayerDiv.innerHTML = "";
-        textLayerDiv.style.width = `${viewport.width}px`;
-        textLayerDiv.style.height = `${viewport.height}px`;
         const renderTask = pageProxy.render({
           canvas,
           viewport,
         });
         renderTaskRef.current = renderTask;
+        await renderTask.promise;
+        if (cancelled || paintGenRef.current !== generation) return;
+        renderTaskRef.current = null;
+      } catch (err) {
+        if (
+          !cancelled &&
+          paintGenRef.current === generation &&
+          err instanceof Error &&
+          err.name !== "RenderingCancelledException"
+        ) {
+          setError(err.message);
+        }
+      }
+    };
+    void paint();
+    return () => {
+      cancelled = true;
+      renderTaskRef.current?.cancel();
+      renderTaskRef.current = null;
+    };
+  }, [pdf, page, scale]);
+
+  // Text layer: independent of the canvas paint so search-result churn
+  // (matches/matchIndex updates) can never cancel a page paint.
+  useEffect(() => {
+    const document = pdfRef.current;
+    const pdfjs = pdfjsRef.current;
+    const textLayerDiv = textRef.current;
+    if (!document || !pdfjs || !textLayerDiv) return;
+    let cancelled = false;
+    let layer: { cancel: () => void } | null = null;
+    const renderText = async () => {
+      try {
+        const pageProxy = await document.getPage(page);
+        if (cancelled) return;
+        const viewport = pageProxy.getViewport({ scale });
+        textLayerDiv.innerHTML = "";
+        textLayerDiv.style.width = `${viewport.width}px`;
+        textLayerDiv.style.height = `${viewport.height}px`;
         const textContent = await pageProxy.getTextContent();
         if (cancelled) return;
         const textLayer = new pdfjs.TextLayer({
@@ -447,6 +486,7 @@ export function PdfViewer({
           container: textLayerDiv,
           viewport,
         });
+        layer = textLayer;
         await textLayer.render();
         if (cancelled) return;
         const needle = debouncedQuery.trim();
@@ -463,13 +503,12 @@ export function PdfViewer({
         }
       }
     };
-    void render();
+    void renderText();
     return () => {
       cancelled = true;
-      renderTaskRef.current?.cancel();
-      renderTaskRef.current = null;
+      layer?.cancel();
     };
-  }, [pdf, page, scale, highlightKey, debouncedQuery, selectedPageOrder]);
+  }, [pdf, page, scale, debouncedQuery, selectedPageOrder]);
 
   const goToPage = (next: number) => {
     if (!pageCount) return;

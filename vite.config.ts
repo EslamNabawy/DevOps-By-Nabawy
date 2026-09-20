@@ -41,6 +41,14 @@ const bookIds = [
   "ansible-mariadb-project",
   "docker-cheat-sheet",
   "docker-cheat-sheet-v2",
+  "cicd-01-start-here",
+  "cicd-02-pipelines",
+  "cicd-03-delivery",
+  "cicd-04-observability",
+  "cicd-05-jenkins",
+  "cicd-06-platforms",
+  "cicd-07-labs",
+  "cicd-08-cheatsheet",
 ];
 
 export default defineConfig({
@@ -53,7 +61,16 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
     // Prerender every route to static HTML for GitHub Pages.
-    prerender: { enabled: true, crawlLinks: true, autoSubfolderIndex: true },
+    // NOTE: never let the crawler fetch *.pdf — prerender writes every
+    // crawled response via res.text(), which corrupts binary PDFs in dist
+    // (blank white pages in the viewer). public/pdf copies stay verbatim.
+    prerender: {
+      enabled: true,
+      crawlLinks: true,
+      autoSubfolderIndex: true,
+      filter: (page: { path: string }) =>
+        !page.path.toLowerCase().endsWith(".pdf"),
+    },
     pages: [
       { path: "/", prerender: { enabled: true } },
       { path: "/tracks", prerender: { enabled: true } },

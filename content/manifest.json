@@ -557,6 +557,133 @@
       "pages": 5,
       "htmlName": null,
       "chapters": []
+    },
+    {
+      "id": "cicd-01-start-here",
+      "track": "cicd",
+      "title": "Start Here: Foundations, Git & CI",
+      "lang": "en",
+      "kind": "guide",
+      "pdfName": "cicd-01-start-here.pdf",
+      "pdfMB": 1.0,
+      "pages": 24,
+      "htmlName": null,
+      "chapters": [
+        "Start Here",
+        "The Map — The Whole Route",
+        "What CI/CD Actually Is"
+      ]
+    },
+    {
+      "id": "cicd-02-pipelines",
+      "track": "cicd",
+      "title": "Pipelines, Build, Test & Artifacts",
+      "lang": "en",
+      "kind": "guide",
+      "pdfName": "cicd-02-pipelines-build-test.pdf",
+      "pdfMB": 0.7,
+      "pages": 17,
+      "htmlName": null,
+      "chapters": [
+        "Pipelines, Build, Test & Artifacts",
+        "Pipelines",
+        "Execution"
+      ]
+    },
+    {
+      "id": "cicd-03-delivery",
+      "track": "cicd",
+      "title": "Delivery, Deployment & Operations",
+      "lang": "en",
+      "kind": "guide",
+      "pdfName": "cicd-03-delivery-deployment.pdf",
+      "pdfMB": 1.2,
+      "pages": 36,
+      "htmlName": null,
+      "chapters": [
+        "Delivery, Deployment & Operations",
+        "Strategies",
+        "Mechanics"
+      ]
+    },
+    {
+      "id": "cicd-04-observability",
+      "track": "cicd",
+      "title": "Observability: Loki, Prometheus & Grafana",
+      "lang": "en",
+      "kind": "guide",
+      "pdfName": "cicd-04-observability.pdf",
+      "pdfMB": 3.8,
+      "pages": 26,
+      "htmlName": null,
+      "chapters": [
+        "Observability Study Guide",
+        "The Map — The Whole Route",
+        "What is Observability?",
+        "The Four Pillars"
+      ]
+    },
+    {
+      "id": "cicd-05-jenkins",
+      "track": "cicd",
+      "title": "Jenkins Complete",
+      "lang": "en",
+      "kind": "guide",
+      "pdfName": "cicd-05-jenkins-complete.pdf",
+      "pdfMB": 1.1,
+      "pages": 39,
+      "htmlName": null,
+      "chapters": [
+        "Jenkins Complete",
+        "Jenkins",
+        "Rules & Handoff"
+      ]
+    },
+    {
+      "id": "cicd-06-platforms",
+      "track": "cicd",
+      "title": "Platforms & Roadmaps 2026",
+      "lang": "en",
+      "kind": "guide",
+      "pdfName": "cicd-06-platforms-roadmaps.pdf",
+      "pdfMB": 1.4,
+      "pages": 38,
+      "htmlName": null,
+      "chapters": [
+        "Platforms & Roadmaps",
+        "Actions",
+        "CI + CD"
+      ]
+    },
+    {
+      "id": "cicd-07-labs",
+      "track": "cicd",
+      "title": "Labs Handbook",
+      "lang": "en",
+      "kind": "lab",
+      "pdfName": "cicd-07-labs-handbook.pdf",
+      "pdfMB": 2.0,
+      "pages": 66,
+      "htmlName": null,
+      "chapters": [
+        "Labs Handbook",
+        "Lab Map"
+      ]
+    },
+    {
+      "id": "cicd-08-cheatsheet",
+      "track": "cicd",
+      "title": "Command Cheatsheet",
+      "lang": "en",
+      "kind": "cheatsheet",
+      "pdfName": "cicd-08-command-cheatsheet.pdf",
+      "pdfMB": 0.3,
+      "pages": 10,
+      "htmlName": null,
+      "chapters": [
+        "Command Cheatsheet",
+        "npm / Builds"
+      ]
     }
   ]
 }
