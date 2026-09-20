@@ -9,7 +9,12 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { booksByTrack, isComingSoon, pdfUrl } from "@/lib/library";
+import {
+  booksByTrack,
+  isComingSoon,
+  pdfUrl,
+  releasePdfUrl,
+} from "@/lib/library";
 import { trackBadge, tracks } from "@/lib/tracks";
 
 export const Route = createFileRoute("/tracks/$slug")({
@@ -75,11 +80,21 @@ function TrackDetailPage() {
       const { default: JSZip } = await import("jszip");
       const zip = new JSZip();
       for (const book of hosted) {
-        const response = await fetch(pdfUrl(book));
-        if (!response.ok) {
+        let data: ArrayBuffer | null = null;
+        for (const url of [pdfUrl(book), releasePdfUrl(book)]) {
+          try {
+            const response = await fetch(url);
+            if (!response.ok) continue;
+            data = await response.arrayBuffer();
+            break;
+          } catch {
+            continue;
+          }
+        }
+        if (!data) {
           throw new Error(`Could not fetch ${book.pdfName}`);
         }
-        zip.file(book.pdfName, await response.arrayBuffer());
+        zip.file(book.pdfName, data);
       }
       const blob = await zip.generateAsync({ type: "blob" }, (metadata) => {
         setDownloadProgress(Math.round(metadata.percent));

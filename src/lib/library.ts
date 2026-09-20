@@ -18,7 +18,10 @@ export const books: Book[] = manifest.books as Book[];
 export const RELEASE_BASE =
   "https://github.com/EslamNabawy/devops-library/releases/download/content-v1";
 
-export const pdfUrl = (book: Book) => `${RELEASE_BASE}/${book.pdfName}`;
+export const pdfUrl = (book: Book) =>
+  `${import.meta.env.BASE_URL}pdf/${book.pdfName}`;
+
+export const releasePdfUrl = (book: Book) => `${RELEASE_BASE}/${book.pdfName}`;
 
 export const readUrl = (book: Book) =>
   book.htmlName ? `${import.meta.env.BASE_URL}read/${book.htmlName}` : null;

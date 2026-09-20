@@ -38,6 +38,7 @@ type PdfViewerProps = {
   buildPageLink: (page: number) => string;
   onPageChange?: (page: number) => void;
   errorAction?: ReactNode;
+  fallbackUrl?: string;
 };
 
 type PdfApi = typeof import("pdfjs-dist");
@@ -159,6 +160,7 @@ export function PdfViewer({
   buildPageLink,
   onPageChange,
   errorAction,
+  fallbackUrl,
 }: PdfViewerProps) {
   const [pdf, setPdf] = useState<PDFDocumentProxy | null>(null);
   const [pageCount, setPageCount] = useState(0);
@@ -235,10 +237,32 @@ export function PdfViewer({
                 fileUrl = URL.createObjectURL(source.file);
                 return { url: fileUrl };
               })();
-        const loadingTask = pdfjs.getDocument(params);
-        pendingTask = loadingTask;
-        document = await loadingTask.promise;
-        pendingTask = null;
+        const candidates =
+          source.kind === "url" && fallbackUrl
+            ? [params.url, fallbackUrl]
+            : [params.url];
+        let lastError: unknown = null;
+        for (const candidate of candidates) {
+          try {
+            pendingTask = pdfjs.getDocument({
+              url: candidate,
+              withCredentials: false,
+            });
+            document = await pendingTask.promise;
+            pendingTask = null;
+            lastError = null;
+            break;
+          } catch (err) {
+            lastError = err;
+            pendingTask = null;
+            document = null;
+          }
+        }
+        if (!document) {
+          throw lastError instanceof Error
+            ? lastError
+            : new Error("This PDF could not be opened.");
+        }
         if (cancelled) {
           await document.cleanup().catch(() => {});
           return;
@@ -280,7 +304,7 @@ export function PdfViewer({
       }
       pdfRef.current = null;
     };
-  }, [source, sourceKey, reloadToken]);
+  }, [source, sourceKey, reloadToken, fallbackUrl]);
 
   useEffect(() => {
     setPage(clampPage(initialPage, pageCount || 1));

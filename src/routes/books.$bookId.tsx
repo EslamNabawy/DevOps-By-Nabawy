@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { PdfViewer } from "@/components/pdf-viewer";
-import { books, pdfUrl, readUrl } from "@/lib/library";
+import { books, pdfUrl, readUrl, releasePdfUrl } from "@/lib/library";
 import { tracks } from "@/lib/tracks";
 
 const parsePage = (value: unknown) => {
@@ -83,6 +83,7 @@ function BookPdfPage() {
         ) : undefined
       }
       initialPage={page}
+      fallbackUrl={releasePdfUrl(book)}
       buildPageLink={(next) =>
         new URL(
           `${import.meta.env.BASE_URL}books/${book.id}?page=${next}`,
