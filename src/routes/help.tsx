@@ -52,16 +52,16 @@ const ITEMS = [
 
 function HelpPage() {
   return (
-    <div className="mx-auto max-w-3xl px-6 py-14 sm:py-20">
+    <div className="mx-auto max-w-3xl px-6 py-10 sm:py-14">
       <p className="font-mono text-xs font-bold text-primary">HELP</p>
-      <h1 className="font-display mt-3 text-4xl font-extrabold sm:text-5xl">
+      <h1 className="font-display mt-3 text-3xl font-extrabold sm:text-4xl">
         Short answers
       </h1>
-      <div className="mt-8 grid gap-4">
+      <div className="mt-6 grid gap-3">
         {ITEMS.map((item) => (
           <details
             key={item.q}
-            className="rounded-2xl border border-border bg-card p-5 shadow-card"
+            className="rounded-2xl border border-border bg-card p-4 shadow-card"
           >
             <summary className="font-display cursor-pointer font-bold">
               {item.q}
@@ -72,7 +72,7 @@ function HelpPage() {
           </details>
         ))}
       </div>
-      <Button className="mt-8" asChild>
+      <Button className="mt-6" asChild>
         <Link to="/tracks">
           Browse tracks <ArrowRight className="ml-1 h-4 w-4" />
         </Link>

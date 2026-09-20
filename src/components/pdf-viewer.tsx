@@ -563,17 +563,17 @@ export function PdfViewer({
           <Skeleton className="hidden h-[70vh] lg:block" />
           <Skeleton className="h-[70vh]" />
         </div>
-        <Skeleton className="mx-auto mt-6 h-14 w-full max-w-3xl rounded-full" />
+        <Skeleton className="mx-auto mt-6 h-12 w-full max-w-3xl rounded-full" />
       </div>
     );
   }
 
   if (error || !pdf || pageCount < 1) {
     return (
-      <div className="mx-auto flex min-h-[60vh] w-full max-w-xl flex-col items-center justify-center px-6 py-16 text-center">
+      <div className="mx-auto flex min-h-[60vh] w-full max-w-xl flex-col items-center justify-center px-6 py-12 text-center">
         <span
           aria-hidden="true"
-          className="relative grid h-14 w-14 place-items-center"
+          className="relative grid h-12 w-12 place-items-center"
         >
           <span className="absolute h-10 w-10 rounded-2xl bg-primary/20" />
           <span className="absolute h-6 w-6 rotate-12 rounded-lg bg-secondary-accent/50" />
@@ -613,7 +613,7 @@ export function PdfViewer({
           <p className="mt-3 font-mono text-xs font-bold text-primary">
             {eyebrow}
           </p>
-          <h1 className="font-display mt-1 max-w-4xl text-3xl font-extrabold sm:text-4xl">
+          <h1 className="font-display mt-1 max-w-4xl text-2xl font-extrabold sm:text-3xl">
             {title}
           </h1>
         </div>
@@ -657,7 +657,7 @@ export function PdfViewer({
               className="mb-4 rounded-2xl border border-border bg-card p-4 shadow-card"
             >
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                <label className="flex h-11 flex-1 items-center gap-2 rounded-xl border border-border bg-background px-3">
+                <label className="flex h-10 flex-1 items-center gap-2 rounded-xl border border-border bg-background px-3">
                   <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
                   <input
                     autoFocus
@@ -682,7 +682,7 @@ export function PdfViewer({
                   <Button
                     variant="outline"
                     size="icon"
-                    className="h-11 w-11"
+                    className="h-10 w-10"
                     onClick={() => goToMatch(matchIndex - 1)}
                     disabled={!matches.length}
                     aria-label="Previous match"
@@ -692,7 +692,7 @@ export function PdfViewer({
                   <Button
                     variant="outline"
                     size="icon"
-                    className="h-11 w-11"
+                    className="h-10 w-10"
                     onClick={() => goToMatch(matchIndex + 1)}
                     disabled={!matches.length}
                     aria-label="Next match"
@@ -702,7 +702,7 @@ export function PdfViewer({
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-11 w-11"
+                    className="h-10 w-10"
                     onClick={() => setSearchOpen(false)}
                     aria-label="Close PDF search"
                   >
@@ -770,7 +770,7 @@ export function PdfViewer({
           <Button
             variant="ghost"
             size="icon"
-            className="h-11 w-11"
+            className="h-10 w-10"
             onClick={() => goToPage(page - 1)}
             disabled={page <= 1}
             aria-label="Previous page"
@@ -791,12 +791,12 @@ export function PdfViewer({
             onKeyDown={(event) => {
               if (event.key === "Enter" && draft) goToPage(Number(draft));
             }}
-            className="h-11 w-16 rounded-xl border border-border bg-background text-center font-mono text-sm font-bold outline-none"
+            className="h-10 w-16 rounded-xl border border-border bg-background text-center font-mono text-sm font-bold outline-none"
           />
           <Button
             variant="ghost"
             size="icon"
-            className="h-11 w-11"
+            className="h-10 w-10"
             onClick={() => goToPage(page + 1)}
             disabled={page >= pageCount}
             aria-label="Next page"
@@ -810,7 +810,7 @@ export function PdfViewer({
           <Button
             variant="ghost"
             size="icon"
-            className="h-11 w-11"
+            className="h-10 w-10"
             onClick={() => setScale((value) => Math.max(0.6, value - 0.15))}
             disabled={scale <= 0.6}
             aria-label="Zoom out"
@@ -821,14 +821,14 @@ export function PdfViewer({
             type="button"
             onClick={() => setScale(1)}
             aria-label="Reset zoom to 100 percent"
-            className="h-11 min-w-16 rounded-xl px-2 font-mono text-xs font-bold text-muted-foreground hover:bg-accent"
+            className="h-10 min-w-16 rounded-xl px-2 font-mono text-xs font-bold text-muted-foreground hover:bg-accent"
           >
             {Math.round(scale * 100)}%
           </button>
           <Button
             variant="ghost"
             size="icon"
-            className="h-11 w-11"
+            className="h-10 w-10"
             onClick={() => setScale((value) => Math.min(3, value + 0.15))}
             disabled={scale >= 3}
             aria-label="Zoom in"
@@ -842,7 +842,7 @@ export function PdfViewer({
           <Button
             variant="ghost"
             size="icon"
-            className="hidden h-11 w-11 lg:inline-flex"
+            className="hidden h-10 w-10 lg:inline-flex"
             onClick={() => setThumbsOpen((value) => !value)}
             aria-pressed={thumbsOpen}
             aria-label="Toggle thumbnails"
@@ -852,7 +852,7 @@ export function PdfViewer({
           <Button
             variant="ghost"
             size="icon"
-            className="h-11 w-11"
+            className="h-10 w-10"
             onClick={() => setSearchOpen((value) => !value)}
             aria-expanded={searchOpen}
             aria-label="Search in this PDF"
@@ -862,7 +862,7 @@ export function PdfViewer({
           <Button
             variant={copied ? "secondary" : "ghost"}
             size="icon"
-            className="h-11 w-11"
+            className="h-10 w-10"
             onClick={copyPageLink}
             aria-label="Copy link to this page"
             title="Copy link to this page"

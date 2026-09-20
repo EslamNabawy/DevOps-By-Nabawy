@@ -26,10 +26,10 @@ export const Route = createFileRoute("/tracks/")({
 
 function TracksPage() {
   return (
-    <div className="mx-auto max-w-7xl px-6 py-14 sm:py-20">
+    <div className="mx-auto max-w-7xl px-6 py-10 sm:py-14">
       <div className="max-w-3xl">
         <p className="font-mono text-xs font-bold text-primary">LIBRARY MAP</p>
-        <h1 className="font-display mt-3 text-4xl font-extrabold sm:text-5xl">
+        <h1 className="font-display mt-3 text-3xl font-extrabold sm:text-4xl">
           Tracks
         </h1>
         <p className="mt-5 text-lg leading-8 text-muted-foreground">
@@ -58,22 +58,22 @@ function TrackCard({ track }: { track: Track }) {
   return (
     <Link
       to={trackHref(track)}
-      className="group flex min-h-72 flex-col border border-border bg-card p-6 shadow-card transition-all duration-180 hover:-translate-y-1 hover:border-primary/50 hover:shadow-card-hover"
+      className="group flex min-h-64 flex-col border border-border bg-card p-5 shadow-card transition-all duration-180 hover:-translate-y-1 hover:border-primary/50 hover:shadow-card-hover"
     >
       <div className="flex items-start justify-between">
-        <span className="grid h-12 w-12 place-items-center rounded-md bg-primary/10 text-primary">
-          <track.icon className="h-6 w-6" />
+        <span className="grid h-11 w-11 place-items-center rounded-md bg-primary/10 text-primary">
+          <track.icon className="h-5 w-5" />
         </span>
         <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-semibold text-muted-foreground">
           <Icon className="h-3.5 w-3.5 text-primary" />
           {trackBadge(track)}
         </span>
       </div>
-      <h2 className="font-display mt-7 text-xl font-bold">{track.title}</h2>
-      <p className="mt-3 min-h-16 text-sm leading-6 text-muted-foreground">
+      <h2 className="font-display mt-5 text-lg font-bold">{track.title}</h2>
+      <p className="mt-2 min-h-12 text-sm leading-6 text-muted-foreground">
         {track.description}
       </p>
-      <div className="mt-auto flex items-center justify-between border-t border-border pt-5 text-sm font-semibold text-primary">
+      <div className="mt-auto flex items-center justify-between border-t border-border pt-4 text-sm font-semibold text-primary">
         <span>View track</span>
         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
       </div>

@@ -95,9 +95,9 @@ const SECTIONS: RoadSection[] = [
       {
         id: "cicd",
         title: "CI/CD Pipelines",
-        text: "8 handbooks: Jenkins, pipelines, delivery, labs.",
+        text: "8 handbooks: Jenkins, pipelines, delivery, labs. Hosted here.",
         to: "/tracks/cicd",
-        tag: "COMPANION SITE",
+        tag: "ON THIS SITE",
       },
     ],
   },
@@ -147,11 +147,11 @@ function RoadmapPage() {
   return (
     <div>
       <section className="border-b border-border bg-hero">
-        <div className="mx-auto max-w-7xl px-6 py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-6 py-10 sm:py-14">
           <p className="mb-3 flex items-center gap-2 font-mono text-xs font-bold text-primary">
             <Map className="h-4 w-4" /> STEP BY STEP
           </p>
-          <h1 className="font-display max-w-3xl text-4xl font-extrabold sm:text-5xl">
+          <h1 className="font-display max-w-3xl text-3xl font-extrabold sm:text-4xl">
             DevOps Roadmap
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">
@@ -161,7 +161,7 @@ function RoadmapPage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-3xl px-6 py-14">
+      <div className="mx-auto max-w-3xl px-6 py-10">
         {SECTIONS.map((section, si) => (
           <section key={section.id} className="relative pb-12 last:pb-0">
             {si < SECTIONS.length - 1 && (

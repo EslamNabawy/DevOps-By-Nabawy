@@ -16,10 +16,10 @@ import { AppShell } from "../components/app-shell";
 function NotFoundComponent() {
   return (
     <div className="flex min-h-[60vh] items-center justify-center px-4">
-      <div className="mx-auto w-full max-w-md py-16 text-center">
+      <div className="mx-auto w-full max-w-md py-12 text-center">
         <span
           aria-hidden="true"
-          className="relative mx-auto grid h-14 w-14 place-items-center"
+          className="relative mx-auto grid h-12 w-12 place-items-center"
         >
           <span className="absolute h-10 w-10 rounded-2xl bg-primary/20" />
           <span className="absolute h-6 w-6 rotate-12 rounded-lg bg-secondary-accent/50" />

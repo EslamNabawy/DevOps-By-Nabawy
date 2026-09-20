@@ -25,9 +25,9 @@ export const Route = createFileRoute("/about")({
 
 function AboutPage() {
   return (
-    <div className="mx-auto max-w-3xl px-6 py-14 sm:py-20">
+    <div className="mx-auto max-w-3xl px-6 py-10 sm:py-14">
       <p className="font-mono text-xs font-bold text-primary">ABOUT</p>
-      <h1 className="font-display mt-3 text-4xl font-extrabold sm:text-5xl">
+      <h1 className="font-display mt-3 text-3xl font-extrabold sm:text-4xl">
         A library with no memory
       </h1>
       <div className="mt-6 grid gap-4 text-base leading-8 text-muted-foreground">
@@ -47,7 +47,7 @@ function AboutPage() {
           for the current visit.
         </p>
       </div>
-      <div className="mt-8 grid gap-4 sm:grid-cols-3">
+      <div className="mt-6 grid gap-4 sm:grid-cols-3">
         <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
           <Link2 className="h-5 w-5 text-primary" />
           <h2 className="font-display mt-3 font-bold">Shareable pages</h2>
@@ -70,7 +70,7 @@ function AboutPage() {
           </p>
         </div>
       </div>
-      <div className="mt-8 rounded-2xl border border-border bg-card p-6 shadow-card">
+      <div className="mt-6 rounded-2xl border border-border bg-card p-5 shadow-card">
         <h2 className="font-display flex items-center gap-2 text-xl font-bold">
           <Keyboard className="h-5 w-5 text-primary" /> Keyboard shortcuts
         </h2>
@@ -101,7 +101,7 @@ function AboutPage() {
           </li>
         </ul>
       </div>
-      <Button className="mt-8" asChild>
+      <Button className="mt-6" asChild>
         <Link to="/tracks">
           Browse tracks <ArrowRight className="ml-1 h-4 w-4" />
         </Link>

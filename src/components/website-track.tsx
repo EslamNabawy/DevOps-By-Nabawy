@@ -47,7 +47,7 @@ export function WebsiteTrackPage({
   return (
     <div>
       <section className="border-b border-border bg-hero">
-        <div className="mx-auto max-w-7xl px-6 py-10 sm:py-14">
+        <div className="mx-auto max-w-7xl px-6 py-8 sm:py-10">
           <Link
             to="/tracks"
             className="mb-7 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary"
@@ -56,11 +56,11 @@ export function WebsiteTrackPage({
             <span className="text-foreground">{track.title}</span>
           </Link>
           <div className="flex items-start gap-4">
-            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
-              <Icon className="h-7 w-7" />
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
+              <Icon className="h-6 w-6" />
             </span>
             <div className="min-w-0">
-              <h1 className="font-display max-w-4xl text-4xl font-extrabold sm:text-5xl">
+              <h1 className="font-display max-w-4xl text-3xl font-extrabold sm:text-4xl">
                 {track.title}
               </h1>
               <div className="mt-3 flex flex-wrap gap-2">
@@ -73,20 +73,20 @@ export function WebsiteTrackPage({
               </div>
             </div>
           </div>
-          <p className="mt-5 max-w-3xl text-lg leading-8 text-muted-foreground">
+          <p className="mt-4 max-w-3xl text-lg leading-8 text-muted-foreground">
             {track.intro ?? (
               <span className="rounded bg-muted px-1 py-0.5 font-mono text-sm">
                 TRACK INTRO TO BE SUPPLIED
               </span>
             )}
           </p>
-          <Button className="mt-7 h-12 px-7 text-base" asChild>
+          <Button className="mt-6 h-11 px-6 text-base" asChild>
             <a href="#preview">Preview course</a>
           </Button>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-12 sm:py-16">
+      <section className="mx-auto max-w-7xl px-6 py-10 sm:py-12">
         <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
           <div className="lg:sticky lg:top-24 lg:self-start">
             <details className="rounded-2xl border border-border bg-card p-4 shadow-card lg:hidden">
@@ -152,8 +152,8 @@ export function WebsiteTrackPage({
                     aria-label="Preview — click to enter the full course"
                     className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-foreground/60 p-6 text-center transition-colors hover:bg-foreground/55"
                   >
-                    <span className="grid h-16 w-16 place-items-center rounded-full bg-primary text-primary-foreground shadow-card-hover">
-                      <Play className="ml-1 h-7 w-7" />
+                    <span className="grid h-14 w-14 place-items-center rounded-full bg-primary text-primary-foreground shadow-card-hover">
+                      <Play className="ml-1 h-6 w-6" />
                     </span>
                     <span className="font-display max-w-md text-xl font-bold text-white sm:text-2xl">
                       Preview — click to enter the full course

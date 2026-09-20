@@ -57,13 +57,13 @@ export function AppShell({ children }: { children: ReactNode }) {
       {showNavigation && (
         <>
           <header className="sticky top-0 z-40 border-b border-border/80 bg-background/90 backdrop-blur-xl">
-            <div className="mx-auto flex h-18 max-w-7xl items-center gap-3 px-4 sm:px-6">
+            <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:px-6">
               <Link
                 to="/"
                 className="flex min-w-0 items-center gap-3"
                 aria-label="DevOps By Nabawy home"
               >
-                <Logo className="h-10 w-10 shrink-0" />
+                <Logo className="h-8 w-8 shrink-0" />
                 <span className="font-display hidden text-base font-extrabold sm:block">
                   DevOps By Nabawy
                 </span>
@@ -156,7 +156,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              className="flex min-h-14 flex-col items-center justify-center gap-1 rounded-md text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+              className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-md text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground"
               aria-label="Search"
             >
               <Search className="h-5 w-5" />
@@ -165,7 +165,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <button
               type="button"
               onClick={toggleTheme}
-              className="flex min-h-14 flex-col items-center justify-center gap-1 rounded-md text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+              className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-md text-xs font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground"
               aria-label="Toggle color theme"
             >
               {dark ? (
@@ -182,7 +182,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         {children}
       </main>
       {showNavigation && (
-        <footer className="border-t border-border pb-20 pt-8 md:pb-8">
+        <footer className="border-t border-border pb-16 pt-6 md:pb-6">
           <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2">
               <Logo className="h-7 w-7" />
@@ -220,7 +220,7 @@ function MobileNavItem({
   return (
     <Link
       to={to}
-      className={`flex min-h-14 flex-col items-center justify-center gap-1 rounded-md text-xs font-medium ${
+      className={`flex min-h-12 flex-col items-center justify-center gap-1 rounded-md text-xs font-medium ${
         active
           ? "bg-accent text-accent-foreground"
           : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -301,7 +301,7 @@ export function SearchModal({
               }
             }}
             placeholder="Search anything..."
-            className="h-15 flex-1 bg-transparent text-base outline-none"
+            className="h-12 flex-1 bg-transparent text-base outline-none"
           />
           <kbd className="rounded border border-border bg-muted px-2 py-1 font-mono text-xs text-muted-foreground">
             ESC
@@ -314,7 +314,7 @@ export function SearchModal({
                 key={`${item.title}-${index}`}
                 onMouseEnter={() => setSelected(index)}
                 onClick={() => go(item.href)}
-                className={`flex w-full items-center gap-3 rounded-md px-3 py-3 text-left transition-colors ${
+                className={`flex w-full items-center gap-3 rounded-md px-3 py-2 text-left transition-colors ${
                   index === selected ? "bg-accent" : "hover:bg-accent"
                 }`}
               >

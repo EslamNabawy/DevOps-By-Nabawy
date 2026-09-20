@@ -118,7 +118,7 @@ function TrackDetailPage() {
   return (
     <div>
       <section className="border-b border-border bg-hero">
-        <div className="mx-auto max-w-7xl px-6 py-10 sm:py-14">
+        <div className="mx-auto max-w-7xl px-6 py-8 sm:py-10">
           <Link
             to="/tracks"
             className="mb-7 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary"
@@ -127,11 +127,11 @@ function TrackDetailPage() {
             <span className="text-foreground">{track.title}</span>
           </Link>
           <div className="flex items-start gap-4">
-            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
-              <track.icon className="h-7 w-7" />
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
+              <track.icon className="h-6 w-6" />
             </span>
             <div className="min-w-0">
-              <h1 className="font-display max-w-4xl text-4xl font-extrabold sm:text-5xl">
+              <h1 className="font-display max-w-4xl text-3xl font-extrabold sm:text-4xl">
                 {track.title}
               </h1>
               <div className="mt-3 flex flex-wrap gap-2">
@@ -146,7 +146,7 @@ function TrackDetailPage() {
               </div>
             </div>
           </div>
-          <p className="mt-5 max-w-3xl text-lg leading-8 text-muted-foreground">
+          <p className="mt-4 max-w-3xl text-lg leading-8 text-muted-foreground">
             {track.intro ?? (
               <span className="rounded bg-muted px-1 py-0.5 font-mono text-sm">
                 TRACK INTRO TO BE SUPPLIED
@@ -154,7 +154,7 @@ function TrackDetailPage() {
             )}
           </p>
           {firstBookId ? (
-            <Button className="mt-7 h-12 px-7 text-base" asChild>
+            <Button className="mt-6 h-11 px-6 text-base" asChild>
               <a href={`#book-${firstBookId}`}>
                 Start reading <ArrowRight className="ml-1 h-4 w-4" />
               </a>
@@ -164,10 +164,10 @@ function TrackDetailPage() {
       </section>
 
       {comingSoon || !hosted.length ? (
-        <section className="mx-auto max-w-xl px-6 py-16 text-center">
+        <section className="mx-auto max-w-xl px-6 py-12 text-center">
           <span
             aria-hidden="true"
-            className="relative mx-auto grid h-14 w-14 place-items-center"
+            className="relative mx-auto grid h-12 w-12 place-items-center"
           >
             <span className="absolute h-10 w-10 rounded-2xl bg-primary/20" />
             <span className="absolute h-6 w-6 rotate-12 rounded-lg bg-secondary-accent/50" />
@@ -186,7 +186,7 @@ function TrackDetailPage() {
           </Button>
         </section>
       ) : (
-        <section className="mx-auto max-w-7xl px-6 py-12 sm:py-16">
+        <section className="mx-auto max-w-7xl px-6 py-10 sm:py-12">
           <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
             <nav
               aria-label="Track contents"
@@ -233,7 +233,7 @@ function TrackDetailPage() {
                     key={book.id}
                     id={`book-${book.id}`}
                     data-book-card={book.id}
-                    className="relative scroll-mt-28 rounded-2xl border border-border bg-card p-6 shadow-card sm:p-8"
+                    className="relative scroll-mt-28 rounded-2xl border border-border bg-card p-5 shadow-card sm:p-6"
                   >
                     {index === 0 ? (
                       <span className="absolute -top-3 left-6 rounded-full bg-secondary-accent px-3 py-1 font-mono text-[11px] font-bold text-white">
@@ -249,7 +249,7 @@ function TrackDetailPage() {
                         )}
                       </span>
                       <div className="min-w-0 flex-1">
-                        <h2 className="font-display text-xl font-bold sm:text-2xl">
+                        <h2 className="font-display text-lg font-bold sm:text-xl">
                           {book.title}
                         </h2>
                         <p className="mt-2 text-sm leading-6 text-muted-foreground">
@@ -265,7 +265,7 @@ function TrackDetailPage() {
                         </p>
                       </div>
                     </div>
-                    <div className="mt-6 flex flex-wrap gap-2 border-t border-border pt-5">
+                    <div className="mt-5 flex flex-wrap gap-2 border-t border-border pt-4">
                       <Button asChild>
                         <Link
                           to="/books/$bookId"

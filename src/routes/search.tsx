@@ -113,19 +113,19 @@ function SearchPage() {
   const groups: Group[] = ["Tracks", "Books", "Sections"];
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-14 sm:py-20">
+    <div className="mx-auto max-w-3xl px-6 py-10 sm:py-14">
       <p className="font-mono text-xs font-bold text-primary">SEARCH</p>
-      <h1 className="font-display mt-3 text-4xl font-extrabold sm:text-5xl">
+      <h1 className="font-display mt-3 text-3xl font-extrabold sm:text-4xl">
         Search the library
       </h1>
       <form
-        className="mt-8"
+        className="mt-6"
         onSubmit={(event) => {
           event.preventDefault();
           navigate({ search: { q: draft.trim() } });
         }}
       >
-        <label className="flex h-14 items-center gap-3 rounded-2xl border border-border bg-card px-5 shadow-card">
+        <label className="flex h-12 items-center gap-3 rounded-2xl border border-border bg-card px-4 shadow-card">
           <Search className="h-5 w-5 shrink-0 text-muted-foreground" />
           <input
             value={draft}
@@ -138,11 +138,11 @@ function SearchPage() {
       </form>
 
       {needle.length === 0 ? (
-        <p className="mt-8 text-center text-sm leading-6 text-muted-foreground">
+        <p className="mt-6 text-center text-sm leading-6 text-muted-foreground">
           Type above to search tracks, books, and sections.
         </p>
       ) : (
-        <div className="mt-8">
+        <div className="mt-6">
           <p
             aria-live="polite"
             className="text-sm font-semibold text-muted-foreground"
@@ -152,10 +152,10 @@ function SearchPage() {
               : `${results.length} result${results.length === 1 ? "" : "s"} for “${q}”.`}
           </p>
           {results.length === 0 ? (
-            <div className="mx-auto mt-8 flex max-w-md flex-col items-center py-8 text-center">
+            <div className="mx-auto mt-6 flex max-w-md flex-col items-center py-6 text-center">
               <span
                 aria-hidden="true"
-                className="relative grid h-14 w-14 place-items-center"
+                className="relative grid h-12 w-12 place-items-center"
               >
                 <span className="absolute h-10 w-10 rounded-2xl bg-primary/20" />
                 <span className="absolute h-6 w-6 rotate-12 rounded-lg bg-secondary-accent/50" />
