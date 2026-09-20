@@ -61,6 +61,8 @@ export default defineConfig({
       { path: "/tracks/cicd", prerender: { enabled: true } },
       { path: "/tracks/linux", prerender: { enabled: true } },
       { path: "/roadmap", prerender: { enabled: true } },
+      { path: "/about", prerender: { enabled: true } },
+      { path: "/help", prerender: { enabled: true } },
       ...trackSlugs.map((slug) => ({
         path: `/tracks/${slug}`,
         prerender: { enabled: true },

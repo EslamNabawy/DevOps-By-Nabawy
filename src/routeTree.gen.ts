@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as HelpRouteImport } from './routes/help'
 import { Route as OpenRouteImport } from './routes/open'
 import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as TracksRouteImport } from './routes/tracks'
@@ -23,6 +25,16 @@ import { Route as TracksTerraformRouteImport } from './routes/tracks.terraform'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HelpRoute = HelpRouteImport.update({
+  id: '/help',
+  path: '/help',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OpenRoute = OpenRouteImport.update({
@@ -73,6 +85,8 @@ const TracksTerraformRoute = TracksTerraformRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/help': typeof HelpRoute
   '/open': typeof OpenRoute
   '/roadmap': typeof RoadmapRoute
   '/tracks': typeof TracksRouteWithChildren
@@ -85,6 +99,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/help': typeof HelpRoute
   '/open': typeof OpenRoute
   '/roadmap': typeof RoadmapRoute
   '/books/$bookId': typeof BooksBookIdRoute
@@ -97,6 +113,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/help': typeof HelpRoute
   '/open': typeof OpenRoute
   '/roadmap': typeof RoadmapRoute
   '/tracks': typeof TracksRouteWithChildren
@@ -111,6 +129,8 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
+    | '/help'
     | '/open'
     | '/roadmap'
     | '/tracks'
@@ -123,6 +143,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
+    | '/help'
     | '/open'
     | '/roadmap'
     | '/books/$bookId'
@@ -134,6 +156,8 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about'
+    | '/help'
     | '/open'
     | '/roadmap'
     | '/tracks'
@@ -147,6 +171,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  HelpRoute: typeof HelpRoute
   OpenRoute: typeof OpenRoute
   RoadmapRoute: typeof RoadmapRoute
   TracksRoute: typeof TracksRouteWithChildren
@@ -160,6 +186,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/help': {
+      id: '/help'
+      path: '/help'
+      fullPath: '/help'
+      preLoaderRoute: typeof HelpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/open': {
@@ -249,6 +289,8 @@ const TracksRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  HelpRoute: HelpRoute,
   OpenRoute: OpenRoute,
   RoadmapRoute: RoadmapRoute,
   TracksRoute: TracksRouteWithChildren,

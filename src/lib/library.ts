@@ -8,6 +8,7 @@ export type Book = {
   kind: "guide" | "lab" | "cheatsheet";
   pdfName: string;
   pdfMB: number;
+  pages: number;
   htmlName: string | null;
   chapters: string[];
 };

@@ -196,3 +196,49 @@
     letter-spacing: 0;
   }
 }
+
+.pdf-text-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  line-height: 1;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-size-adjust: none;
+  transform-origin: 0 0;
+}
+
+.pdf-text-layer > span,
+.pdf-text-layer > br {
+  position: absolute;
+  color: transparent;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0 0;
+  user-select: text;
+}
+
+.pdf-text-layer > span:not(.markedContent) {
+  font-size: var(--font-height);
+  transform: rotate(var(--rotate, 0deg)) scaleX(var(--scale-x, 1));
+}
+
+.pdf-text-layer .markedContent {
+  display: contents;
+}
+
+.pdf-text-layer mark {
+  background: rgba(249, 115, 22, 0.45);
+  color: transparent;
+  border-radius: 2px;
+}
+
+.pdf-text-layer mark.selected {
+  background: rgba(13, 148, 136, 0.65);
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.pdf-text-layer ::selection {
+  background: rgba(13, 148, 136, 0.35);
+  color: transparent;
+}

@@ -1,9 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { FileUp, ShieldCheck, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { PdfViewer } from "@/components/pdf-viewer";
+
+const parsePage = (value: unknown) => {
+  const raw = Array.isArray(value) ? value[0] : value;
+  const page =
+    typeof raw === "string" || typeof raw === "number" ? Number(raw) : NaN;
+  return Number.isFinite(page) && page >= 1 ? Math.floor(page) : 1;
+};
 
 export const Route = createFileRoute("/open")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    page: parsePage(search["page"]),
+  }),
   head: () => ({
     meta: [
       { title: "Open a PDF — DevOps By Nabawy" },
@@ -25,39 +36,29 @@ export const Route = createFileRoute("/open")({
 });
 
 function OpenPdfPage() {
-  const [url, setUrl] = useState<string | null>(null);
-  const [name, setName] = useState("");
+  const { page } = Route.useSearch();
+  const navigate = Route.useNavigate();
+  const [file, setFile] = useState<File | null>(null);
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(
-    () => () => {
-      if (url) URL.revokeObjectURL(url);
-    },
-    [url],
+  const source = useMemo(
+    () => (file ? ({ kind: "file", file } as const) : null),
+    [file],
   );
 
-  const openFile = (file: File | undefined) => {
-    if (!file) return;
-    if (url) URL.revokeObjectURL(url);
-    setUrl(URL.createObjectURL(file));
-    setName(file.name);
-  };
-
-  return (
-    <div className="mx-auto max-w-7xl px-6 py-14">
-      <p className="font-mono text-xs font-bold text-primary">
-        FROM YOUR DEVICE
-      </p>
-      <h1 className="font-display mt-2 text-4xl font-extrabold sm:text-5xl">
-        Open a PDF
-      </h1>
-      <p className="mt-4 flex max-w-2xl items-center gap-2 text-sm leading-6 text-muted-foreground">
-        <ShieldCheck className="h-4 w-4 shrink-0 text-primary" />
-        Opened on your device only. Never uploaded.
-      </p>
-
-      {!url ? (
+  if (!file || !source) {
+    return (
+      <div className="mx-auto max-w-7xl px-6 py-14">
+        <p className="font-mono text-xs font-bold text-primary">
+          FROM YOUR DEVICE
+        </p>
+        <h1 className="font-display mt-2 text-4xl font-extrabold sm:text-5xl">
+          Open a PDF
+        </h1>
+        <p className="mt-4 flex max-w-2xl items-center gap-2 text-sm leading-6 text-muted-foreground">
+          <ShieldCheck className="h-4 w-4 shrink-0 text-primary" />
+          Opened on your device only. Never uploaded.
+        </p>
         <button
           onClick={() => inputRef.current?.click()}
           onDragOver={(e) => {
@@ -68,9 +69,10 @@ function OpenPdfPage() {
           onDrop={(e) => {
             e.preventDefault();
             setDragging(false);
-            openFile(e.dataTransfer.files[0]);
+            const next = e.dataTransfer.files[0];
+            if (next) setFile(next);
           }}
-          className={`mt-8 flex w-full flex-col items-center gap-3 rounded-xl border-2 border-dashed p-12 text-center transition-colors sm:p-20 ${
+          className={`mt-8 flex min-h-64 w-full flex-col items-center gap-3 rounded-xl border-2 border-dashed p-12 text-center transition-colors sm:p-20 ${
             dragging
               ? "border-primary bg-primary/5"
               : "border-border bg-card hover:border-primary/50"
@@ -90,51 +92,83 @@ function OpenPdfPage() {
             type="file"
             accept="application/pdf,.pdf"
             className="hidden"
-            onChange={(e) => openFile(e.target.files?.[0])}
+            onChange={(e) => {
+              const next = e.target.files?.[0];
+              if (next) setFile(next);
+            }}
           />
         </button>
-      ) : (
-        <div className="mt-8">
-          <div className="mb-4 flex flex-wrap items-center gap-3">
-            <p className="min-w-0 flex-1 truncate text-sm font-semibold">
-              {name}
-            </p>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => inputRef.current?.click()}
-            >
-              Open another
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                if (url) URL.revokeObjectURL(url);
-                setUrl(null);
-                setName("");
-              }}
-              aria-label="Close document"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-            <input
-              ref={inputRef}
-              type="file"
-              accept="application/pdf,.pdf"
-              className="hidden"
-              onChange={(e) => openFile(e.target.files?.[0])}
-            />
-          </div>
-          <div className="overflow-hidden border border-border bg-card shadow-card">
-            <iframe
-              title={name}
-              src={url}
-              className="h-[75dvh] w-full bg-white"
-            />
-          </div>
-        </div>
-      )}
-    </div>
+      </div>
+    );
+  }
+
+  return (
+    <PdfViewer
+      source={source}
+      sourceKey={`${file.name}-${file.size}-${file.lastModified}`}
+      title={file.name}
+      eyebrow="LOCAL FILE · NEVER UPLOADED"
+      breadcrumb={
+        <>
+          <button
+            type="button"
+            onClick={() => setFile(null)}
+            className="font-semibold hover:text-primary"
+          >
+            Open a PDF
+          </button>{" "}
+          <span aria-hidden="true">›</span>{" "}
+          <span aria-current="page" className="text-foreground">
+            {file.name}
+          </span>
+        </>
+      }
+      actions={
+        <>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => inputRef.current?.click()}
+          >
+            Open another
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setFile(null)}
+            aria-label="Close document"
+          >
+            <X className="h-4 w-4" />
+          </Button>
+          <input
+            ref={inputRef}
+            type="file"
+            accept="application/pdf,.pdf"
+            className="hidden"
+            onChange={(e) => {
+              const next = e.target.files?.[0];
+              if (next) setFile(next);
+            }}
+          />
+        </>
+      }
+      initialPage={page}
+      buildPageLink={(next) =>
+        new URL(
+          `${import.meta.env.BASE_URL}open?page=${next}`,
+          window.location.origin,
+        ).toString()
+      }
+      onPageChange={(next) => {
+        navigate({
+          search: (previous) => ({ ...previous, page: next }),
+        });
+      }}
+      errorAction={
+        <Button variant="outline" onClick={() => setFile(null)}>
+          Choose another file
+        </Button>
+      }
+    />
   );
 }

@@ -8,6 +8,7 @@
       "kind": "guide",
       "pdfName": "k8s-01-complete-guide.pdf",
       "pdfMB": 6.1,
+      "pages": 43,
       "htmlName": "k8s-01-complete-guide.html",
       "chapters": [
         "THE COMPLETE KUBERNETES GUIDE",
@@ -82,6 +83,7 @@
       "kind": "guide",
       "pdfName": "k8s-02-config-secrets.pdf",
       "pdfMB": 3,
+      "pages": 26,
       "htmlName": "k8s-02-config-secrets.html",
       "chapters": [
         "CONFIG · SECRETS & ACCESS CONTROL",
@@ -128,6 +130,7 @@
       "kind": "guide",
       "pdfName": "k8s-03-services-networking.pdf",
       "pdfMB": 3.4,
+      "pages": 24,
       "htmlName": "k8s-03-services-networking.html",
       "chapters": [
         "SERVICES & NETWORKING",
@@ -168,6 +171,7 @@
       "kind": "guide",
       "pdfName": "k8s-04-scheduling.pdf",
       "pdfMB": 2.4,
+      "pages": 22,
       "htmlName": "k8s-04-scheduling.html",
       "chapters": [
         "SCHEDULING & NODE MANAGEMENT",
@@ -205,6 +209,7 @@
       "kind": "guide",
       "pdfName": "k8s-05-storage.pdf",
       "pdfMB": 3.3,
+      "pages": 24,
       "htmlName": "k8s-05-storage.html",
       "chapters": [
         "STORAGE PERSISTENCE FOR PODS",
@@ -242,6 +247,7 @@
       "kind": "guide",
       "pdfName": "k8s-06-workloads.pdf",
       "pdfMB": 3.7,
+      "pages": 21,
       "htmlName": "k8s-06-workloads.html",
       "chapters": [
         "HIGHER-LEVEL WORKLOADS",
@@ -279,6 +285,7 @@
       "kind": "guide",
       "pdfName": "k8s-07-observability.pdf",
       "pdfMB": 2.9,
+      "pages": 19,
       "htmlName": "k8s-07-observability.html",
       "chapters": [
         "OBSERVABILITY & OPERATIONS",
@@ -313,6 +320,7 @@
       "kind": "guide",
       "pdfName": "k8s-08-gitops.pdf",
       "pdfMB": 2.6,
+      "pages": 19,
       "htmlName": "k8s-08-gitops.html",
       "chapters": [
         "PACKAGING, GITOPS & EXTENDING KUBERNETES",
@@ -345,6 +353,7 @@
       "kind": "guide",
       "pdfName": "k8s-09-production.pdf",
       "pdfMB": 2.6,
+      "pages": 18,
       "htmlName": "k8s-09-production.html",
       "chapters": [
         "CLUSTER LIFECYCLE & PRODUCTION READINESS",
@@ -375,6 +384,7 @@
       "kind": "guide",
       "pdfName": "ansible-complete-guide-en.pdf",
       "pdfMB": 3.1,
+      "pages": 21,
       "htmlName": "ansible-complete-guide-en.html",
       "chapters": [
         "The Complete Guide to Learning Ansible",
@@ -423,6 +433,7 @@
       "kind": "guide",
       "pdfName": "ansible-complete-guide-ar.pdf",
       "pdfMB": 3,
+      "pages": 25,
       "htmlName": "ansible-complete-guide-ar.html",
       "chapters": [
         "الدليل الشامل لتعلُّم Ansible",
@@ -478,6 +489,7 @@
       "kind": "lab",
       "pdfName": "ansible-role-generic-package.pdf",
       "pdfMB": 1.6,
+      "pages": 15,
       "htmlName": "ansible-role-generic-package.html",
       "chapters": [
         "Reusable Role: generic_package",
@@ -504,6 +516,7 @@
       "kind": "lab",
       "pdfName": "ansible-mariadb-project.pdf",
       "pdfMB": 2.5,
+      "pages": 15,
       "htmlName": "ansible-mariadb-project.html",
       "chapters": [
         "MariaDB Provisioning with Ansible",
@@ -529,6 +542,7 @@
       "kind": "cheatsheet",
       "pdfName": "docker-cheat-sheet.pdf",
       "pdfMB": 0.5,
+      "pages": 2,
       "htmlName": null,
       "chapters": []
     },
@@ -540,6 +554,7 @@
       "kind": "cheatsheet",
       "pdfName": "docker-cheat-sheet-v2.pdf",
       "pdfMB": 0.7,
+      "pages": 5,
       "htmlName": null,
       "chapters": []
     }
