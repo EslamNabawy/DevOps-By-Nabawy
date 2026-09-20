@@ -1,21 +1,32 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, Map } from "lucide-react";
-import { tracks } from "@/lib/tracks";
+import { Link, createFileRoute } from "@tanstack/react-router";
+import {
+  ArrowRight,
+  Check,
+  ChevronDown,
+  Circle,
+  ExternalLink,
+  FastForward,
+  Map,
+  RotateCcw,
+} from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
 export const Route = createFileRoute("/roadmap")({
   head: () => ({
     meta: [
-      { title: "Learning Roadmap — DevOps By Nabawy" },
+      { title: "DevOps Roadmap — DevOps By Nabawy" },
       {
         name: "description",
         content:
-          "Follow the ordered DevOps roadmap from foundations to production orchestration.",
+          "Step-by-step DevOps roadmap: foundations, automation, orchestration, production.",
       },
-      { property: "og:title", content: "Learning Roadmap — DevOps By Nabawy" },
+      { property: "og:title", content: "DevOps Roadmap — DevOps By Nabawy" },
       {
         property: "og:description",
         content:
-          "Foundation, intermediate, and advanced phases across nine practical tracks.",
+          "Follow the nodes in order. Mark done, skip ahead, track progress.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -24,98 +35,333 @@ export const Route = createFileRoute("/roadmap")({
   component: RoadmapPage,
 });
 
-const phases = [
+type NodeStatus = "todo" | "done" | "skipped";
+
+type RoadNode = {
+  id: string;
+  title: string;
+  text: string;
+  to?: "/tracks/linux" | "/tracks/terraform" | "/tracks/cicd" | "/tracks/$slug";
+  params?: Record<string, string>;
+  href?: string;
+  tag: string;
+};
+
+type RoadSection = {
+  id: string;
+  title: string;
+  text: string;
+  nodes: RoadNode[];
+};
+
+const SECTIONS: RoadSection[] = [
   {
-    step: "Phase 01",
+    id: "foundations",
     title: "Foundations",
-    text: "Command line, containers, and delivery mindset. Start here if anything still feels new.",
-    level: "Foundation",
+    text: "Command line first. Everything else builds on this.",
+    nodes: [
+      {
+        id: "linux",
+        title: "Learn Linux",
+        text: "Processes, filesystems, permissions, networking — on the companion site.",
+        to: "/tracks/linux",
+        tag: "COMPANION SITE",
+      },
+      {
+        id: "docker",
+        title: "Containers with Docker",
+        text: "Images, volumes, networks. 2 cheat sheets hosted here.",
+        to: "/tracks/$slug",
+        params: { slug: "docker" },
+        tag: "ON THIS SITE",
+      },
+      {
+        id: "devops",
+        title: "DevOps Mindset",
+        text: "Culture, delivery flow, feedback loops. Track coming soon.",
+        to: "/tracks/$slug",
+        params: { slug: "devops" },
+        tag: "COMING SOON",
+      },
+    ],
   },
   {
-    step: "Phase 02",
+    id: "automation",
     title: "Automation",
-    text: "Infrastructure as code, pipelines, and repeatable operations with feedback.",
-    level: "Intermediate",
+    text: "Stop doing things by hand. Codify everything.",
+    nodes: [
+      {
+        id: "ansible",
+        title: "Ansible Automation",
+        text: "Playbooks, roles, inventory. 4 docs (EN + AR) hosted here.",
+        to: "/tracks/$slug",
+        params: { slug: "ansible" },
+        tag: "ON THIS SITE",
+      },
+      {
+        id: "terraform",
+        title: "Terraform IaC",
+        text: "5 volumes + drills on the companion site, sandbox here.",
+        to: "/tracks/terraform",
+        tag: "SITE + COMPANION",
+      },
+      {
+        id: "cicd",
+        title: "CI/CD Pipelines",
+        text: "8 handbooks: Jenkins, pipelines, delivery, labs.",
+        to: "/tracks/cicd",
+        tag: "COMPANION SITE",
+      },
+    ],
   },
   {
-    step: "Phase 03",
-    title: "Production",
-    text: "Cloud architecture, orchestration, and intelligent operations at scale.",
-    level: "Advanced",
+    id: "orchestration",
+    title: "Orchestration",
+    text: "Run containers at scale, the production way.",
+    nodes: [
+      {
+        id: "kubernetes",
+        title: "Kubernetes",
+        text: "9 books: workloads, networking, storage, GitOps, production.",
+        to: "/tracks/$slug",
+        params: { slug: "kubernetes" },
+        tag: "ON THIS SITE",
+      },
+    ],
   },
-] as const;
+  {
+    id: "production",
+    title: "Production & Scale",
+    text: "Cloud architecture and intelligent operations. Tracks coming soon.",
+    nodes: [
+      {
+        id: "aws",
+        title: "AWS Cloud",
+        text: "Secure, resilient cloud systems. Track coming soon.",
+        to: "/tracks/$slug",
+        params: { slug: "aws" },
+        tag: "COMING SOON",
+      },
+      {
+        id: "aiops",
+        title: "AIOps & Telemetry",
+        text: "Metrics, logs, traces. Track coming soon.",
+        to: "/tracks/$slug",
+        params: { slug: "aiops" },
+        tag: "COMING SOON",
+      },
+    ],
+  },
+];
+
+const STORE_KEY = "nabawy-roadmap-v1";
+
+function loadStore(): Record<string, NodeStatus> {
+  try {
+    return JSON.parse(window.localStorage.getItem(STORE_KEY) ?? "{}") as Record<
+      string,
+      NodeStatus
+    >;
+  } catch {
+    return {};
+  }
+}
 
 function RoadmapPage() {
+  const [status, setStatus] = useState<Record<string, NodeStatus>>({});
+  const [open, setOpen] = useState<string | null>("linux");
+  const [hideDone, setHideDone] = useState(false);
+  useEffect(() => {
+    setStatus(loadStore());
+  }, []);
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(STORE_KEY, JSON.stringify(status));
+    } catch {
+      /* private mode */
+    }
+  }, [status]);
+
+  const all = useMemo(() => SECTIONS.flatMap((s) => s.nodes), []);
+  const done = all.filter((n) => status[n.id] === "done").length;
+  const skipped = all.filter((n) => status[n.id] === "skipped").length;
+  const pct = Math.round((done / all.length) * 100);
+  const cycle = (id: string) =>
+    setStatus((prev) => {
+      const cur = prev[id] ?? "todo";
+      const next: NodeStatus =
+        cur === "todo" ? "done" : cur === "done" ? "skipped" : "todo";
+      return { ...prev, [id]: next };
+    });
+
   return (
     <div>
       <section className="border-b border-border bg-hero">
         <div className="mx-auto max-w-7xl px-6 py-14 sm:py-20">
           <p className="mb-3 flex items-center gap-2 font-mono text-xs font-bold text-primary">
-            <Map className="h-4 w-4" /> FOLLOW IN ORDER
+            <Map className="h-4 w-4" /> STEP BY STEP
           </p>
           <h1 className="font-display max-w-3xl text-4xl font-extrabold sm:text-5xl">
-            Learning Roadmap
+            DevOps Roadmap
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">
-            Nine tracks in three phases. Finish one milestone, build something,
-            then move on.
+            Follow the nodes in order. Click a node for resources, mark it done
+            or skipped — progress saves on this device.
           </p>
+          <div className="mt-8 max-w-2xl border border-border bg-card p-4 shadow-card">
+            <div className="flex items-center justify-between text-sm">
+              <b>
+                {done} of {all.length} done
+                {skipped > 0 && (
+                  <span className="font-normal text-muted-foreground">
+                    {" "}
+                    · {skipped} skipped
+                  </span>
+                )}
+              </b>
+              <span className="font-mono font-bold text-primary">{pct}%</span>
+            </div>
+            <Progress value={pct} className="mt-3" />
+            <div className="mt-3 flex flex-wrap gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setHideDone((v) => !v)}
+              >
+                {hideDone ? "Show completed" : "Hide completed"}
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setStatus({})}
+                disabled={done === 0 && skipped === 0}
+              >
+                <RotateCcw className="mr-1 h-3.5 w-3.5" /> Reset
+              </Button>
+            </div>
+          </div>
         </div>
       </section>
-      <div className="mx-auto max-w-7xl space-y-14 px-6 py-14 sm:py-20">
-        {phases.map((phase) => {
-          const items = tracks.filter((track) => track.level === phase.level);
+
+      <div className="mx-auto max-w-3xl px-6 py-14">
+        {SECTIONS.map((section, si) => {
+          const visible = section.nodes.filter(
+            (n) => !hideDone || status[n.id] !== "done",
+          );
+          if (visible.length === 0) return null;
           return (
-            <section key={phase.step}>
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                  <p className="font-mono text-xs font-bold text-secondary-accent">
-                    {phase.step}
-                  </p>
-                  <h2 className="font-display mt-2 text-3xl font-extrabold">
-                    {phase.title}
-                  </h2>
-                </div>
-                <p className="max-w-xl text-sm leading-6 text-muted-foreground">
-                  {phase.text}
+            <section key={section.id} className="relative pb-12 last:pb-0">
+              {si < SECTIONS.length - 1 && (
+                <span
+                  aria-hidden="true"
+                  className="absolute bottom-0 left-[27px] top-16 w-0.5 bg-border"
+                />
+              )}
+              <div className="mb-5">
+                <p className="font-mono text-xs font-bold text-secondary-accent">
+                  STEP GROUP 0{si + 1}
+                </p>
+                <h2 className="font-display mt-1 text-2xl font-extrabold">
+                  {section.title}
+                </h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {section.text}
                 </p>
               </div>
-              <ol className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {items.map((track, index) => (
-                  <li key={track.slug}>
-                    <Link
-                      to={
-                        track.slug === "terraform"
-                          ? "/tracks/terraform"
-                          : "/tracks/$slug"
-                      }
-                      params={
-                        track.slug === "terraform" ? {} : { slug: track.slug }
-                      }
-                      className="group flex h-full flex-col border border-border bg-card p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-card-hover"
+              <ol className="space-y-3">
+                {visible.map((node) => {
+                  const st = status[node.id] ?? "todo";
+                  const expanded = open === node.id;
+                  return (
+                    <li
+                      key={node.id}
+                      className={`overflow-hidden border bg-card shadow-card transition-colors ${
+                        st === "done" ? "border-primary/50" : "border-border"
+                      }`}
                     >
-                      <div className="flex items-center justify-between">
-                        <span className="font-mono text-xs font-bold text-primary">
-                          {phase.step}.{index + 1}
-                        </span>
-                        <span className="grid h-11 w-11 place-items-center rounded-md bg-primary/10 text-primary">
-                          <track.icon />
-                        </span>
+                      <div className="flex items-center gap-3 p-4">
+                        <button
+                          onClick={() => cycle(node.id)}
+                          aria-label={`Mark ${node.title} as ${
+                            st === "todo"
+                              ? "done"
+                              : st === "done"
+                                ? "skipped"
+                                : "todo"
+                          }`}
+                          className={`grid h-9 w-9 shrink-0 place-items-center rounded-full border-2 transition-colors ${
+                            st === "done"
+                              ? "border-primary bg-primary text-primary-foreground"
+                              : st === "skipped"
+                                ? "border-secondary-accent bg-secondary-accent/10 text-secondary-accent"
+                                : "border-border text-muted-foreground hover:border-primary"
+                          }`}
+                        >
+                          {st === "done" ? (
+                            <Check className="h-4 w-4" />
+                          ) : st === "skipped" ? (
+                            <FastForward className="h-4 w-4" />
+                          ) : (
+                            <Circle className="h-4 w-4" />
+                          )}
+                        </button>
+                        <button
+                          onClick={() =>
+                            setOpen((o) => (o === node.id ? null : node.id))
+                          }
+                          className="flex min-w-0 flex-1 items-center gap-2 text-left"
+                          aria-expanded={expanded}
+                        >
+                          <span
+                            className={`font-display truncate text-lg font-bold ${
+                              st === "done"
+                                ? "text-muted-foreground line-through"
+                                : ""
+                            }`}
+                          >
+                            {node.title}
+                          </span>
+                          <ChevronDown
+                            className={`ml-auto h-4 w-4 shrink-0 text-muted-foreground transition-transform ${
+                              expanded ? "rotate-180" : ""
+                            }`}
+                          />
+                        </button>
                       </div>
-                      <h3 className="font-display mt-5 text-xl font-bold">
-                        {track.title}
-                      </h3>
-                      <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                        {track.description}
-                      </p>
-                      <span className="mt-5 flex items-center gap-1 border-t border-border pt-4 text-sm font-bold text-primary">
-                        <CheckCircle2 className="h-4 w-4" /> {track.milestones}{" "}
-                        milestones · {track.hours}
-                        <ArrowRight className="ml-auto h-4 w-4 transition-transform group-hover:translate-x-1" />
-                      </span>
-                    </Link>
-                  </li>
-                ))}
+                      {expanded && (
+                        <div className="border-t border-border bg-muted/30 p-4">
+                          <p className="text-sm leading-6 text-muted-foreground">
+                            {node.text}
+                          </p>
+                          <div className="mt-3 flex flex-wrap items-center gap-2">
+                            <span className="rounded-sm bg-primary/10 px-2 py-1 font-mono text-[10px] font-bold text-primary">
+                              {node.tag}
+                            </span>
+                            {node.to ? (
+                              <Button size="sm" asChild>
+                                <Link to={node.to} params={node.params ?? {}}>
+                                  Open track{" "}
+                                  <ArrowRight className="ml-1 h-3.5 w-3.5" />
+                                </Link>
+                              </Button>
+                            ) : node.href ? (
+                              <Button size="sm" asChild>
+                                <a
+                                  href={node.href}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                >
+                                  Open site{" "}
+                                  <ExternalLink className="ml-1 h-3.5 w-3.5" />
+                                </a>
+                              </Button>
+                            ) : null}
+                          </div>
+                        </div>
+                      )}
+                    </li>
+                  );
+                })}
               </ol>
             </section>
           );
