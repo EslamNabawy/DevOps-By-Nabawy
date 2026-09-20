@@ -1,14 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import {
-  BookOpen,
-  ChevronRight,
-  Download,
-  FileText,
-  Menu,
-  Search,
-  User,
-  X,
-} from "lucide-react";
+import { ChevronRight, FileText, Menu, Search, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,7 +14,6 @@ import { searchItems } from "@/lib/tracks";
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [searchOpen, setSearchOpen] = useState(false);
-  const [readerOpen, setReaderOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
     const handle = (event: KeyboardEvent) => {
@@ -67,13 +57,6 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Button variant="ghost" asChild>
               <Link to="/roadmap">Roadmap</Link>
             </Button>
-            <Button variant="outline" onClick={() => setReaderOpen(true)}>
-              <BookOpen />
-              Open a PDF
-            </Button>
-            <Button variant="secondary" size="icon" aria-label="Profile">
-              <User />
-            </Button>
           </div>
           <Button
             className="ml-auto md:hidden"
@@ -103,10 +86,6 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Button variant="ghost" asChild>
               <Link to="/roadmap">Roadmap</Link>
             </Button>
-            <Button variant="outline" onClick={() => setReaderOpen(true)}>
-              <BookOpen />
-              Open a PDF
-            </Button>
           </div>
         )}
       </header>
@@ -123,7 +102,6 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       </footer>
       <SearchModal open={searchOpen} onOpenChange={setSearchOpen} />
-      <ReaderModal open={readerOpen} onOpenChange={setReaderOpen} />
     </div>
   );
 }
@@ -222,110 +200,6 @@ export function SearchModal({
         </div>
         <div className="border-t border-border bg-muted/40 px-5 py-3 text-xs text-muted-foreground">
           Use ↑↓ to navigate · Enter to open · Esc to close
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-function ReaderModal({
-  open,
-  onOpenChange,
-}: {
-  open: boolean;
-  onOpenChange: (value: boolean) => void;
-}) {
-  const [size, setSize] = useState(16);
-  const [chapter, setChapter] = useState(0);
-  const chapters = [
-    "The DevOps Mindset",
-    "Continuous Delivery",
-    "Feedback & Observability",
-  ];
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="h-[88vh] max-w-5xl grid-rows-[auto_1fr] overflow-hidden p-0">
-        <DialogHeader className="border-b border-border px-6 py-4 pr-14">
-          <div className="flex flex-wrap items-center gap-3">
-            <div>
-              <DialogTitle>DevOps Engineering Guidebook</DialogTitle>
-              <DialogDescription>
-                Offline edition · 14 chapters
-              </DialogDescription>
-            </div>
-            <div className="ml-auto flex items-center gap-1">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setSize(Math.max(13, size - 1))}
-              >
-                A−
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setSize(Math.min(21, size + 1))}
-              >
-                A+
-              </Button>
-              <Button size="sm" onClick={() => window.print()}>
-                <Download />
-                Download
-              </Button>
-            </div>
-          </div>
-        </DialogHeader>
-        <div className="grid min-h-0 md:grid-cols-[230px_1fr]">
-          <aside className="hidden border-r border-border bg-muted/30 p-4 md:block">
-            <p className="mb-3 text-xs font-bold uppercase text-muted-foreground">
-              Contents
-            </p>
-            {chapters.map((item, i) => (
-              <button
-                key={item}
-                onClick={() => setChapter(i)}
-                className={`mb-1 w-full rounded-md p-3 text-left text-sm ${chapter === i ? "bg-primary text-primary-foreground" : "hover:bg-accent"}`}
-              >
-                <span className="mr-2 font-mono text-xs">0{i + 1}</span>
-                {item}
-              </button>
-            ))}
-          </aside>
-          <article className="overflow-y-auto px-7 py-8 sm:px-12">
-            <p className="mb-3 font-mono text-xs font-bold text-secondary-accent">
-              CHAPTER 0{chapter + 1}
-            </p>
-            <h2 className="font-display text-3xl font-extrabold">
-              {chapters[chapter]}
-            </h2>
-            <div
-              style={{ fontSize: size }}
-              className="mt-6 max-w-2xl space-y-5 leading-8 text-muted-foreground"
-            >
-              <p>
-                DevOps is a way of working that brings development and
-                operations into one shared flow. The goal is not simply faster
-                deployment—it is faster, safer learning.
-              </p>
-              <h3 className="font-display text-xl font-bold text-foreground">
-                Build a reliable feedback loop
-              </h3>
-              <p>
-                Make small changes, automate repeatable checks, observe real
-                outcomes, and use what you learn to improve the next change.
-              </p>
-              <pre className="overflow-x-auto rounded-md bg-terminal p-5 font-mono text-sm text-terminal-foreground">
-                <code>
-                  $ git commit -m &quot;small, observable change&quot;{`\n`}$
-                  make test && make deploy
-                </code>
-              </pre>
-              <blockquote className="border-l-4 border-secondary-accent bg-accent p-4 text-foreground">
-                Strong teams reduce the cost of learning, not just the time it
-                takes to ship.
-              </blockquote>
-            </div>
-          </article>
         </div>
       </DialogContent>
     </Dialog>
