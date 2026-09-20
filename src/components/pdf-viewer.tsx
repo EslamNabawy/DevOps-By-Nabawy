@@ -106,8 +106,31 @@ function PageThumbnail({
   onSelect: (page: number) => void;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const wrapRef = useRef<HTMLButtonElement>(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    const node = wrapRef.current;
+    if (!node) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setVisible(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!visible) return;
     let cancelled = false;
     const render = async () => {
       const page = await doc.getPage(pageNumber);
@@ -123,10 +146,11 @@ function PageThumbnail({
     return () => {
       cancelled = true;
     };
-  }, [doc, pageNumber]);
+  }, [doc, pageNumber, visible]);
 
   return (
     <button
+      ref={wrapRef}
       type="button"
       onClick={() => onSelect(pageNumber)}
       aria-current={active ? "page" : undefined}
@@ -168,6 +192,7 @@ export function PdfViewer({
   const [draft, setDraft] = useState(() => String(clampPage(initialPage, 1)));
   const [scale, setScale] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [loadProgress, setLoadProgress] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [reloadToken, setReloadToken] = useState(0);
   const [query, setQuery] = useState("");
@@ -222,6 +247,7 @@ export function PdfViewer({
     setPageCount(0);
     setMatches([]);
     setMatchIndex(-1);
+    setLoadProgress(null);
 
     const load = async () => {
       try {
@@ -244,11 +270,19 @@ export function PdfViewer({
         let lastError: unknown = null;
         for (const candidate of candidates) {
           try {
-            pendingTask = pdfjs.getDocument({
+            const task = pdfjs.getDocument({
               url: candidate,
               withCredentials: false,
             });
-            document = await pendingTask.promise;
+            pendingTask = task;
+            task.onProgress = (progress: { loaded: number; total: number }) => {
+              if (!cancelled && progress.total > 0) {
+                setLoadProgress(
+                  Math.round((progress.loaded / progress.total) * 100),
+                );
+              }
+            };
+            document = await task.promise;
             pendingTask = null;
             lastError = null;
             break;
@@ -478,6 +512,14 @@ export function PdfViewer({
       <div className="mx-auto w-full max-w-7xl px-4 pt-6 sm:px-6">
         <Skeleton className="h-5 w-48" />
         <Skeleton className="mt-4 h-10 w-2/3" />
+        <p
+          aria-live="polite"
+          className="mt-4 text-sm font-semibold text-muted-foreground"
+        >
+          {loadProgress !== null
+            ? `Loading PDF… ${loadProgress}%`
+            : "Loading PDF…"}
+        </p>
         <div className="mt-6 grid gap-4 lg:grid-cols-[176px_1fr]">
           <Skeleton className="hidden h-[70vh] lg:block" />
           <Skeleton className="h-[70vh]" />

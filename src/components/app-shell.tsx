@@ -25,24 +25,15 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [override, setOverride] = useState<boolean | null>(null);
-  const [systemDark, setSystemDark] = useState(false);
   const showNavigation =
     !location.pathname.startsWith("/books/") && location.pathname !== "/open";
 
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-color-scheme: dark)");
-    setSystemDark(media.matches);
-    const apply = (event: MediaQueryListEvent) => setSystemDark(event.matches);
-    media.addEventListener("change", apply);
-    return () => media.removeEventListener("change", apply);
-  }, []);
-
-  const dark = override ?? systemDark;
+  const dark = override ?? false;
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
 
-  const toggleTheme = () => setOverride((current) => !(current ?? systemDark));
+  const toggleTheme = () => setOverride((current) => !(current ?? false));
 
   useEffect(() => {
     const handle = (event: KeyboardEvent) => {
