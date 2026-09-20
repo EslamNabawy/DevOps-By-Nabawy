@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as HelpRouteImport } from './routes/help'
 import { Route as OpenRouteImport } from './routes/open'
 import { Route as RoadmapRouteImport } from './routes/roadmap'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as TracksRouteImport } from './routes/tracks'
 import { Route as BooksBookIdRouteImport } from './routes/books.$bookId'
 import { Route as TracksIndexRouteImport } from './routes/tracks.index'
@@ -45,6 +46,11 @@ const OpenRoute = OpenRouteImport.update({
 const RoadmapRoute = RoadmapRouteImport.update({
   id: '/roadmap',
   path: '/roadmap',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TracksRoute = TracksRouteImport.update({
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/help': typeof HelpRoute
   '/open': typeof OpenRoute
   '/roadmap': typeof RoadmapRoute
+  '/search': typeof SearchRoute
   '/tracks': typeof TracksRouteWithChildren
   '/books/$bookId': typeof BooksBookIdRoute
   '/tracks/$slug': typeof TracksSlugRoute
@@ -103,6 +110,7 @@ export interface FileRoutesByTo {
   '/help': typeof HelpRoute
   '/open': typeof OpenRoute
   '/roadmap': typeof RoadmapRoute
+  '/search': typeof SearchRoute
   '/books/$bookId': typeof BooksBookIdRoute
   '/tracks/$slug': typeof TracksSlugRoute
   '/tracks/cicd': typeof TracksCicdRoute
@@ -117,6 +125,7 @@ export interface FileRoutesById {
   '/help': typeof HelpRoute
   '/open': typeof OpenRoute
   '/roadmap': typeof RoadmapRoute
+  '/search': typeof SearchRoute
   '/tracks': typeof TracksRouteWithChildren
   '/books/$bookId': typeof BooksBookIdRoute
   '/tracks/$slug': typeof TracksSlugRoute
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/open'
     | '/roadmap'
+    | '/search'
     | '/tracks'
     | '/books/$bookId'
     | '/tracks/$slug'
@@ -147,6 +157,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/open'
     | '/roadmap'
+    | '/search'
     | '/books/$bookId'
     | '/tracks/$slug'
     | '/tracks/cicd'
@@ -160,6 +171,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/open'
     | '/roadmap'
+    | '/search'
     | '/tracks'
     | '/books/$bookId'
     | '/tracks/$slug'
@@ -175,6 +187,7 @@ export interface RootRouteChildren {
   HelpRoute: typeof HelpRoute
   OpenRoute: typeof OpenRoute
   RoadmapRoute: typeof RoadmapRoute
+  SearchRoute: typeof SearchRoute
   TracksRoute: typeof TracksRouteWithChildren
   BooksBookIdRoute: typeof BooksBookIdRoute
 }
@@ -214,6 +227,13 @@ declare module '@tanstack/react-router' {
       path: '/roadmap'
       fullPath: '/roadmap'
       preLoaderRoute: typeof RoadmapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tracks': {
@@ -293,6 +313,7 @@ const rootRouteChildren: RootRouteChildren = {
   HelpRoute: HelpRoute,
   OpenRoute: OpenRoute,
   RoadmapRoute: RoadmapRoute,
+  SearchRoute: SearchRoute,
   TracksRoute: TracksRouteWithChildren,
   BooksBookIdRoute: BooksBookIdRoute,
 }

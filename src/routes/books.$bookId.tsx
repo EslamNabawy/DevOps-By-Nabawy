@@ -14,9 +14,6 @@ const parsePage = (value: unknown) => {
 };
 
 export const Route = createFileRoute("/books/$bookId")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    page: parsePage(search["page"]),
-  }),
   head: ({ params }) => {
     const book = books.find((item) => item.id === params.bookId);
     const title = book
@@ -39,7 +36,12 @@ export const Route = createFileRoute("/books/$bookId")({
 
 function BookPdfPage() {
   const { bookId } = Route.useParams();
-  const { page } = Route.useSearch();
+  const search = Route.useSearch();
+  const page = parsePage(
+    typeof search === "object" && search !== null
+      ? (search as Record<string, unknown>)["page"]
+      : undefined,
+  );
   const navigate = Route.useNavigate();
   const book = books.find((item) => item.id === bookId);
   if (!book) throw notFound();

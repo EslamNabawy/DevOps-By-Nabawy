@@ -6,7 +6,7 @@ import {
   Play,
   RotateCcw,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { trackBadge, tracks } from "@/lib/tracks";
 
@@ -32,6 +32,15 @@ export function WebsiteTrackPage({
   const track = tracks.find((item) => item.slug === slug);
   const [entered, setEntered] = useState(false);
   const [frameKey, setFrameKey] = useState(0);
+
+  useEffect(() => {
+    if (!entered) return;
+    const handle = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setEntered(false);
+    };
+    window.addEventListener("keydown", handle);
+    return () => window.removeEventListener("keydown", handle);
+  }, [entered]);
   if (!track) return null;
   const Icon = track.icon;
 

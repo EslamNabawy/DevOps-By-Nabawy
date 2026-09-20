@@ -34,6 +34,14 @@ function TracksPage() {
         </h1>
         <p className="mt-5 text-lg leading-8 text-muted-foreground">
           Pick a learning path, then move through its material in a clear order.
+          Prefer steps?{" "}
+          <Link
+            to="/roadmap"
+            className="font-semibold text-primary hover:underline"
+          >
+            Follow the roadmap
+          </Link>
+          .
         </p>
       </div>
       <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">

@@ -15,21 +15,27 @@ import { AppShell } from "../components/app-shell";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">
-          Page not found
-        </h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
+    <div className="flex min-h-[60vh] items-center justify-center px-4">
+      <div className="mx-auto w-full max-w-md py-16 text-center">
+        <span
+          aria-hidden="true"
+          className="relative mx-auto grid h-14 w-14 place-items-center"
+        >
+          <span className="absolute h-10 w-10 rounded-2xl bg-primary/20" />
+          <span className="absolute h-6 w-6 rotate-12 rounded-lg bg-secondary-accent/50" />
+        </span>
+        <h1 className="font-display mt-6 text-3xl font-extrabold">
+          This page doesn&apos;t exist
+        </h1>
+        <p className="mt-3 text-sm leading-6 text-muted-foreground">
+          The link may be mistyped, or the page may have moved.
         </p>
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex h-11 items-center justify-center rounded-xl bg-primary px-6 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Go home
+            Back to Home
           </Link>
         </div>
       </div>

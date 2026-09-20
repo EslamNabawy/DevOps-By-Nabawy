@@ -57,6 +57,12 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-xl focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-primary-foreground"
+      >
+        Skip to content
+      </a>
       {showNavigation && (
         <>
           <header className="sticky top-0 z-40 border-b border-border/80 bg-background/90 backdrop-blur-xl">
@@ -181,7 +187,9 @@ export function AppShell({ children }: { children: ReactNode }) {
           </nav>
         </>
       )}
-      <main className={showNavigation ? "pb-24 md:pb-0" : ""}>{children}</main>
+      <main id="main-content" className={showNavigation ? "pb-24 md:pb-0" : ""}>
+        {children}
+      </main>
       {showNavigation && (
         <footer className="border-t border-border pb-20 pt-8 md:pb-8">
           <div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
@@ -265,6 +273,12 @@ export function SearchModal({
     setQuery("");
     navigate({ to: href });
   };
+  const goToSearchPage = () => {
+    const q = query.trim();
+    onOpenChange(false);
+    setQuery("");
+    navigate({ to: "/search", search: { q } });
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -331,8 +345,21 @@ export function SearchModal({
             </p>
           )}
         </div>
-        <div className="border-t border-border bg-muted/40 px-5 py-3 text-xs text-muted-foreground">
-          Use ↑↓ to navigate · Enter to open · Esc to close
+        <div className="flex items-center justify-between border-t border-border bg-muted/40 px-5 py-3 text-xs text-muted-foreground">
+          <span aria-live="polite">
+            {query.trim()
+              ? `${results.length} result${results.length === 1 ? "" : "s"}`
+              : "Use ↑↓ to navigate · Enter to open · Esc to close"}
+          </span>
+          {query.trim() ? (
+            <button
+              type="button"
+              onClick={goToSearchPage}
+              className="font-semibold text-primary hover:underline"
+            >
+              See all results
+            </button>
+          ) : null}
         </div>
       </DialogContent>
     </Dialog>

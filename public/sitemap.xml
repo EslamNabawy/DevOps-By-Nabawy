@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://eslamnabawy.github.io/devops-library/</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/tracks</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/tracks/devops</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/tracks/kubernetes</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/tracks/docker</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/tracks/aws</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/tracks/ansible</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/tracks/aiops</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/tracks/terraform</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/tracks/cicd</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/tracks/linux</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/books/k8s-01-complete-guide</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/books/k8s-02-config-secrets</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/books/k8s-03-services-networking</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/books/k8s-04-scheduling</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/books/k8s-05-storage</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/books/k8s-06-workloads</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/books/k8s-07-observability</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/books/k8s-08-gitops</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/books/k8s-09-production</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/books/ansible-complete-guide-en</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/books/ansible-complete-guide-ar</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/books/ansible-role-generic-package</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/books/ansible-mariadb-project</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/books/docker-cheat-sheet</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/books/docker-cheat-sheet-v2</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/open</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/about</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/help</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/roadmap</loc></url>
+  <url><loc>https://eslamnabawy.github.io/devops-library/search</loc></url>
+</urlset>

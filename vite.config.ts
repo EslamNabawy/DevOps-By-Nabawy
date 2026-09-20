@@ -63,6 +63,7 @@ export default defineConfig({
       { path: "/roadmap", prerender: { enabled: true } },
       { path: "/about", prerender: { enabled: true } },
       { path: "/help", prerender: { enabled: true } },
+      { path: "/search", prerender: { enabled: true } },
       ...trackSlugs.map((slug) => ({
         path: `/tracks/${slug}`,
         prerender: { enabled: true },

@@ -188,7 +188,7 @@ function TrackDetailPage() {
                       <a
                         href={`#book-${book.id}`}
                         aria-current={active ? "true" : undefined}
-                        className={`flex items-center gap-2 rounded-full border px-3 py-2 text-sm font-medium transition-colors lg:rounded-lg lg:rounded-l-none lg:border-0 lg:border-l-2 lg:px-3 lg:py-2 ${
+                        className={`flex min-h-11 items-center gap-2 rounded-full border px-3 py-2 text-sm font-medium transition-colors lg:rounded-lg lg:rounded-l-none lg:border-0 lg:border-l-2 lg:px-3 lg:py-2 ${
                           active
                             ? "border-primary bg-primary/10 text-foreground lg:border-primary lg:bg-primary/10"
                             : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground lg:border-border lg:bg-transparent"

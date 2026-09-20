@@ -12,9 +12,6 @@ const parsePage = (value: unknown) => {
 };
 
 export const Route = createFileRoute("/open")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    page: parsePage(search["page"]),
-  }),
   head: () => ({
     meta: [
       { title: "Open a PDF — DevOps By Nabawy" },
@@ -36,7 +33,12 @@ export const Route = createFileRoute("/open")({
 });
 
 function OpenPdfPage() {
-  const { page } = Route.useSearch();
+  const search = Route.useSearch();
+  const page = parsePage(
+    typeof search === "object" && search !== null
+      ? (search as Record<string, unknown>)["page"]
+      : undefined,
+  );
   const navigate = Route.useNavigate();
   const [file, setFile] = useState<File | null>(null);
   const [dragging, setDragging] = useState(false);
