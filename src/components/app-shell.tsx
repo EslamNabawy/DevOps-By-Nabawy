@@ -1,5 +1,13 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ChevronRight, FileText, Menu, Search, X } from "lucide-react";
+import {
+  ChevronRight,
+  FileText,
+  Menu,
+  Moon,
+  Search,
+  Sun,
+  X,
+} from "lucide-react";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +23,21 @@ import { searchItems } from "@/lib/tracks";
 export function AppShell({ children }: { children: ReactNode }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  // Theme: system preference by default, in-memory override only (never stored).
+  const [override, setOverride] = useState<boolean | null>(null);
+  const [systemDark, setSystemDark] = useState(false);
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    setSystemDark(media.matches);
+    const apply = (event: MediaQueryListEvent) => setSystemDark(event.matches);
+    media.addEventListener("change", apply);
+    return () => media.removeEventListener("change", apply);
+  }, []);
+  const dark = override ?? systemDark;
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
+  const toggleTheme = () => setOverride((o) => !(o ?? systemDark));
   useEffect(() => {
     const handle = (event: KeyboardEvent) => {
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
@@ -57,6 +80,17 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Button variant="ghost" asChild>
               <Link to="/roadmap">Roadmap</Link>
             </Button>
+            <Button variant="outline" asChild>
+              <Link to="/open">Open a PDF</Link>
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              aria-label="Toggle color theme"
+            >
+              {dark ? <Sun /> : <Moon />}
+            </Button>
           </div>
           <Button
             className="ml-auto md:hidden"
@@ -85,6 +119,13 @@ export function AppShell({ children }: { children: ReactNode }) {
             </Button>
             <Button variant="ghost" asChild>
               <Link to="/roadmap">Roadmap</Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link to="/open">Open a PDF</Link>
+            </Button>
+            <Button variant="ghost" onClick={toggleTheme}>
+              {dark ? <Sun /> : <Moon />}
+              Switch theme
             </Button>
           </div>
         )}

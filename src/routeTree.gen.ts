@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as OpenRouteImport } from './routes/open'
 import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as TracksRouteImport } from './routes/tracks'
 import { Route as BooksBookIdRouteImport } from './routes/books.$bookId'
@@ -22,6 +23,11 @@ import { Route as TracksTerraformRouteImport } from './routes/tracks.terraform'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OpenRoute = OpenRouteImport.update({
+  id: '/open',
+  path: '/open',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RoadmapRoute = RoadmapRouteImport.update({
@@ -67,6 +73,7 @@ const TracksTerraformRoute = TracksTerraformRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/open': typeof OpenRoute
   '/roadmap': typeof RoadmapRoute
   '/tracks': typeof TracksRouteWithChildren
   '/books/$bookId': typeof BooksBookIdRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/open': typeof OpenRoute
   '/roadmap': typeof RoadmapRoute
   '/books/$bookId': typeof BooksBookIdRoute
   '/tracks/$slug': typeof TracksSlugRoute
@@ -89,6 +97,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/open': typeof OpenRoute
   '/roadmap': typeof RoadmapRoute
   '/tracks': typeof TracksRouteWithChildren
   '/books/$bookId': typeof BooksBookIdRoute
@@ -102,6 +111,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/open'
     | '/roadmap'
     | '/tracks'
     | '/books/$bookId'
@@ -113,6 +123,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/open'
     | '/roadmap'
     | '/books/$bookId'
     | '/tracks/$slug'
@@ -123,6 +134,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/open'
     | '/roadmap'
     | '/tracks'
     | '/books/$bookId'
@@ -135,6 +147,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  OpenRoute: typeof OpenRoute
   RoadmapRoute: typeof RoadmapRoute
   TracksRoute: typeof TracksRouteWithChildren
   BooksBookIdRoute: typeof BooksBookIdRoute
@@ -147,6 +160,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/open': {
+      id: '/open'
+      path: '/open'
+      fullPath: '/open'
+      preLoaderRoute: typeof OpenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/roadmap': {
@@ -229,6 +249,7 @@ const TracksRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  OpenRoute: OpenRoute,
   RoadmapRoute: RoadmapRoute,
   TracksRoute: TracksRouteWithChildren,
   BooksBookIdRoute: BooksBookIdRoute,

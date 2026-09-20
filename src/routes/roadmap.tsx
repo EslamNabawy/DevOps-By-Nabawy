@@ -1,17 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import {
-  ArrowRight,
-  Check,
-  ChevronDown,
-  Circle,
-  ExternalLink,
-  FastForward,
-  Map,
-  RotateCcw,
-} from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { ArrowRight, ChevronDown, ExternalLink, Map } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 
 export const Route = createFileRoute("/roadmap")({
   head: () => ({
@@ -25,8 +15,7 @@ export const Route = createFileRoute("/roadmap")({
       { property: "og:title", content: "DevOps Roadmap — DevOps By Nabawy" },
       {
         property: "og:description",
-        content:
-          "Follow the nodes in order. Mark done, skip ahead, track progress.",
+        content: "Follow the nodes in order, every visit looks the same.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -34,8 +23,6 @@ export const Route = createFileRoute("/roadmap")({
   }),
   component: RoadmapPage,
 });
-
-type NodeStatus = "todo" | "done" | "skipped";
 
 type RoadNode = {
   id: string;
@@ -154,45 +141,8 @@ const SECTIONS: RoadSection[] = [
   },
 ];
 
-const STORE_KEY = "nabawy-roadmap-v1";
-
-function loadStore(): Record<string, NodeStatus> {
-  try {
-    return JSON.parse(window.localStorage.getItem(STORE_KEY) ?? "{}") as Record<
-      string,
-      NodeStatus
-    >;
-  } catch {
-    return {};
-  }
-}
-
 function RoadmapPage() {
-  const [status, setStatus] = useState<Record<string, NodeStatus>>({});
   const [open, setOpen] = useState<string | null>("linux");
-  const [hideDone, setHideDone] = useState(false);
-  useEffect(() => {
-    setStatus(loadStore());
-  }, []);
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(STORE_KEY, JSON.stringify(status));
-    } catch {
-      /* private mode */
-    }
-  }, [status]);
-
-  const all = useMemo(() => SECTIONS.flatMap((s) => s.nodes), []);
-  const done = all.filter((n) => status[n.id] === "done").length;
-  const skipped = all.filter((n) => status[n.id] === "skipped").length;
-  const pct = Math.round((done / all.length) * 100);
-  const cycle = (id: string) =>
-    setStatus((prev) => {
-      const cur = prev[id] ?? "todo";
-      const next: NodeStatus =
-        cur === "todo" ? "done" : cur === "done" ? "skipped" : "todo";
-      return { ...prev, [id]: next };
-    });
 
   return (
     <div>
@@ -205,167 +155,96 @@ function RoadmapPage() {
             DevOps Roadmap
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">
-            Follow the nodes in order. Click a node for resources, mark it done
-            or skipped — progress saves on this device.
+            Follow the nodes in order. Click a node for resources and the next
+            step.
           </p>
-          <div className="mt-8 max-w-2xl border border-border bg-card p-4 shadow-card">
-            <div className="flex items-center justify-between text-sm">
-              <b>
-                {done} of {all.length} done
-                {skipped > 0 && (
-                  <span className="font-normal text-muted-foreground">
-                    {" "}
-                    · {skipped} skipped
-                  </span>
-                )}
-              </b>
-              <span className="font-mono font-bold text-primary">{pct}%</span>
-            </div>
-            <Progress value={pct} className="mt-3" />
-            <div className="mt-3 flex flex-wrap gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setHideDone((v) => !v)}
-              >
-                {hideDone ? "Show completed" : "Hide completed"}
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setStatus({})}
-                disabled={done === 0 && skipped === 0}
-              >
-                <RotateCcw className="mr-1 h-3.5 w-3.5" /> Reset
-              </Button>
-            </div>
-          </div>
         </div>
       </section>
 
       <div className="mx-auto max-w-3xl px-6 py-14">
-        {SECTIONS.map((section, si) => {
-          const visible = section.nodes.filter(
-            (n) => !hideDone || status[n.id] !== "done",
-          );
-          if (visible.length === 0) return null;
-          return (
-            <section key={section.id} className="relative pb-12 last:pb-0">
-              {si < SECTIONS.length - 1 && (
-                <span
-                  aria-hidden="true"
-                  className="absolute bottom-0 left-[27px] top-16 w-0.5 bg-border"
-                />
-              )}
-              <div className="mb-5">
-                <p className="font-mono text-xs font-bold text-secondary-accent">
-                  STEP GROUP 0{si + 1}
-                </p>
-                <h2 className="font-display mt-1 text-2xl font-extrabold">
-                  {section.title}
-                </h2>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {section.text}
-                </p>
-              </div>
-              <ol className="space-y-3">
-                {visible.map((node) => {
-                  const st = status[node.id] ?? "todo";
-                  const expanded = open === node.id;
-                  return (
-                    <li
-                      key={node.id}
-                      className={`overflow-hidden border bg-card shadow-card transition-colors ${
-                        st === "done" ? "border-primary/50" : "border-border"
-                      }`}
+        {SECTIONS.map((section, si) => (
+          <section key={section.id} className="relative pb-12 last:pb-0">
+            {si < SECTIONS.length - 1 && (
+              <span
+                aria-hidden="true"
+                className="absolute bottom-0 left-[27px] top-16 w-0.5 bg-border"
+              />
+            )}
+            <div className="mb-5">
+              <p className="font-mono text-xs font-bold text-secondary-accent">
+                STEP GROUP 0{si + 1}
+              </p>
+              <h2 className="font-display mt-1 text-2xl font-extrabold">
+                {section.title}
+              </h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {section.text}
+              </p>
+            </div>
+            <ol className="space-y-3">
+              {section.nodes.map((node, ni) => {
+                const expanded = open === node.id;
+                return (
+                  <li
+                    key={node.id}
+                    className="overflow-hidden border border-border bg-card shadow-card"
+                  >
+                    <button
+                      onClick={() =>
+                        setOpen((o) => (o === node.id ? null : node.id))
+                      }
+                      className="flex w-full items-center gap-3 p-4 text-left"
+                      aria-expanded={expanded}
                     >
-                      <div className="flex items-center gap-3 p-4">
-                        <button
-                          onClick={() => cycle(node.id)}
-                          aria-label={`Mark ${node.title} as ${
-                            st === "todo"
-                              ? "done"
-                              : st === "done"
-                                ? "skipped"
-                                : "todo"
-                          }`}
-                          className={`grid h-9 w-9 shrink-0 place-items-center rounded-full border-2 transition-colors ${
-                            st === "done"
-                              ? "border-primary bg-primary text-primary-foreground"
-                              : st === "skipped"
-                                ? "border-secondary-accent bg-secondary-accent/10 text-secondary-accent"
-                                : "border-border text-muted-foreground hover:border-primary"
-                          }`}
-                        >
-                          {st === "done" ? (
-                            <Check className="h-4 w-4" />
-                          ) : st === "skipped" ? (
-                            <FastForward className="h-4 w-4" />
-                          ) : (
-                            <Circle className="h-4 w-4" />
-                          )}
-                        </button>
-                        <button
-                          onClick={() =>
-                            setOpen((o) => (o === node.id ? null : node.id))
-                          }
-                          className="flex min-w-0 flex-1 items-center gap-2 text-left"
-                          aria-expanded={expanded}
-                        >
-                          <span
-                            className={`font-display truncate text-lg font-bold ${
-                              st === "done"
-                                ? "text-muted-foreground line-through"
-                                : ""
-                            }`}
-                          >
-                            {node.title}
+                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border-2 border-primary font-mono text-xs font-bold text-primary">
+                        {si + 1}.{ni + 1}
+                      </span>
+                      <span className="font-display min-w-0 flex-1 truncate text-lg font-bold">
+                        {node.title}
+                      </span>
+                      <ChevronDown
+                        className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${
+                          expanded ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                    {expanded && (
+                      <div className="border-t border-border bg-muted/30 p-4">
+                        <p className="text-sm leading-6 text-muted-foreground">
+                          {node.text}
+                        </p>
+                        <div className="mt-3 flex flex-wrap items-center gap-2">
+                          <span className="rounded-sm bg-primary/10 px-2 py-1 font-mono text-[10px] font-bold text-primary">
+                            {node.tag}
                           </span>
-                          <ChevronDown
-                            className={`ml-auto h-4 w-4 shrink-0 text-muted-foreground transition-transform ${
-                              expanded ? "rotate-180" : ""
-                            }`}
-                          />
-                        </button>
-                      </div>
-                      {expanded && (
-                        <div className="border-t border-border bg-muted/30 p-4">
-                          <p className="text-sm leading-6 text-muted-foreground">
-                            {node.text}
-                          </p>
-                          <div className="mt-3 flex flex-wrap items-center gap-2">
-                            <span className="rounded-sm bg-primary/10 px-2 py-1 font-mono text-[10px] font-bold text-primary">
-                              {node.tag}
-                            </span>
-                            {node.to ? (
-                              <Button size="sm" asChild>
-                                <Link to={node.to} params={node.params ?? {}}>
-                                  Open track{" "}
-                                  <ArrowRight className="ml-1 h-3.5 w-3.5" />
-                                </Link>
-                              </Button>
-                            ) : node.href ? (
-                              <Button size="sm" asChild>
-                                <a
-                                  href={node.href}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                >
-                                  Open site{" "}
-                                  <ExternalLink className="ml-1 h-3.5 w-3.5" />
-                                </a>
-                              </Button>
-                            ) : null}
-                          </div>
+                          {node.to ? (
+                            <Button size="sm" asChild>
+                              <Link to={node.to} params={node.params ?? {}}>
+                                Open track{" "}
+                                <ArrowRight className="ml-1 h-3.5 w-3.5" />
+                              </Link>
+                            </Button>
+                          ) : node.href ? (
+                            <Button size="sm" asChild>
+                              <a
+                                href={node.href}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                Open site{" "}
+                                <ExternalLink className="ml-1 h-3.5 w-3.5" />
+                              </a>
+                            </Button>
+                          ) : null}
                         </div>
-                      )}
-                    </li>
-                  );
-                })}
-              </ol>
-            </section>
-          );
-        })}
+                      </div>
+                    )}
+                  </li>
+                );
+              })}
+            </ol>
+          </section>
+        ))}
       </div>
     </div>
   );

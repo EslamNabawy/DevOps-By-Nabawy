@@ -6,10 +6,7 @@ import {
   ExternalLink,
   Sparkles,
 } from "lucide-react";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Progress } from "@/components/ui/progress";
 
 export const Route = createFileRoute("/tracks/terraform")({
   head: () => ({
@@ -95,14 +92,6 @@ const modules = [
 ];
 
 function TerraformPage() {
-  const [done, setDone] = useState<string[]>([]);
-  const progress = Math.round((done.length / 9) * 100);
-  const toggle = (lesson: string) =>
-    setDone((items) =>
-      items.includes(lesson)
-        ? items.filter((item) => item !== lesson)
-        : [...items, lesson],
-    );
   return (
     <div>
       <section className="border-b border-border bg-hero">
@@ -139,14 +128,20 @@ function TerraformPage() {
               </p>
             </div>
             <div className="min-w-56 border border-border bg-card p-4 shadow-card">
-              <div className="flex items-center justify-between text-xs">
-                <b>Track progress</b>
-                <span className="font-mono text-primary">{progress}%</span>
+              <div className="grid grid-cols-3 gap-2 text-xs">
+                <span>
+                  <b className="block text-base text-foreground">5</b>
+                  <span className="text-muted-foreground">Volumes</span>
+                </span>
+                <span>
+                  <b className="block text-base text-foreground">3</b>
+                  <span className="text-muted-foreground">Milestones</span>
+                </span>
+                <span>
+                  <b className="block text-base text-foreground">20h</b>
+                  <span className="text-muted-foreground">Est. time</span>
+                </span>
               </div>
-              <Progress value={progress} className="mt-3" />
-              <p className="mt-2 text-xs text-muted-foreground">
-                {done.length} of 9 core exercises
-              </p>
             </div>
           </div>
         </div>
@@ -224,12 +219,8 @@ function TerraformPage() {
                   <span className="font-mono text-xs font-bold text-primary">
                     MODULE 0{index + 1}
                   </span>
-                  <span className="grid h-7 w-7 place-items-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-                    {
-                      done.filter((item) => module.lessons.includes(item))
-                        .length
-                    }
-                    /3
+                  <span className="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-bold text-primary">
+                    3 lessons
                   </span>
                 </div>
                 <h3 className="font-display mt-4 text-xl font-bold">
@@ -240,24 +231,16 @@ function TerraformPage() {
                 </p>
                 <div className="mt-5 space-y-3 border-t border-border pt-5">
                   {module.lessons.map((lesson) => (
-                    <label
+                    <p
                       key={lesson}
-                      className="flex cursor-pointer items-center gap-3 text-sm"
+                      className="flex items-center gap-3 text-sm font-medium"
                     >
-                      <Checkbox
-                        checked={done.includes(lesson)}
-                        onCheckedChange={() => toggle(lesson)}
-                      />
                       <span
-                        className={
-                          done.includes(lesson)
-                            ? "text-muted-foreground line-through"
-                            : "font-medium"
-                        }
-                      >
-                        {lesson}
-                      </span>
-                    </label>
+                        aria-hidden="true"
+                        className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary"
+                      />
+                      {lesson}
+                    </p>
                   ))}
                 </div>
                 <button className="mt-6 flex w-full items-center justify-center gap-2 rounded-md border border-border py-2.5 text-sm font-semibold hover:bg-accent">
