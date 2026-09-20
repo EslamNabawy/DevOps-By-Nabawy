@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { SitePreview } from "@/components/website-track";
 import { booksByTrack, companions, pdfUrl, releasePdfUrl } from "@/lib/library";
 import { trackBadge, tracks } from "@/lib/tracks";
 
@@ -71,15 +72,18 @@ const OUTLINE = [
   { n: "08", title: "Reference", text: "Command cheatsheet · 15 min." },
 ];
 
+type Tab = "pdfs" | "website";
+
 function CicdPage() {
   const track = tracks.find((item) => item.slug === "cicd");
   const hosted = booksByTrack("cicd");
   const totalPages = hosted.reduce((sum, book) => sum + book.pages, 0);
-  const firstBookId = hosted[0]?.id;
   const companionSites = companions["cicd"] ?? [];
+  const site = companionSites[0];
 
+  const [tab, setTab] = useState<Tab>("pdfs");
   const [activeBook, setActiveBook] = useState<string | null>(
-    firstBookId ?? null,
+    hosted[0]?.id ?? null,
   );
   const [downloadState, setDownloadState] = useState<
     "idle" | "working" | "error"
@@ -87,7 +91,7 @@ function CicdPage() {
   const [downloadProgress, setDownloadProgress] = useState<number | null>(null);
 
   useEffect(() => {
-    if (!hosted.length) return;
+    if (tab !== "pdfs" || !hosted.length) return;
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -102,7 +106,7 @@ function CicdPage() {
     const nodes = Array.from(document.querySelectorAll("[data-book-card]"));
     nodes.forEach((node) => observer.observe(node));
     return () => observer.disconnect();
-  }, [hosted.length]);
+  }, [tab, hosted.length]);
 
   const downloadAll = async () => {
     if (downloadState === "working" || !hosted.length) return;
@@ -149,239 +153,269 @@ function CicdPage() {
 
   if (!track) return null;
 
+  const tabs: {
+    id: Tab;
+    label: string;
+    icon: typeof BookOpen;
+    hint: string;
+  }[] = [
+    {
+      id: "pdfs",
+      label: "PDF handbooks",
+      icon: BookOpen,
+      hint: `${hosted.length}`,
+    },
+    ...(site
+      ? [
+          {
+            id: "website" as Tab,
+            label: "Companion site",
+            icon: Globe,
+            hint: "course",
+          },
+        ]
+      : []),
+  ];
+
   return (
     <div>
       <section className="border-b border-border bg-hero">
-        <div className="mx-auto max-w-7xl px-6 py-8 sm:py-10">
+        <div className="mx-auto max-w-7xl px-6 py-6 sm:py-8">
           <Link
             to="/tracks"
-            className="mb-7 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary"
+            className="mb-5 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary"
           >
             <ArrowLeft className="h-4 w-4" /> Tracks /{" "}
             <span className="text-foreground">{track.title}</span>
           </Link>
-          <div className="flex items-start gap-4">
-            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
-              <track.icon className="h-6 w-6" />
+          <div className="flex items-start gap-3">
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
+              <track.icon className="h-5 w-5" />
             </span>
             <div className="min-w-0">
-              <h1 className="font-display max-w-4xl text-3xl font-extrabold sm:text-4xl">
+              <h1 className="font-display max-w-4xl text-2xl font-extrabold sm:text-3xl">
                 {track.title}
               </h1>
-              <div className="mt-3 flex flex-wrap gap-2">
-                <span className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground">
+              <div className="mt-2 flex flex-wrap gap-2">
+                <span className="rounded-full border border-border bg-card px-2.5 py-1 text-xs font-semibold text-muted-foreground">
                   {trackBadge(track)}
                 </span>
                 {hosted.length > 0 ? (
-                  <span className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground">
+                  <span className="rounded-full border border-border bg-card px-2.5 py-1 text-xs font-semibold text-muted-foreground">
                     {hosted.length} PDFs · {totalPages} pages
                   </span>
                 ) : null}
               </div>
             </div>
           </div>
-          <p className="mt-4 max-w-3xl text-lg leading-8 text-muted-foreground">
+          <p className="mt-3 max-w-3xl text-base leading-7 text-muted-foreground">
             {track.description}
           </p>
-          {firstBookId ? (
-            <Button className="mt-6 h-11 px-6 text-base" asChild>
-              <a href="#book-cicd-01-start-here">
-                Start reading <ArrowRight className="ml-1 h-4 w-4" />
-              </a>
-            </Button>
-          ) : null}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-10 sm:py-12">
-        <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
-          <nav
-            aria-label="Track contents"
-            className="lg:sticky lg:top-24 lg:self-start"
+          <div
+            role="tablist"
+            aria-label="CI/CD content source"
+            className="mt-5 inline-flex rounded-full border border-border bg-muted/60 p-1"
           >
-            <p className="mb-3 hidden font-mono text-xs font-bold text-primary lg:block">
-              MAP
-            </p>
-            <ol className="flex gap-2 overflow-x-auto pb-2 lg:flex-col lg:overflow-visible lg:pb-0">
-              {hosted.map((book, index) => {
-                const active = book.id === activeBook;
-                return (
-                  <li key={book.id} className="shrink-0 lg:shrink">
-                    <a
-                      href={`#book-${book.id}`}
-                      aria-current={active ? "true" : undefined}
-                      className={`flex min-h-11 items-center gap-2 rounded-full border px-3 py-2 text-sm font-medium transition-colors lg:rounded-lg lg:rounded-l-none lg:border-0 lg:border-l-2 lg:px-3 lg:py-2 ${
-                        active
-                          ? "border-primary bg-primary/10 text-foreground lg:border-primary lg:bg-primary/10"
-                          : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground lg:border-border lg:bg-transparent"
-                      }`}
-                    >
-                      <span className="font-mono text-xs font-bold text-primary">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <span className="whitespace-nowrap lg:whitespace-normal">
-                        {book.title}
-                      </span>
-                    </a>
-                  </li>
-                );
-              })}
-            </ol>
-          </nav>
-
-          <div className="relative">
-            <span
-              aria-hidden="true"
-              className="absolute bottom-8 left-1/2 top-8 hidden w-px -translate-x-1/2 bg-primary/20 md:block"
-            />
-            <ol className="relative grid gap-6">
-              {hosted.map((book, index) => (
-                <li
-                  key={book.id}
-                  id={`book-${book.id}`}
-                  data-book-card={book.id}
-                  className="relative scroll-mt-28 rounded-2xl border border-border bg-card p-5 shadow-card sm:p-6"
+            {tabs.map((item) => {
+              const active = tab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => setTab(item.id)}
+                  className={`flex h-10 items-center gap-2 rounded-full px-4 text-sm font-semibold transition-colors ${
+                    active
+                      ? "bg-card text-foreground shadow-card"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
                 >
-                  {index === 0 ? (
-                    <span className="absolute -top-3 left-6 rounded-full bg-secondary-accent px-3 py-1 font-mono text-[11px] font-bold text-white">
-                      Start here
-                    </span>
-                  ) : null}
-                  <div className="flex items-start gap-4">
-                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
-                      {book.kind === "cheatsheet" ? (
-                        <FileText className="h-6 w-6" />
-                      ) : (
-                        <BookOpen className="h-6 w-6" />
-                      )}
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <h2 className="font-display text-lg font-bold sm:text-xl">
-                        {book.title}
-                      </h2>
-                      <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                        {book.chapters.length > 0
-                          ? `${book.chapters.length} sections`
-                          : book.kind === "cheatsheet"
-                            ? "Cheat sheet"
-                            : "PDF document"}
-                      </p>
-                      <p className="mt-1 font-mono text-xs font-bold text-muted-foreground">
-                        {book.pages} PAGES ·{" "}
-                        {book.lang === "ar" ? "العربية" : "ENGLISH"}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="mt-5 flex flex-wrap gap-2 border-t border-border pt-4">
-                    <Button asChild>
-                      <Link
-                        to="/books/$bookId"
-                        params={{ bookId: book.id }}
-                        search={{ page: 1 }}
-                      >
-                        Read <ArrowRight className="ml-1 h-4 w-4" />
-                      </Link>
-                    </Button>
-                    <Button variant="outline" asChild>
-                      <a href={pdfUrl(book)} target="_blank" rel="noreferrer">
-                        <Download className="mr-1 h-4 w-4" /> PDF
-                      </a>
-                    </Button>
-                  </div>
-                </li>
-              ))}
-            </ol>
+                  <item.icon className="h-4 w-4 text-primary" />
+                  {item.label}
+                  <span className="rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[10px] font-bold text-primary">
+                    {item.hint}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
-
-        <div className="mt-12 border-t border-border pt-8 text-center">
-          <Button
-            variant="outline"
-            size="lg"
-            className="h-11 px-6 text-base"
-            onClick={downloadAll}
-            disabled={downloadState === "working"}
-          >
-            {downloadState === "working" ? (
-              <>
-                <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-                Bundling…{" "}
-                {downloadProgress !== null ? `${downloadProgress}%` : ""}
-              </>
-            ) : (
-              <>
-                <Download className="mr-2 h-4 w-4" /> Download all PDFs
-              </>
-            )}
-          </Button>
-          <p aria-live="polite" className="mt-3 text-sm text-muted-foreground">
-            {downloadState === "error"
-              ? "Bundling failed — use the per-PDF download buttons above."
-              : "Zipped in your browser. Nothing is uploaded."}
-          </p>
-        </div>
       </section>
 
-      {companionSites.length > 0 ? (
-        <section className="border-t border-border bg-muted/35">
-          <div className="mx-auto max-w-7xl px-6 py-10 sm:py-12">
-            <div className="grid gap-6 rounded-2xl border border-border bg-card p-6 shadow-card lg:grid-cols-[1fr_auto] lg:items-center">
-              <div className="flex gap-4">
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-secondary-accent/10 text-secondary-accent">
-                  <Globe className="h-5 w-5" />
-                </span>
-                <div>
-                  <p className="font-mono text-xs font-bold text-secondary-accent">
-                    COMPANION COURSE SITE
-                  </p>
-                  {companionSites.map((site) => (
-                    <div key={site.url} className="mt-2">
-                      <p className="font-display text-xl font-bold">
-                        {site.title}
-                      </p>
-                      <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                        {site.note}
-                      </p>
+      {tab === "pdfs" ? (
+        <section className="mx-auto max-w-7xl px-6 py-8 sm:py-10">
+          <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
+            <nav
+              aria-label="Track contents"
+              className="lg:sticky lg:top-24 lg:self-start"
+            >
+              <p className="mb-3 hidden font-mono text-xs font-bold text-primary lg:block">
+                MAP
+              </p>
+              <ol className="flex gap-2 overflow-x-auto pb-2 lg:flex-col lg:overflow-visible lg:pb-0">
+                {hosted.map((book, index) => {
+                  const active = book.id === activeBook;
+                  return (
+                    <li key={book.id} className="shrink-0 lg:shrink">
+                      <a
+                        href={`#book-${book.id}`}
+                        aria-current={active ? "true" : undefined}
+                        className={`flex min-h-10 items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors lg:rounded-lg lg:rounded-l-none lg:border-0 lg:border-l-2 lg:px-3 lg:py-2 ${
+                          active
+                            ? "border-primary bg-primary/10 text-foreground lg:border-primary lg:bg-primary/10"
+                            : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground lg:border-border lg:bg-transparent"
+                        }`}
+                      >
+                        <span className="font-mono text-xs font-bold text-primary">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span className="whitespace-nowrap lg:whitespace-normal">
+                          {book.title}
+                        </span>
+                      </a>
+                    </li>
+                  );
+                })}
+              </ol>
+            </nav>
+
+            <div className="relative">
+              <span
+                aria-hidden="true"
+                className="absolute bottom-8 left-1/2 top-8 hidden w-px -translate-x-1/2 bg-primary/20 md:block"
+              />
+              <ol className="relative grid gap-5">
+                {hosted.map((book, index) => (
+                  <li
+                    key={book.id}
+                    id={`book-${book.id}`}
+                    data-book-card={book.id}
+                    className="relative scroll-mt-28 rounded-2xl border border-border bg-card p-4 shadow-card sm:p-5"
+                  >
+                    {index === 0 ? (
+                      <span className="absolute -top-3 left-6 rounded-full bg-secondary-accent px-3 py-1 font-mono text-[11px] font-bold text-white">
+                        Start here
+                      </span>
+                    ) : null}
+                    <div className="flex items-start gap-3">
+                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
+                        {book.kind === "cheatsheet" ? (
+                          <FileText className="h-5 w-5" />
+                        ) : (
+                          <BookOpen className="h-5 w-5" />
+                        )}
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <h2 className="font-display text-base font-bold sm:text-lg">
+                          {book.title}
+                        </h2>
+                        <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                          {book.chapters.length > 0
+                            ? `${book.chapters.length} sections`
+                            : book.kind === "cheatsheet"
+                              ? "Cheat sheet"
+                              : "PDF document"}
+                        </p>
+                        <p className="mt-1 font-mono text-xs font-bold text-muted-foreground">
+                          {book.pages} PAGES ·{" "}
+                          {book.lang === "ar" ? "العربية" : "ENGLISH"}
+                        </p>
+                      </div>
                     </div>
-                  ))}
-                  <ol className="mt-4 grid gap-1.5 sm:grid-cols-2">
-                    {OUTLINE.map((item) => (
-                      <li key={item.n} className="text-sm leading-6">
-                        <span className="mr-2 font-mono text-xs font-bold text-primary">
-                          {item.n}
-                        </span>
-                        <span className="font-semibold">{item.title}</span>
-                        <span className="text-muted-foreground">
-                          {" "}
-                          — {item.text}
-                        </span>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              </div>
-              <div className="flex flex-col gap-2">
-                {companionSites.map((site) => (
-                  <Button key={site.url} asChild>
-                    <a href={site.url} target="_blank" rel="noreferrer">
-                      Open companion site{" "}
-                      <ExternalLink className="ml-1 h-4 w-4" />
-                    </a>
-                  </Button>
+                    <div className="mt-4 flex flex-wrap gap-2 border-t border-border pt-4">
+                      <Button size="sm" asChild>
+                        <Link
+                          to="/books/$bookId"
+                          params={{ bookId: book.id }}
+                          search={{ page: 1 }}
+                        >
+                          Read <ArrowRight className="ml-1 h-4 w-4" />
+                        </Link>
+                      </Button>
+                      <Button variant="outline" size="sm" asChild>
+                        <a href={pdfUrl(book)} target="_blank" rel="noreferrer">
+                          <Download className="mr-1 h-4 w-4" /> PDF
+                        </a>
+                      </Button>
+                    </div>
+                  </li>
                 ))}
-              </div>
+              </ol>
             </div>
-            <div className="mt-8 text-center">
-              <Link
-                to="/tracks"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
-              >
-                <ArrowLeft className="h-4 w-4" /> All tracks
-              </Link>
-            </div>
+          </div>
+
+          <div className="mt-10 border-t border-border pt-6 text-center">
+            <Button
+              variant="outline"
+              className="h-10 px-5 text-sm"
+              onClick={downloadAll}
+              disabled={downloadState === "working"}
+            >
+              {downloadState === "working" ? (
+                <>
+                  <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                  Bundling…{" "}
+                  {downloadProgress !== null ? `${downloadProgress}%` : ""}
+                </>
+              ) : (
+                <>
+                  <Download className="mr-2 h-4 w-4" /> Download all PDFs
+                </>
+              )}
+            </Button>
+            <p
+              aria-live="polite"
+              className="mt-3 text-sm text-muted-foreground"
+            >
+              {downloadState === "error"
+                ? "Bundling failed — use the per-PDF download buttons above."
+                : "Zipped in your browser. Nothing is uploaded."}
+            </p>
           </div>
         </section>
-      ) : null}
+      ) : (
+        <section className="mx-auto max-w-7xl px-6 py-8 sm:py-10">
+          {site ? (
+            <div className="mb-6 flex flex-col gap-3 rounded-2xl border border-border bg-card p-5 shadow-card sm:flex-row sm:items-center">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-secondary-accent/10 text-secondary-accent">
+                <Globe className="h-5 w-5" />
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="font-mono text-xs font-bold text-secondary-accent">
+                  COMPANION COURSE SITE
+                </p>
+                <p className="font-display mt-1 text-lg font-bold">
+                  {site.title}
+                </p>
+                <p className="mt-0.5 text-sm leading-6 text-muted-foreground">
+                  {site.note}
+                </p>
+              </div>
+              <Button asChild className="shrink-0">
+                <a href={site.url} target="_blank" rel="noreferrer">
+                  Open site <ExternalLink className="ml-1 h-4 w-4" />
+                </a>
+              </Button>
+            </div>
+          ) : null}
+          {site ? (
+            <SitePreview
+              siteName={site.title}
+              siteUrl={site.url}
+              outline={OUTLINE}
+            />
+          ) : null}
+        </section>
+      )}
+
+      <div className="mx-auto max-w-7xl px-6 pb-10 text-center">
+        <Link
+          to="/tracks"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
+        >
+          <ArrowLeft className="h-4 w-4" /> All tracks
+        </Link>
+      </div>
     </div>
   );
 }

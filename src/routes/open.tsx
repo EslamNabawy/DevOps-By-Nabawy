@@ -50,11 +50,11 @@ function OpenPdfPage() {
 
   if (!file || !source) {
     return (
-      <div className="mx-auto max-w-7xl px-6 py-10">
+      <div className="mx-auto max-w-7xl px-6 py-8">
         <p className="font-mono text-xs font-bold text-primary">
           FROM YOUR DEVICE
         </p>
-        <h1 className="font-display mt-2 text-3xl font-extrabold sm:text-4xl">
+        <h1 className="font-display mt-2 text-2xl font-extrabold sm:text-3xl">
           Open a PDF
         </h1>
         <p className="mt-4 flex max-w-2xl items-center gap-2 text-sm leading-6 text-muted-foreground">
@@ -74,16 +74,16 @@ function OpenPdfPage() {
             const next = e.dataTransfer.files[0];
             if (next) setFile(next);
           }}
-          className={`mt-6 flex min-h-56 w-full flex-col items-center gap-3 rounded-xl border-2 border-dashed p-8 text-center transition-colors sm:p-12 ${
+          className={`mt-5 flex min-h-48 w-full flex-col items-center gap-3 rounded-2xl border-2 border-dashed p-6 text-center transition-colors sm:p-10 ${
             dragging
               ? "border-primary bg-primary/5"
               : "border-border bg-card hover:border-primary/50"
           }`}
         >
-          <span className="grid h-12 w-12 place-items-center rounded-md bg-primary/10 text-primary">
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary">
             <FileUp className="h-6 w-6" />
           </span>
-          <span className="font-display text-xl font-bold">
+          <span className="font-display text-lg font-bold">
             Drop a PDF here, or click to choose
           </span>
           <span className="text-sm text-muted-foreground">

@@ -25,12 +25,12 @@ export const Route = createFileRoute("/about")({
 
 function AboutPage() {
   return (
-    <div className="mx-auto max-w-3xl px-6 py-10 sm:py-14">
+    <div className="mx-auto max-w-3xl px-6 py-8 sm:py-10">
       <p className="font-mono text-xs font-bold text-primary">ABOUT</p>
-      <h1 className="font-display mt-3 text-3xl font-extrabold sm:text-4xl">
+      <h1 className="font-display mt-3 text-2xl font-extrabold sm:text-3xl">
         A library with no memory
       </h1>
-      <div className="mt-6 grid gap-4 text-base leading-8 text-muted-foreground">
+      <div className="mt-5 grid gap-3 text-base leading-7 text-muted-foreground">
         <p>
           DevOps By Nabawy is a free collection of DevOps guidebooks, cheat
           sheets, and companion courses. There are no accounts, no sign-ins, and
@@ -47,7 +47,7 @@ function AboutPage() {
           for the current visit.
         </p>
       </div>
-      <div className="mt-6 grid gap-4 sm:grid-cols-3">
+      <div className="mt-5 grid gap-3 sm:grid-cols-3">
         <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
           <Link2 className="h-5 w-5 text-primary" />
           <h2 className="font-display mt-3 font-bold">Shareable pages</h2>
@@ -70,8 +70,8 @@ function AboutPage() {
           </p>
         </div>
       </div>
-      <div className="mt-6 rounded-2xl border border-border bg-card p-5 shadow-card">
-        <h2 className="font-display flex items-center gap-2 text-xl font-bold">
+      <div className="mt-5 rounded-2xl border border-border bg-card p-4 shadow-card">
+        <h2 className="font-display flex items-center gap-2 text-lg font-bold">
           <Keyboard className="h-5 w-5 text-primary" /> Keyboard shortcuts
         </h2>
         <ul className="mt-4 grid gap-2 text-sm leading-6 text-muted-foreground">

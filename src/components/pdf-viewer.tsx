@@ -601,7 +601,7 @@ export function PdfViewer({
   }
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 pb-36 pt-6 sm:px-6 md:pb-12">
+    <div className="mx-auto w-full max-w-7xl px-4 pb-36 pt-5 sm:px-6 md:pb-10">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div className="min-w-0">
           <nav
@@ -610,10 +610,10 @@ export function PdfViewer({
           >
             {breadcrumb}
           </nav>
-          <p className="mt-3 font-mono text-xs font-bold text-primary">
+          <p className="mt-2 font-mono text-xs font-bold text-primary">
             {eyebrow}
           </p>
-          <h1 className="font-display mt-1 max-w-4xl text-2xl font-extrabold sm:text-3xl">
+          <h1 className="font-display mt-1 max-w-4xl text-xl font-extrabold sm:text-2xl">
             {title}
           </h1>
         </div>
@@ -628,7 +628,7 @@ export function PdfViewer({
         </div>
       </div>
 
-      <div className="mt-5 flex flex-col gap-4 lg:flex-row">
+      <div className="mt-4 flex flex-col gap-3 lg:flex-row">
         {thumbsOpen ? (
           <aside
             aria-label="Page thumbnails"
@@ -751,7 +751,7 @@ export function PdfViewer({
             </section>
           ) : null}
 
-          <div className="overflow-auto rounded-2xl border border-border bg-card p-3 shadow-card sm:p-5">
+          <div className="overflow-auto rounded-2xl border border-border bg-card p-2 shadow-card sm:p-4">
             <div className="relative mx-auto w-fit max-w-full">
               <canvas
                 ref={canvasRef}

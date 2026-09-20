@@ -45,7 +45,7 @@ function ResultLink({ item }: { item: SearchItem }) {
     </>
   );
   const className =
-    "flex w-full items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 text-left shadow-card transition-all hover:-translate-y-0.5 hover:border-primary/50";
+    "flex w-full items-center gap-3 rounded-2xl border border-border bg-card px-4 py-2.5 text-left shadow-card transition-all hover:-translate-y-0.5 hover:border-primary/50";
   if (item.href === "/tracks/terraform") {
     return (
       <Link to="/tracks/terraform" className={className}>
@@ -113,9 +113,9 @@ function SearchPage() {
   const groups: Group[] = ["Tracks", "Books", "Sections"];
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-10 sm:py-14">
+    <div className="mx-auto max-w-3xl px-6 py-8 sm:py-10">
       <p className="font-mono text-xs font-bold text-primary">SEARCH</p>
-      <h1 className="font-display mt-3 text-3xl font-extrabold sm:text-4xl">
+      <h1 className="font-display mt-3 text-2xl font-extrabold sm:text-3xl">
         Search the library
       </h1>
       <form

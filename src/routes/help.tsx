@@ -52,12 +52,12 @@ const ITEMS = [
 
 function HelpPage() {
   return (
-    <div className="mx-auto max-w-3xl px-6 py-10 sm:py-14">
+    <div className="mx-auto max-w-3xl px-6 py-8 sm:py-10">
       <p className="font-mono text-xs font-bold text-primary">HELP</p>
-      <h1 className="font-display mt-3 text-3xl font-extrabold sm:text-4xl">
+      <h1 className="font-display mt-3 text-2xl font-extrabold sm:text-3xl">
         Short answers
       </h1>
-      <div className="mt-6 grid gap-3">
+      <div className="mt-5 grid gap-3">
         {ITEMS.map((item) => (
           <details
             key={item.q}

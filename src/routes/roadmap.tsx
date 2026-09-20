@@ -147,21 +147,21 @@ function RoadmapPage() {
   return (
     <div>
       <section className="border-b border-border bg-hero">
-        <div className="mx-auto max-w-7xl px-6 py-10 sm:py-14">
+        <div className="mx-auto max-w-7xl px-6 py-8 sm:py-10">
           <p className="mb-3 flex items-center gap-2 font-mono text-xs font-bold text-primary">
             <Map className="h-4 w-4" /> STEP BY STEP
           </p>
-          <h1 className="font-display max-w-3xl text-3xl font-extrabold sm:text-4xl">
+          <h1 className="font-display max-w-3xl text-2xl font-extrabold sm:text-3xl">
             DevOps Roadmap
           </h1>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">
+          <p className="mt-3 max-w-2xl text-base leading-7 text-muted-foreground">
             Follow the nodes in order. Click a node for resources and the next
             step.
           </p>
         </div>
       </section>
 
-      <div className="mx-auto max-w-3xl px-6 py-10">
+      <div className="mx-auto max-w-3xl px-6 py-8">
         {SECTIONS.map((section, si) => (
           <section key={section.id} className="relative pb-12 last:pb-0">
             {si < SECTIONS.length - 1 && (
@@ -187,19 +187,19 @@ function RoadmapPage() {
                 return (
                   <li
                     key={node.id}
-                    className="overflow-hidden border border-border bg-card shadow-card"
+                    className="overflow-hidden rounded-2xl border border-border bg-card shadow-card"
                   >
                     <button
                       onClick={() =>
                         setOpen((o) => (o === node.id ? null : node.id))
                       }
-                      className="flex w-full items-center gap-3 p-4 text-left"
+                      className="flex w-full items-center gap-3 p-3 text-left"
                       aria-expanded={expanded}
                     >
                       <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border-2 border-primary font-mono text-xs font-bold text-primary">
                         {si + 1}.{ni + 1}
                       </span>
-                      <span className="font-display min-w-0 flex-1 truncate text-lg font-bold">
+                      <span className="font-display min-w-0 flex-1 truncate text-base font-bold">
                         {node.title}
                       </span>
                       <ChevronDown

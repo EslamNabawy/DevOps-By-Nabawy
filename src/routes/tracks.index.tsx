@@ -26,13 +26,13 @@ export const Route = createFileRoute("/tracks/")({
 
 function TracksPage() {
   return (
-    <div className="mx-auto max-w-7xl px-6 py-10 sm:py-14">
+    <div className="mx-auto max-w-7xl px-6 py-8 sm:py-10">
       <div className="max-w-3xl">
         <p className="font-mono text-xs font-bold text-primary">LIBRARY MAP</p>
-        <h1 className="font-display mt-3 text-3xl font-extrabold sm:text-4xl">
+        <h1 className="font-display mt-3 text-2xl font-extrabold sm:text-3xl">
           Tracks
         </h1>
-        <p className="mt-5 text-lg leading-8 text-muted-foreground">
+        <p className="mt-3 max-w-2xl text-base leading-7 text-muted-foreground">
           Pick a learning path, then move through its material in a clear order.
           Prefer steps?{" "}
           <Link
@@ -44,7 +44,7 @@ function TracksPage() {
           .
         </p>
       </div>
-      <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {tracks.map((track) => (
           <TrackCard key={track.slug} track={track} />
         ))}
@@ -58,10 +58,10 @@ function TrackCard({ track }: { track: Track }) {
   return (
     <Link
       to={trackHref(track)}
-      className="group flex min-h-64 flex-col border border-border bg-card p-5 shadow-card transition-all duration-180 hover:-translate-y-1 hover:border-primary/50 hover:shadow-card-hover"
+      className="group flex min-h-60 flex-col rounded-2xl border border-border bg-card p-4 shadow-card transition-all duration-180 hover:-translate-y-1 hover:border-primary/50 hover:shadow-card-hover"
     >
       <div className="flex items-start justify-between">
-        <span className="grid h-11 w-11 place-items-center rounded-md bg-primary/10 text-primary">
+        <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary">
           <track.icon className="h-5 w-5" />
         </span>
         <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-semibold text-muted-foreground">
@@ -69,7 +69,7 @@ function TrackCard({ track }: { track: Track }) {
           {trackBadge(track)}
         </span>
       </div>
-      <h2 className="font-display mt-5 text-lg font-bold">{track.title}</h2>
+      <h2 className="font-display mt-4 text-base font-bold">{track.title}</h2>
       <p className="mt-2 min-h-12 text-sm leading-6 text-muted-foreground">
         {track.description}
       </p>
