@@ -1,13 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
-  BookMarked,
+  BookOpen,
   CheckCircle2,
-  Globe2,
+  Clock,
+  Globe,
+  Layers,
   Sparkles,
-  WifiOff,
 } from "lucide-react";
-import { tracks } from "@/lib/tracks";
+import { tracks, type Track } from "@/lib/tracks";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -32,8 +33,6 @@ export const Route = createFileRoute("/")({
 
 // IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
-  const guidebooks = tracks.filter((track) => track.kind === "guide");
-  const labs = tracks.filter((track) => track.kind === "lab");
   return (
     <div>
       <section className="relative overflow-hidden border-b border-border bg-hero">
@@ -52,89 +51,25 @@ function Index() {
         </div>
       </section>
       <section className="mx-auto max-w-7xl px-6 py-18">
-        <SectionHeading
-          icon={<BookMarked />}
-          eyebrow="OFFLINE-READY GUIDEBOOKS"
-          title="Read tracks"
-          text="Carefully structured notes you can keep, revisit, and learn from anywhere."
-        />
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {guidebooks.map((track) => (
-            <Link
-              to="/tracks/$slug"
-              params={{ slug: track.slug }}
-              key={track.slug}
-              className="group border-t-4 border-primary bg-card p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-card-hover"
-            >
-              <div className="flex items-start justify-between">
-                <span className="grid h-11 w-11 place-items-center rounded-md bg-primary/10 text-primary">
-                  <track.icon />
-                </span>
-                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-primary">
-                  <WifiOff className="h-3 w-3" />
-                  OFFLINE
-                </span>
-              </div>
-              <h3 className="font-display mt-6 text-xl font-bold">
-                {track.title}
-              </h3>
-              <p className="mt-2 min-h-12 text-sm leading-6 text-muted-foreground">
-                {track.description}
-              </p>
-              <div className="mt-5 flex items-center justify-between border-t border-border pt-4 text-xs text-muted-foreground">
-                <span>{track.chapters} chapters</span>
-                <span className="flex items-center font-semibold text-foreground">
-                  Open guide{" "}
-                  <ArrowRight className="ml-1 h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-      <section className="border-y border-border bg-muted/35">
-        <div className="mx-auto max-w-7xl px-6 py-18">
-          <SectionHeading
-            icon={<Globe2 />}
-            eyebrow="INTERACTIVE CURRICULA"
-            title="Learn online"
-            text="Practice in realistic sandboxes with guided tasks and instant feedback."
-          />
-          <div className="mt-8 grid gap-4 lg:grid-cols-3">
-            {labs.map((track) => (
-              <Link
-                to={
-                  track.slug === "terraform"
-                    ? "/tracks/terraform"
-                    : "/tracks/$slug"
-                }
-                params={track.slug === "terraform" ? {} : { slug: track.slug }}
-                key={track.slug}
-                className="group bg-card p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-card-hover"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="grid h-11 w-11 place-items-center rounded-md bg-secondary-accent/10 text-secondary-accent">
-                    <track.icon />
-                  </span>
-                  <span className="rounded-sm bg-secondary-accent/10 px-2 py-1 text-[10px] font-extrabold text-secondary-accent">
-                    {track.status}
-                  </span>
-                </div>
-                <h3 className="font-display mt-6 text-xl font-bold">
-                  {track.title}
-                </h3>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                  {track.description}
-                </p>
-                <div className="mt-6 flex items-center justify-between">
-                  <span className="text-xs text-muted-foreground">
-                    Needs internet · {track.hours}
-                  </span>
-                  <ArrowRight className="h-5 w-5 text-primary transition-transform group-hover:translate-x-1" />
-                </div>
-              </Link>
-            ))}
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="flex items-center gap-2 text-xs font-extrabold text-primary">
+              <BookOpen className="h-4 w-4" />
+              ALL TRACKS
+            </p>
+            <h2 className="font-display mt-2 text-3xl font-extrabold">
+              Pick your track
+            </h2>
           </div>
+          <p className="max-w-xl text-sm leading-6 text-muted-foreground">
+            Books live on this site, companion sites open the full experience —
+            the flag on each card tells you where.
+          </p>
+        </div>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {tracks.map((track) => (
+            <TrackCard key={track.slug} track={track} />
+          ))}
         </div>
       </section>
       <section className="mx-auto max-w-6xl px-6 py-18">
@@ -171,27 +106,76 @@ function Index() {
   );
 }
 
-function SectionHeading({
-  icon,
-  eyebrow,
-  title,
-  text,
-}: {
-  icon: React.ReactNode;
-  eyebrow: string;
-  title: string;
-  text: string;
-}) {
+function SourceFlag({ source }: { source: Track["source"] }) {
+  if (source === "hosted")
+    return (
+      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-primary">
+        <BookOpen className="h-3.5 w-3.5" />
+        ON THIS SITE
+      </span>
+    );
+  if (source === "website")
+    return (
+      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-secondary-accent">
+        <Globe className="h-3.5 w-3.5" />
+        COMPANION SITE
+      </span>
+    );
+  if (source === "both")
+    return (
+      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-secondary-accent">
+        <Layers className="h-3.5 w-3.5" />
+        SITE + COMPANION
+      </span>
+    );
   return (
-    <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-      <div>
-        <p className="flex items-center gap-2 text-xs font-extrabold text-primary">
-          {icon}
-          {eyebrow}
-        </p>
-        <h2 className="font-display mt-2 text-3xl font-extrabold">{title}</h2>
+    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-muted-foreground">
+      <Clock className="h-3.5 w-3.5" />
+      COMING SOON
+    </span>
+  );
+}
+
+function TrackCard({ track }: { track: Track }) {
+  const fullRoute =
+    track.slug === "terraform" ||
+    track.slug === "cicd" ||
+    track.slug === "linux";
+  return (
+    <Link
+      to={
+        track.slug === "terraform"
+          ? "/tracks/terraform"
+          : track.slug === "cicd"
+            ? "/tracks/cicd"
+            : track.slug === "linux"
+              ? "/tracks/linux"
+              : "/tracks/$slug"
+      }
+      params={fullRoute ? {} : { slug: track.slug }}
+      key={track.slug}
+      className="group flex flex-col border-t-4 border-primary bg-card p-6 shadow-card transition-all hover:-translate-y-1 hover:shadow-card-hover"
+    >
+      <div className="flex items-start justify-between">
+        <span className="grid h-11 w-11 place-items-center rounded-md bg-primary/10 text-primary">
+          <track.icon />
+        </span>
+        <SourceFlag source={track.source} />
       </div>
-      <p className="max-w-xl text-sm leading-6 text-muted-foreground">{text}</p>
-    </div>
+      <h3 className="font-display mt-6 text-xl font-bold">{track.title}</h3>
+      <p className="mt-2 min-h-12 text-sm leading-6 text-muted-foreground">
+        {track.description}
+      </p>
+      <div className="mt-auto flex items-center justify-between border-t border-border pt-4 text-xs text-muted-foreground">
+        <span>
+          {track.chapters > 0 ? `${track.chapters} chapters · ` : ""}
+          {track.hours}
+        </span>
+        <span className="flex items-center font-semibold text-foreground">
+          Open{" "}
+          <ArrowRight className="ml-1 h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+        </span>
+      </div>
+    </Link>
   );
 }

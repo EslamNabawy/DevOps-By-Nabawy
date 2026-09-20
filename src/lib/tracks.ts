@@ -21,6 +21,7 @@ export type Track = {
   level: string;
   milestones: number;
   kind: "guide" | "lab";
+  source: "hosted" | "website" | "both" | "soon";
   icon: LucideIcon;
   status: string;
 };
@@ -28,6 +29,7 @@ export type Track = {
 export const tracks: Track[] = [
   {
     slug: "devops",
+    source: "soon",
     title: "DevOps Engineering",
     description: "Culture, delivery flow, observability, and reliable systems.",
     chapters: 14,
@@ -40,6 +42,7 @@ export const tracks: Track[] = [
   },
   {
     slug: "kubernetes",
+    source: "hosted",
     title: "Kubernetes Orchestration",
     description:
       "Deploy, scale, and operate production workloads with confidence. 9 books, hosted here.",
@@ -53,6 +56,7 @@ export const tracks: Track[] = [
   },
   {
     slug: "docker",
+    source: "hosted",
     title: "Docker & Containers",
     description:
       "Build lean images and compose dependable development stacks. 2 cheat sheets, hosted here.",
@@ -66,6 +70,7 @@ export const tracks: Track[] = [
   },
   {
     slug: "aws",
+    source: "soon",
     title: "AWS Cloud Architecture",
     description: "Design secure, resilient systems with core AWS services.",
     chapters: 18,
@@ -78,6 +83,7 @@ export const tracks: Track[] = [
   },
   {
     slug: "ansible",
+    source: "hosted",
     title: "Ansible Automation",
     description:
       "Turn repetitive operations into clear, reusable playbooks. 4 docs (EN + AR), hosted here.",
@@ -91,6 +97,7 @@ export const tracks: Track[] = [
   },
   {
     slug: "aiops",
+    source: "soon",
     title: "AIOps & Telemetry",
     description: "Connect metrics, logs, traces, and intelligent operations.",
     chapters: 12,
@@ -103,6 +110,7 @@ export const tracks: Track[] = [
   },
   {
     slug: "terraform",
+    source: "both",
     title: "Terraform IaC",
     description:
       "Provision repeatable cloud infrastructure with HCL. 5 volumes on the companion site + sandbox here.",
@@ -116,6 +124,7 @@ export const tracks: Track[] = [
   },
   {
     slug: "cicd",
+    source: "website",
     title: "CI/CD Automation",
     description:
       "Build pipelines that test, secure, and ship continuously. 8 handbooks on the companion site.",
@@ -129,6 +138,7 @@ export const tracks: Track[] = [
   },
   {
     slug: "linux",
+    source: "website",
     title: "Linux Primitives",
     description:
       "Master processes, filesystems, permissions, and networking on the companion site.",
