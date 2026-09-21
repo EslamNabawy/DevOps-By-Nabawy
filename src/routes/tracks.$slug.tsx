@@ -135,14 +135,15 @@ function TrackDetailPage() {
                 {track.title}
               </h1>
               <div className="mt-3 flex flex-wrap gap-2">
-                <span className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground">
-                  {trackBadge(track)}
-                </span>
                 {hosted.length > 0 ? (
                   <span className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground">
                     {hosted.length} PDFs · {totalPages} pages
                   </span>
-                ) : null}
+                ) : (
+                  <span className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground">
+                    {trackBadge(track)}
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -195,7 +196,7 @@ function TrackDetailPage() {
               <p className="mb-3 hidden font-mono text-xs font-bold text-primary lg:block">
                 MAP
               </p>
-              <ol className="flex gap-2 overflow-x-auto pb-2 \[-webkit-overflow-scrolling:touch\] \[scrollbar-width:none\] lg:flex-col lg:overflow-visible lg:pb-0">
+              <ol className="flex gap-2 overflow-x-auto pb-2 [-webkit-overflow-scrolling:touch] [scrollbar-width:none] lg:flex-col lg:overflow-visible lg:pb-0">
                 {hosted.map((book, index) => {
                   const active = book.id === activeBook;
                   return (
@@ -222,7 +223,7 @@ function TrackDetailPage() {
               </ol>
             </nav>
 
-            <div className="relative">
+            <div className="relative min-w-0">
               <span
                 aria-hidden="true"
                 className="absolute bottom-8 left-1/2 top-8 hidden w-px -translate-x-1/2 bg-primary/20 md:block"

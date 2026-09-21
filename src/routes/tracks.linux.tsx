@@ -136,14 +136,15 @@ function LinuxPage() {
             <div className="min-w-0">
               <h1 className="font-display max-w-4xl text-xl font-extrabold leading-tight sm:text-3xl">{track.title}</h1>
               <div className="mt-2 flex flex-wrap gap-2">
-                <span className="rounded-full border border-border bg-card px-2 py-1 text-\[11px\] sm:px-2\.5 sm:text-xs font-semibold text-muted-foreground">
-                  {trackBadge(track)}
-                </span>
                 {hosted.length > 0 ? (
-                  <span className="rounded-full border border-border bg-card px-2 py-1 text-\[11px\] sm:px-2\.5 sm:text-xs font-semibold text-muted-foreground">
-                    {hosted.length} PDF · {totalPages} pages
+                  <span className="rounded-full border border-border bg-card px-2 py-1 text-[11px] sm:px-2.5 sm:text-xs font-semibold text-muted-foreground">
+                    {hosted.length} {hosted.length === 1 ? "PDF" : "PDFs"} · {totalPages} pages
                   </span>
-                ) : null}
+                ) : (
+                  <span className="rounded-full border border-border bg-card px-2 py-1 text-[11px] sm:px-2.5 sm:text-xs font-semibold text-muted-foreground">
+                    {trackBadge(track)}
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -172,9 +173,9 @@ function LinuxPage() {
       {tab === "pdfs" ? (
         <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8 sm:px-6 sm:py-8 sm:py-10">
           <div className="grid gap-4 sm:gap-6 lg:grid-cols-[260px_1fr]">
-            <nav aria-label="Track contents" className="lg:sticky lg:top-24 lg:self-start">
+            <nav aria-label="Track contents" className="min-w-0 -mx-4 px-4 sm:mx-0 sm:px-0 lg:sticky lg:top-24 lg:self-start">
               <p className="mb-3 hidden font-mono text-xs font-bold text-primary lg:block">MAP</p>
-              <ol className="flex gap-2 overflow-x-auto pb-2 \[-webkit-overflow-scrolling:touch\] \[scrollbar-width:none\] lg:flex-col lg:overflow-visible lg:pb-0">
+              <ol className="flex gap-2 overflow-x-auto pb-2 [-webkit-overflow-scrolling:touch] [scrollbar-width:none] lg:flex-col lg:overflow-visible lg:pb-0">
                 {hosted.map((book, index) => {
                   const active = book.id === activeBook;
                   return (
@@ -192,7 +193,7 @@ function LinuxPage() {
                 })}
               </ol>
             </nav>
-            <div className="relative">
+            <div className="relative min-w-0">
               <span aria-hidden="true" className="absolute bottom-8 left-1/2 top-8 hidden w-px -translate-x-1/2 bg-primary/20 md:block" />
               <ol className="relative grid gap-4 sm:gap-5">
                 {hosted.map((book, index) => (
