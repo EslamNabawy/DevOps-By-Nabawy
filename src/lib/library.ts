@@ -33,6 +33,14 @@ export const externalHtmlMap: Record<string, string> = {
   "terraform-03-practice-lab": "https://eslamnabawy.github.io/TerraForm-By-Nabawy/books/lab.html",
   "terraform-04-exam-center": "https://eslamnabawy.github.io/TerraForm-By-Nabawy/books/exam-center.html",
   "terraform-05-interview-arsenal": "https://eslamnabawy.github.io/TerraForm-By-Nabawy/books/interview-arsenal.html",
+  "cicd-01-start-here": "https://eslamnabawy.github.io/cicd-by-nabawy/read/start-here.html",
+  "cicd-02-pipelines": "https://eslamnabawy.github.io/cicd-by-nabawy/read/build-artifacts.html",
+  "cicd-03-delivery": "https://eslamnabawy.github.io/cicd-by-nabawy/read/deliver-operate.html",
+  "cicd-04-observability": "https://eslamnabawy.github.io/cicd-by-nabawy/read/observability.html",
+  "cicd-05-jenkins": "https://eslamnabawy.github.io/cicd-by-nabawy/read/jenkins-complete.html",
+  "cicd-06-platforms": "https://eslamnabawy.github.io/cicd-by-nabawy/read/platforms-roadmaps.html",
+  "cicd-07-labs": "https://eslamnabawy.github.io/cicd-by-nabawy/read/labs-handbook.html",
+  "cicd-08-cheatsheet": "https://eslamnabawy.github.io/cicd-by-nabawy/read/cheatsheet.html",
 };
 
 export const externalReadUrl = (book: Book): string | null =>
