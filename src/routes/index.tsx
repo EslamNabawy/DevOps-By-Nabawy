@@ -64,6 +64,28 @@ function Index() {
 
 function TrackCard({ track }: { track: Track }) {
   const Icon = track.format === "website" ? Globe : FileText;
+  const isSoon = track.source === "soon";
+  if (isSoon) {
+    return (
+      <div className="flex min-h-60 flex-col rounded-2xl border border-dashed border-border bg-muted/40 p-4 opacity-75 cursor-not-allowed select-none">
+        <div className="flex items-start justify-between">
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-muted text-muted-foreground">
+            <track.icon className="h-5 w-5" />
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-bold tracking-wide text-amber-700 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-400">
+            COMING SOON
+          </span>
+        </div>
+        <h3 className="font-display mt-4 text-base font-bold text-muted-foreground">{track.title}</h3>
+        <p className="mt-2 min-h-12 text-sm leading-6 text-muted-foreground">
+          {track.description}
+        </p>
+        <div className="mt-auto flex items-center justify-between border-t border-border pt-4 text-sm font-semibold text-muted-foreground">
+          <span>Coming Soon</span>
+        </div>
+      </div>
+    );
+  }
   return (
     <Link
       to={trackHref(track)}

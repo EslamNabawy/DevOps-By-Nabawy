@@ -25,8 +25,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [override, setOverride] = useState<boolean | null>(null);
-  const showNavigation =
-    !location.pathname.startsWith("/books/") && location.pathname !== "/open";
+  const showNavigation = true;
 
   const dark = override ?? false;
   useEffect(() => {

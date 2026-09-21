@@ -13,15 +13,15 @@ const pagesBase = "/devops-library";
 // Must match the slugs in src/lib/tracks.ts (single source of truth lives there;
 // duplicated here because vite.config cannot use the `@/` alias).
 const trackSlugs = [
-  "devops",
+  "cicd",
+  "terraform",
   "kubernetes",
   "docker",
-  "aws",
   "ansible",
-  "aiops",
-  "terraform",
-  "cicd",
   "linux",
+  "devops",
+  "aws",
+  "aiops",
 ];
 
 // Must match book ids in content/manifest.json.
@@ -49,6 +49,12 @@ const bookIds = [
   "cicd-06-platforms",
   "cicd-07-labs",
   "cicd-08-cheatsheet",
+  "linux-01-complete-guide",
+  "terraform-01-foundations",
+  "terraform-02-production",
+  "terraform-03-practice-lab",
+  "terraform-04-exam-center",
+  "terraform-05-interview-arsenal",
 ];
 
 export default defineConfig({

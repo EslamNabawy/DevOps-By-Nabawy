@@ -684,6 +684,105 @@
         "Command Cheatsheet",
         "npm / Builds"
       ]
+    },
+    {
+      "id": "linux-01-complete-guide",
+      "track": "linux",
+      "title": "Linux101 Complete Guide",
+      "lang": "en",
+      "kind": "guide",
+      "pdfName": "linux-01-complete-guide.pdf",
+      "pdfMB": 1.0,
+      "pages": 202,
+      "htmlName": null,
+      "chapters": [
+        "Linux101 Complete Guide",
+        "Processes & System Calls",
+        "Filesystems & Permissions",
+        "Users, Groups & Security",
+        "Networking Essentials",
+        "Shell & Automation"
+      ]
+    },
+    {
+      "id": "terraform-01-foundations",
+      "track": "terraform",
+      "title": "TerraForm Vol 1 — Foundations",
+      "lang": "en",
+      "kind": "guide",
+      "pdfName": "terraform-01-foundations.pdf",
+      "pdfMB": 1.4,
+      "pages": 25,
+      "htmlName": null,
+      "chapters": [
+        "TerraForm Vol 1 — Foundations",
+        "IaC & Terraform Core Loop",
+        "State, Variables & Modules"
+      ]
+    },
+    {
+      "id": "terraform-02-production",
+      "track": "terraform",
+      "title": "TerraForm Vol 2 — Production",
+      "lang": "en",
+      "kind": "guide",
+      "pdfName": "terraform-02-production.pdf",
+      "pdfMB": 1.0,
+      "pages": 17,
+      "htmlName": null,
+      "chapters": [
+        "TerraForm Vol 2 — Production",
+        "Multi-Env & Multi-VPC",
+        "for_each & ALB Build"
+      ]
+    },
+    {
+      "id": "terraform-03-practice-lab",
+      "track": "terraform",
+      "title": "TerraForm Vol 3 — Practice Lab",
+      "lang": "en",
+      "kind": "lab",
+      "pdfName": "terraform-03-practice-lab.pdf",
+      "pdfMB": 1.4,
+      "pages": 39,
+      "htmlName": null,
+      "chapters": [
+        "TerraForm Vol 3 — Practice Lab",
+        "39 Drills + Bosses",
+        "Warm-ups to Final Boss"
+      ]
+    },
+    {
+      "id": "terraform-04-exam-center",
+      "track": "terraform",
+      "title": "TerraForm Vol 4 — Exam Command Center",
+      "lang": "en",
+      "kind": "guide",
+      "pdfName": "terraform-04-exam-center.pdf",
+      "pdfMB": 2.4,
+      "pages": 138,
+      "htmlName": null,
+      "chapters": [
+        "TerraForm Vol 4 — Exam Command Center",
+        "9 Domains",
+        "3 Timed 57-Question Mocks"
+      ]
+    },
+    {
+      "id": "terraform-05-interview-arsenal",
+      "track": "terraform",
+      "title": "TerraForm Vol 5 — Interview Arsenal",
+      "lang": "en",
+      "kind": "guide",
+      "pdfName": "terraform-05-interview-arsenal.pdf",
+      "pdfMB": 1.1,
+      "pages": 19,
+      "htmlName": null,
+      "chapters": [
+        "TerraForm Vol 5 — Interview Arsenal",
+        "30-Second Answers",
+        "War Stories & Rubrics"
+      ]
     }
   ]
 }
