@@ -118,7 +118,7 @@ function TrackDetailPage() {
   return (
     <div>
       <section className="border-b border-border bg-hero">
-        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8 sm:px-6 sm:py-8">
+        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8">
           <Link
             to="/tracks"
             className="mb-7 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary"
@@ -186,11 +186,11 @@ function TrackDetailPage() {
           </Button>
         </section>
       ) : (
-        <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8 sm:px-6 sm:py-8 sm:py-10">
-          <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
+        <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-10">
+          <div className="grid gap-4 sm:gap-8 lg:grid-cols-[280px_1fr]">
             <nav
               aria-label="Track contents"
-              className="lg:sticky lg:top-24 lg:self-start"
+              className="-mx-4 px-4 sm:mx-0 sm:px-0 lg:sticky lg:top-24 lg:self-start"
             >
               <p className="mb-3 hidden font-mono text-xs font-bold text-primary lg:block">
                 MAP
@@ -227,7 +227,7 @@ function TrackDetailPage() {
                 aria-hidden="true"
                 className="absolute bottom-8 left-1/2 top-8 hidden w-px -translate-x-1/2 bg-primary/20 md:block"
               />
-              <ol className="relative grid gap-6">
+              <ol className="relative grid gap-4 sm:gap-6">
                 {hosted.map((book, index) => (
                   <li
                     key={book.id}
@@ -240,33 +240,33 @@ function TrackDetailPage() {
                         Start here
                       </span>
                     ) : null}
-                    <div className="flex items-start gap-4">
-                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary sm:h-10 sm:w-10 text-primary">
+                    <div className="flex items-start gap-2.5 sm:gap-4">
+                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary sm:h-10 sm:w-10">
                         {book.kind === "cheatsheet" ? (
-                          <FileText className="h-5 w-5" />
+                          <FileText className="h-4 w-4 sm:h-5 sm:w-5" />
                         ) : (
-                          <BookOpen className="h-5 w-5" />
+                          <BookOpen className="h-4 w-4 sm:h-5 sm:w-5" />
                         )}
                       </span>
                       <div className="min-w-0 flex-1">
                         <h2 className="font-display text-sm font-bold leading-tight sm:text-lg">
                           {book.title}
                         </h2>
-                        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                        <p className="mt-1 text-xs leading-5 text-muted-foreground sm:mt-2 sm:text-sm sm:leading-6">
                           {book.chapters.length > 0
                             ? `${book.chapters.length} sections`
                             : book.kind === "cheatsheet"
                               ? "Cheat sheet"
                               : "PDF document"}
                         </p>
-                        <p className="mt-1 font-mono text-xs font-bold text-muted-foreground">
+                        <p className="mt-1 font-mono text-[11px] font-bold text-muted-foreground sm:text-xs">
                           {book.pages} PAGES ·{" "}
                           {book.lang === "ar" ? "العربية" : "ENGLISH"}
                         </p>
                       </div>
                     </div>
-                    <div className="mt-5 flex flex-wrap gap-2 border-t border-border pt-4">
-                      <Button asChild>
+                    <div className="mt-3 grid grid-cols-2 gap-2 border-t border-border pt-3 sm:mt-5 sm:flex sm:flex-wrap sm:pt-4">
+                      <Button className="w-full sm:w-auto" asChild>
                         <Link
                           to="/books/$bookId"
                           params={{ bookId: book.id }}
@@ -275,7 +275,7 @@ function TrackDetailPage() {
                           Read <ArrowRight className="ml-1 h-4 w-4" />
                         </Link>
                       </Button>
-                      <Button variant="outline" asChild>
+                      <Button variant="outline" className="w-full sm:w-auto" asChild>
                         <a href={pdfUrl(book)} target="_blank" rel="noreferrer">
                           <Download className="mr-1 h-4 w-4" /> PDF
                         </a>

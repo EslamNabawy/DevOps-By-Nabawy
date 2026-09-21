@@ -127,7 +127,7 @@ function TerraformPage() {
   return (
     <div>
       <section className="border-b border-border bg-hero">
-        <div className="mx-auto max-w-7xl px-4 sm:px-4 py-6 sm:px-6 sm:py-8">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
           <Link to="/tracks" className="mb-5 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary">
             <ArrowLeft className="h-4 w-4" /> Tracks / <span className="text-foreground">{track.title}</span>
           </Link>
@@ -150,7 +150,7 @@ function TerraformPage() {
             </div>
           </div>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">{track.description}</p>
-          <div role="tablist" aria-label="Terraform content source" className="mt-4 grid w-full grid-cols-2 gap-1 rounded-full border border-border bg-muted/60 p-1 sm:mt-5 sm:inline-flex sm:w-auto sm:gap-0">
+          <div role="tablist" aria-label="Terraform content source" className="mt-4 flex w-full gap-1 rounded-2xl border border-border bg-muted/60 p-1 sm:mt-5 sm:inline-flex sm:w-auto sm:gap-0 sm:rounded-full">
             {tabs.map((item) => {
               const active = tab === item.id;
               return (
@@ -159,11 +159,11 @@ function TerraformPage() {
                   role="tab"
                   aria-selected={active}
                   onClick={() => setTab(item.id)}
-                  className={`flex h-10 items-center gap-2 rounded-full px-4 text-sm font-semibold transition-colors ${active ? "bg-card text-foreground shadow-card" : "text-muted-foreground hover:text-foreground"}`}
+                  className={`flex h-9 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-xl px-2 text-xs font-semibold transition-colors sm:h-10 sm:flex-none sm:gap-2 sm:rounded-full sm:px-4 sm:text-sm ${active ? "bg-card text-foreground shadow-card" : "text-muted-foreground hover:text-foreground"}`}
                 >
-                  <item.icon className="h-3.5 w-3.5 text-primary sm:h-4 sm:w-4" />
-                  {item.label}
-                  <span className="rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[10px] font-bold text-primary">{item.hint}</span>
+                  <item.icon className="h-3.5 w-3.5 shrink-0 text-primary sm:h-4 sm:w-4" />
+                  <span className="truncate">{item.label}</span>
+                  <span className="hidden shrink-0 rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[10px] font-bold text-primary min-[420px]:inline-flex sm:inline-flex">{item.hint}</span>
                 </button>
               );
             })}
@@ -172,7 +172,7 @@ function TerraformPage() {
       </section>
 
       {tab === "pdfs" ? (
-        <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8 sm:py-10">
+        <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-10">
           <div className="grid gap-4 sm:gap-6 lg:grid-cols-[260px_1fr]">
             <nav aria-label="Track contents" className="-mx-4 px-4 sm:mx-0 sm:px-0 lg:sticky lg:top-24 lg:self-start">
               <p className="mb-2 hidden font-mono text-xs font-bold text-primary lg:block">MAP</p>
@@ -212,13 +212,13 @@ function TerraformPage() {
                         <p className="mt-1 font-mono text-[11px] font-bold text-muted-foreground sm:text-xs">{book.pages} PAGES · {book.lang === "ar" ? "العربية" : "ENGLISH"}</p>
                       </div>
                     </div>
-                    <div className="mt-3 flex flex-wrap gap-2 border-t border-border pt-3 sm:mt-4 sm:pt-4">
-                      <Button variant="outline" size="sm" asChild>
+                    <div className="mt-3 grid grid-cols-2 gap-2 border-t border-border pt-3 sm:mt-4 sm:flex sm:flex-wrap sm:pt-4">
+                      <Button variant="outline" size="sm" className="w-full sm:w-auto" asChild>
                         <a href={pdfUrl(book)} target="_blank" rel="noreferrer">
                           <Download className="mr-1 h-4 w-4" /> PDF
                         </a>
                       </Button>
-                      <Button size="sm" asChild>
+                      <Button size="sm" className="w-full sm:w-auto" asChild>
                         <a href={onlineUrlForBook(book) ?? site?.url ?? "#"} target="_blank" rel="noreferrer">
                           Read online <ExternalLink className="ml-1 h-4 w-4" />
                         </a>
@@ -247,7 +247,7 @@ function TerraformPage() {
           </div>
         </section>
       ) : (
-        <section className="mx-auto max-w-7xl px-4 sm:px-4 py-6 sm:px-6 sm:py-8 sm:py-10">
+        <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10">
           {site ? (
             <div className="mb-6 flex flex-col gap-3 rounded-2xl border border-border bg-card p-5 shadow-card sm:flex-row sm:items-center">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-secondary-accent/10 text-secondary-accent">

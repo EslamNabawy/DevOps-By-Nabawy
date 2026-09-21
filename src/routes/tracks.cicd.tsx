@@ -214,7 +214,7 @@ function CicdPage() {
           <div
             role="tablist"
             aria-label="CI/CD content source"
-            className="mt-4 grid w-full grid-cols-2 gap-1 rounded-full sm:mt-5 sm:inline-flex sm:w-auto sm:gap-0 border border-border bg-muted/60 p-1"
+            className="mt-4 flex w-full gap-1 rounded-2xl border border-border bg-muted/60 p-1 sm:mt-5 sm:inline-flex sm:w-auto sm:gap-0 sm:rounded-full"
           >
             {tabs.map((item) => {
               const active = tab === item.id;
@@ -224,15 +224,15 @@ function CicdPage() {
                   role="tab"
                   aria-selected={active}
                   onClick={() => setTab(item.id)}
-                  className={`flex h-10 items-center gap-2 rounded-full px-4 text-sm font-semibold transition-colors ${
+                  className={`flex h-9 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-xl px-2 text-xs font-semibold transition-colors sm:h-10 sm:flex-none sm:gap-2 sm:rounded-full sm:px-4 sm:text-sm ${
                     active
                       ? "bg-card text-foreground shadow-card"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  <item.icon className="h-3.5 w-3.5 text-primary sm:h-4 sm:w-4" />
-                  {item.label}
-                  <span className="rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[10px] font-bold text-primary">
+                  <item.icon className="h-3.5 w-3.5 shrink-0 text-primary sm:h-4 sm:w-4" />
+                  <span className="truncate">{item.label}</span>
+                  <span className="hidden shrink-0 rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[10px] font-bold text-primary min-[420px]:inline-flex sm:inline-flex">
                     {item.hint}
                   </span>
                 </button>
@@ -322,13 +322,13 @@ function CicdPage() {
                         </p>
                       </div>
                     </div>
-                    <div className="mt-4 flex flex-wrap gap-2 border-t border-border pt-4">
-                      <Button variant="outline" size="sm" asChild>
+                    <div className="mt-3 grid grid-cols-2 gap-2 border-t border-border pt-3 sm:mt-4 sm:flex sm:flex-wrap sm:pt-4">
+                      <Button variant="outline" size="sm" className="w-full sm:w-auto" asChild>
                         <a href={pdfUrl(book)} target="_blank" rel="noreferrer">
                           <Download className="mr-1 h-4 w-4" /> PDF
                         </a>
                       </Button>
-                      <Button size="sm" asChild>
+                      <Button size="sm" className="w-full sm:w-auto" asChild>
                         <a href={onlineUrlForBook(book) ?? site?.url ?? "#"} target="_blank" rel="noreferrer">
                           Read online <ExternalLink className="ml-1 h-4 w-4" />
                         </a>
