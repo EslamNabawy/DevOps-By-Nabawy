@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { PdfViewer } from "@/components/pdf-viewer";
-import { books, pdfUrl, readUrl, releasePdfUrl } from "@/lib/library";
+import { books, companions, pdfUrl, readUrl, releasePdfUrl } from "@/lib/library";
 import { tracks } from "@/lib/tracks";
 
 const parsePage = (value: unknown) => {
@@ -46,7 +46,9 @@ function BookPdfPage() {
   const book = books.find((item) => item.id === bookId);
   if (!book) throw notFound();
   const track = tracks.find((item) => item.slug === book.track);
-  const onlineUrl = readUrl(book);
+  const htmlUrl = readUrl(book);
+  const companionUrl = companions[book.track]?.[0]?.url ?? null;
+  const onlineUrl = htmlUrl ?? companionUrl;
   const source = useMemo(
     () => ({ kind: "url", url: pdfUrl(book) }) as const,
     [book],

@@ -337,6 +337,13 @@ function CicdPage() {
                           <Download className="mr-1 h-4 w-4" /> PDF
                         </a>
                       </Button>
+                      {site ? (
+                        <Button variant="outline" size="sm" asChild>
+                          <a href={site.url} target="_blank" rel="noreferrer">
+                            Read online <ExternalLink className="ml-1 h-4 w-4" />
+                          </a>
+                        </Button>
+                      ) : null}
                     </div>
                   </li>
                 ))}
