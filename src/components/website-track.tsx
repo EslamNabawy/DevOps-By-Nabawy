@@ -36,7 +36,7 @@ export function WebsiteTrackPage({
   return (
     <div>
       <section className="border-b border-border bg-hero">
-        <div className="mx-auto max-w-7xl px-6 py-6 sm:py-8">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
           <Link
             to="/tracks"
             className="mb-5 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary"
@@ -45,11 +45,11 @@ export function WebsiteTrackPage({
             <span className="text-foreground">{track.title}</span>
           </Link>
           <div className="flex items-start gap-3">
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary sm:h-10 sm:w-10">
               <Icon className="h-5 w-5" />
             </span>
-            <div className="min-w-0">
-              <h1 className="font-display max-w-4xl text-2xl font-extrabold sm:text-3xl">
+            <div className="min-w-0 flex-1">
+              <h1 className="font-display max-w-4xl break-words text-xl font-extrabold leading-tight sm:text-3xl">
                 {track.title}
               </h1>
               <div className="mt-2 flex flex-wrap gap-2">
@@ -62,7 +62,7 @@ export function WebsiteTrackPage({
               </div>
             </div>
           </div>
-          <p className="mt-3 max-w-3xl text-base leading-7 text-muted-foreground">
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
             {track.intro ?? (
               <span className="rounded bg-muted px-1 py-0.5 font-mono text-sm">
                 TRACK INTRO TO BE SUPPLIED
@@ -75,7 +75,7 @@ export function WebsiteTrackPage({
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-8 sm:py-10">
+      <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10">
         <SitePreview siteName={siteName} siteUrl={siteUrl} outline={outline} />
         <div className="mt-8 border-t border-border pt-6 text-center">
           <Link
@@ -112,7 +112,7 @@ export function SitePreview({
   }, [entered]);
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
+    <div className="grid gap-4 sm:gap-6 lg:grid-cols-[260px_1fr]">
       <div className="lg:sticky lg:top-24 lg:self-start">
         <details className="rounded-2xl border border-border bg-card p-4 shadow-card lg:hidden">
           <summary className="flex cursor-pointer items-center gap-2 text-xs font-bold uppercase text-muted-foreground">
@@ -151,15 +151,15 @@ export function SitePreview({
       <div id="preview" className="min-w-0 scroll-mt-28">
         {!entered ? (
           <div>
-            <div className="mb-3 flex flex-wrap items-center gap-2 rounded-2xl border border-border bg-card px-4 py-2.5 shadow-card">
-              <span className="min-w-0 flex-1 truncate font-mono text-xs text-muted-foreground">
+            <div className="mb-3 flex flex-col gap-2 rounded-2xl border border-border bg-card px-3 py-3 shadow-card sm:flex-row sm:items-center sm:px-4 sm:py-2.5">
+              <span className="min-w-0 flex-1 break-all font-mono text-xs text-muted-foreground sm:truncate sm:break-normal">
                 {siteUrl}
               </span>
               <a
                 href={siteUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex min-h-10 items-center gap-1 rounded-xl px-3 text-sm font-semibold text-primary hover:bg-accent"
+                className="inline-flex min-h-10 w-full items-center justify-center gap-1 rounded-xl bg-primary px-3 text-sm font-semibold text-primary-foreground sm:w-auto sm:bg-transparent sm:px-3 sm:text-primary sm:hover:bg-accent"
               >
                 <ExternalLink className="h-4 w-4" /> Open in a new tab ↗
               </a>
@@ -216,32 +216,34 @@ export function SitePreview({
           </div>
         ) : (
           <div>
-            <div className="mb-3 flex flex-wrap items-center gap-2 rounded-2xl border border-border bg-card px-4 py-2.5 shadow-card">
-              <span className="min-w-0 flex-1 truncate font-mono text-xs text-muted-foreground">
+            <div className="mb-3 flex flex-col gap-2 rounded-2xl border border-border bg-card px-3 py-3 shadow-card sm:flex-row sm:flex-wrap sm:items-center sm:px-4 sm:py-2.5">
+              <span className="min-w-0 flex-1 break-all font-mono text-xs text-muted-foreground sm:truncate sm:break-normal">
                 {siteUrl}
               </span>
-              <a
-                href={siteUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex min-h-10 items-center gap-1 rounded-xl px-3 text-sm font-semibold text-primary hover:bg-accent"
-              >
-                <ExternalLink className="h-4 w-4" /> Open in a new tab ↗
-              </a>
-              <button
-                type="button"
-                onClick={() => setEntered(false)}
-                className="inline-flex min-h-10 items-center rounded-xl px-3 text-sm font-semibold text-muted-foreground hover:bg-accent hover:text-foreground"
-              >
-                Back to preview
-              </button>
+              <div className="flex w-full gap-2 sm:w-auto">
+                <a
+                  href={siteUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex min-h-10 flex-1 items-center justify-center gap-1 rounded-xl bg-primary px-3 text-sm font-semibold text-primary-foreground sm:flex-none sm:bg-transparent sm:px-3 sm:text-primary sm:hover:bg-accent"
+                >
+                  <ExternalLink className="h-4 w-4" /> Open ↗
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setEntered(false)}
+                  className="inline-flex min-h-10 flex-1 items-center justify-center rounded-xl border border-border px-3 text-sm font-semibold text-muted-foreground hover:bg-accent hover:text-foreground sm:flex-none"
+                >
+                  Back
+                </button>
+              </div>
             </div>
             <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
               <iframe
                 title={siteName}
                 src={siteUrl}
                 sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                className="h-[70vh] w-full bg-white"
+                className="h-[60vh] w-full bg-white sm:h-[70vh]"
                 loading="lazy"
               />
             </div>

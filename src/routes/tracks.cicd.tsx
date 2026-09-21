@@ -230,7 +230,7 @@ function CicdPage() {
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  <item.icon className="h-4 w-4 text-primary" />
+                  <item.icon className="h-3.5 w-3.5 text-primary sm:h-4 sm:w-4" />
                   {item.label}
                   <span className="rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[10px] font-bold text-primary">
                     {item.hint}
