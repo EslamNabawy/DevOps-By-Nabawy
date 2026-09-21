@@ -213,17 +213,12 @@ function TerraformPage() {
                       </div>
                     </div>
                     <div className="mt-4 flex flex-wrap gap-2 border-t border-border pt-4">
-                      <Button size="sm" asChild>
-                        <Link to="/books/$bookId" params={{ bookId: book.id }} search={{ page: 1 }}>
-                          Read <ArrowRight className="ml-1 h-4 w-4" />
-                        </Link>
-                      </Button>
                       <Button variant="outline" size="sm" asChild>
                         <a href={pdfUrl(book)} target="_blank" rel="noreferrer">
                           <Download className="mr-1 h-4 w-4" /> PDF
                         </a>
                       </Button>
-                      <Button variant="outline" size="sm" asChild>
+                      <Button size="sm" asChild>
                         <a href={onlineUrlForBook(book) ?? site?.url ?? "#"} target="_blank" rel="noreferrer">
                           Read online <ExternalLink className="ml-1 h-4 w-4" />
                         </a>
