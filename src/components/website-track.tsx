@@ -151,6 +151,19 @@ export function SitePreview({
       <div id="preview" className="min-w-0 scroll-mt-28">
         {!entered ? (
           <div>
+            <div className="mb-3 flex flex-wrap items-center gap-2 rounded-2xl border border-border bg-card px-4 py-2.5 shadow-card">
+              <span className="min-w-0 flex-1 truncate font-mono text-xs text-muted-foreground">
+                {siteUrl}
+              </span>
+              <a
+                href={siteUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex min-h-10 items-center gap-1 rounded-xl px-3 text-sm font-semibold text-primary hover:bg-accent"
+              >
+                <ExternalLink className="h-4 w-4" /> Open in a new tab ↗
+              </a>
+            </div>
             <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-card">
               <div className="h-[280px] overflow-hidden sm:h-[360px]">
                 <iframe
@@ -179,32 +192,25 @@ export function SitePreview({
               </button>
             </div>
             <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-              <a
-                href={siteUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="text-sm font-semibold text-muted-foreground hover:text-primary"
-              >
-                Open in a new tab ↗
-              </a>
-              <p className="text-xs text-muted-foreground">
-                Preview not loading?{" "}
+              <span className="text-xs text-muted-foreground">
+                Preview not loading?
+              </span>
+              <p className="flex items-center gap-2 text-xs text-muted-foreground">
                 <button
                   type="button"
                   onClick={() => setFrameKey((value) => value + 1)}
                   className="inline-flex items-center gap-1 font-semibold text-primary hover:underline"
                 >
                   <RotateCcw className="h-3 w-3" /> Try again
-                </button>{" "}
-                or{" "}
-                <a
-                  href={siteUrl}
-                  target="_blank"
-                  rel="noreferrer"
+                </button>
+                <span aria-hidden="true">·</span>
+                <button
+                  type="button"
+                  onClick={() => setEntered(true)}
                   className="font-semibold text-primary hover:underline"
                 >
-                  Open in new tab
-                </a>
+                  Enter preview
+                </button>
               </p>
             </div>
           </div>
