@@ -59,11 +59,11 @@ function TrackCard({ track }: { track: Track }) {
   if (isSoon) {
     return (
       <div className="flex min-h-48 sm:min-h-60 flex-col rounded-2xl border border-dashed border-border bg-muted/40 p-4 opacity-75 cursor-not-allowed select-none">
-        <div className="flex items-start justify-between">
-          <span className="grid h-10 w-10 place-items-center rounded-xl bg-muted text-muted-foreground">
-            <track.icon className="h-5 w-5" />
+        <div className="flex items-start justify-between gap-2">
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-muted text-muted-foreground sm:h-10 sm:w-10">
+            <track.icon className="h-4 w-4 sm:h-5 sm:w-5" />
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-bold tracking-wide text-amber-700 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-400">
+          <span className="inline-flex max-w-[58%] shrink-0 items-center justify-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2 py-1 text-[10px] font-bold tracking-wide text-amber-700 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-400 sm:max-w-none sm:px-3 sm:py-1.5 sm:text-xs">
             COMING SOON
           </span>
         </div>
@@ -82,13 +82,13 @@ function TrackCard({ track }: { track: Track }) {
       to={trackHref(track)}
       className="group flex min-h-48 sm:min-h-60 flex-col rounded-2xl border border-border bg-card p-4 shadow-card transition-all duration-180 hover:-translate-y-1 hover:border-primary/50 hover:shadow-card-hover"
     >
-      <div className="flex items-start justify-between">
-        <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary">
-          <track.icon className="h-5 w-5" />
+      <div className="flex items-start justify-between gap-2">
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary sm:h-10 sm:w-10">
+          <track.icon className="h-4 w-4 sm:h-5 sm:w-5" />
         </span>
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3 py-1.5 text-xs font-semibold text-muted-foreground">
-          <Icon className="h-3.5 w-3.5 text-primary" />
-          {trackBadge(track)}
+        <span className="inline-flex max-w-[58%] shrink-0 items-center justify-center gap-1 rounded-full border border-border bg-background px-2 py-1 text-[10px] font-semibold leading-none text-muted-foreground sm:max-w-none sm:gap-1.5 sm:px-3 sm:py-1.5 sm:text-xs">
+          <Icon className="h-3 w-3 shrink-0 text-primary sm:h-3.5 sm:w-3.5" />
+          <span className="truncate">{trackBadge(track)}</span>
         </span>
       </div>
       <h2 className="font-display mt-4 text-base font-bold">{track.title}</h2>
