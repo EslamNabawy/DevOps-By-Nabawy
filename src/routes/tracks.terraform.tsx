@@ -131,26 +131,26 @@ function TerraformPage() {
           <Link to="/tracks" className="mb-5 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary">
             <ArrowLeft className="h-4 w-4" /> Tracks / <span className="text-foreground">{track.title}</span>
           </Link>
-          <div className="flex items-start gap-3">
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
+          <div className="flex items-start gap-2.5 sm:gap-3">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary sm:h-10 sm:w-10">
               <track.icon className="h-5 w-5" />
             </span>
-            <div className="min-w-0">
-              <h1 className="font-display max-w-4xl text-2xl font-extrabold sm:text-3xl">{track.title}</h1>
-              <div className="mt-2 flex flex-wrap gap-2">
-                <span className="rounded-full border border-border bg-card px-2.5 py-1 text-xs font-semibold text-muted-foreground">
+            <div className="min-w-0 flex-1">
+              <h1 className="font-display max-w-4xl break-words text-xl font-extrabold leading-tight sm:text-3xl">{track.title}</h1>
+              <div className="mt-2 flex flex-wrap gap-1.5 sm:gap-2">
+                <span className="rounded-full border border-border bg-card px-2 py-1 text-[11px] font-semibold text-muted-foreground sm:px-2.5 sm:text-xs">
                   {trackBadge(track)}
                 </span>
                 {hosted.length > 0 ? (
-                  <span className="rounded-full border border-border bg-card px-2.5 py-1 text-xs font-semibold text-muted-foreground">
+                  <span className="rounded-full border border-border bg-card px-2 py-1 text-[11px] font-semibold text-muted-foreground sm:px-2.5 sm:text-xs">
                     {hosted.length} PDFs · {totalPages} pages
                   </span>
                 ) : null}
               </div>
             </div>
           </div>
-          <p className="mt-3 max-w-3xl text-base leading-7 text-muted-foreground">{track.description}</p>
-          <div role="tablist" aria-label="Terraform content source" className="mt-5 inline-flex rounded-full border border-border bg-muted/60 p-1">
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">{track.description}</p>
+          <div role="tablist" aria-label="Terraform content source" className="mt-4 grid w-full grid-cols-2 gap-1 rounded-full border border-border bg-muted/60 p-1 sm:mt-5 sm:inline-flex sm:w-auto sm:gap-0">
             {tabs.map((item) => {
               const active = tab === item.id;
               return (
@@ -172,11 +172,11 @@ function TerraformPage() {
       </section>
 
       {tab === "pdfs" ? (
-        <section className="mx-auto max-w-7xl px-4 sm:px-4 py-6 sm:px-6 sm:py-8 sm:py-10">
-          <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
-            <nav aria-label="Track contents" className="lg:sticky lg:top-24 lg:self-start">
-              <p className="mb-3 hidden font-mono text-xs font-bold text-primary lg:block">MAP</p>
-              <ol className="flex gap-2 overflow-x-auto pb-2 lg:flex-col lg:overflow-visible lg:pb-0">
+        <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8 sm:py-10">
+          <div className="grid gap-4 sm:gap-6 lg:grid-cols-[260px_1fr]">
+            <nav aria-label="Track contents" className="-mx-4 px-4 sm:mx-0 sm:px-0 lg:sticky lg:top-24 lg:self-start">
+              <p className="mb-2 hidden font-mono text-xs font-bold text-primary lg:block">MAP</p>
+              <ol className="flex gap-2 overflow-x-auto pb-2 [-webkit-overflow-scrolling:touch] [scrollbar-width:none] lg:flex-col lg:overflow-visible lg:pb-0">
                 {hosted.map((book, index) => {
                   const active = book.id === activeBook;
                   return (
@@ -196,23 +196,23 @@ function TerraformPage() {
             </nav>
             <div className="relative">
               <span aria-hidden="true" className="absolute bottom-8 left-1/2 top-8 hidden w-px -translate-x-1/2 bg-primary/20 md:block" />
-              <ol className="relative grid gap-5">
+              <ol className="relative grid gap-4 sm:gap-5">
                 {hosted.map((book, index) => (
-                  <li key={book.id} id={`book-${book.id}`} data-book-card={book.id} className="relative scroll-mt-28 rounded-2xl border border-border bg-card p-4 shadow-card sm:p-5">
+                  <li key={book.id} id={`book-${book.id}`} data-book-card={book.id} className="relative scroll-mt-28 rounded-2xl border border-border bg-card p-3 shadow-card sm:p-5">
                     {index === 0 ? <span className="absolute -top-3 left-6 rounded-full bg-secondary-accent px-3 py-1 font-mono text-[11px] font-bold text-white">Start here</span> : null}
-                    <div className="flex items-start gap-3">
-                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
-                        {book.kind === "cheatsheet" ? <FileText className="h-5 w-5" /> : <BookOpen className="h-5 w-5" />}
+                    <div className="flex items-start gap-2.5 sm:gap-3">
+                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary sm:h-10 sm:w-10">
+                        {book.kind === "cheatsheet" ? <FileText className="h-4 w-4 sm:h-5 sm:w-5" /> : <BookOpen className="h-4 w-4 sm:h-5 sm:w-5" />}
                       </span>
                       <div className="min-w-0 flex-1">
-                        <h2 className="font-display text-base font-bold sm:text-lg">{book.title}</h2>
-                        <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                        <h2 className="font-display text-sm font-bold leading-tight sm:text-lg">{book.title}</h2>
+                        <p className="mt-1 text-xs leading-5 text-muted-foreground sm:text-sm sm:leading-6">
                           {book.chapters.length > 0 ? `${book.chapters.length} sections` : book.kind === "cheatsheet" ? "Cheat sheet" : "PDF document"}
                         </p>
-                        <p className="mt-1 font-mono text-xs font-bold text-muted-foreground">{book.pages} PAGES · {book.lang === "ar" ? "العربية" : "ENGLISH"}</p>
+                        <p className="mt-1 font-mono text-[11px] font-bold text-muted-foreground sm:text-xs">{book.pages} PAGES · {book.lang === "ar" ? "العربية" : "ENGLISH"}</p>
                       </div>
                     </div>
-                    <div className="mt-4 flex flex-wrap gap-2 border-t border-border pt-4">
+                    <div className="mt-3 flex flex-wrap gap-2 border-t border-border pt-3 sm:mt-4 sm:pt-4">
                       <Button variant="outline" size="sm" asChild>
                         <a href={pdfUrl(book)} target="_blank" rel="noreferrer">
                           <Download className="mr-1 h-4 w-4" /> PDF

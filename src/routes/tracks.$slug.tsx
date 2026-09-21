@@ -118,7 +118,7 @@ function TrackDetailPage() {
   return (
     <div>
       <section className="border-b border-border bg-hero">
-        <div className="mx-auto max-w-7xl px-4 sm:px-4 py-6 sm:px-6 sm:py-8">
+        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8 sm:px-6 sm:py-8">
           <Link
             to="/tracks"
             className="mb-7 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary"
@@ -127,11 +127,11 @@ function TrackDetailPage() {
             <span className="text-foreground">{track.title}</span>
           </Link>
           <div className="flex items-start gap-4">
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary sm:h-10 sm:w-10 text-primary">
               <track.icon className="h-5 w-5" />
             </span>
             <div className="min-w-0">
-              <h1 className="font-display max-w-4xl text-2xl font-extrabold sm:text-3xl">
+              <h1 className="font-display max-w-4xl text-xl font-extrabold leading-tight sm:text-3xl">
                 {track.title}
               </h1>
               <div className="mt-3 flex flex-wrap gap-2">
@@ -146,7 +146,7 @@ function TrackDetailPage() {
               </div>
             </div>
           </div>
-          <p className="mt-3 max-w-3xl text-base leading-7 text-muted-foreground">
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
             {track.intro ?? (
               <span className="rounded bg-muted px-1 py-0.5 font-mono text-sm">
                 TRACK INTRO TO BE SUPPLIED
@@ -186,7 +186,7 @@ function TrackDetailPage() {
           </Button>
         </section>
       ) : (
-        <section className="mx-auto max-w-7xl px-4 sm:px-4 py-6 sm:px-6 sm:py-8 sm:py-10">
+        <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8 sm:px-6 sm:py-8 sm:py-10">
           <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
             <nav
               aria-label="Track contents"
@@ -195,7 +195,7 @@ function TrackDetailPage() {
               <p className="mb-3 hidden font-mono text-xs font-bold text-primary lg:block">
                 MAP
               </p>
-              <ol className="flex gap-2 overflow-x-auto pb-2 lg:flex-col lg:overflow-visible lg:pb-0">
+              <ol className="flex gap-2 overflow-x-auto pb-2 \[-webkit-overflow-scrolling:touch\] \[scrollbar-width:none\] lg:flex-col lg:overflow-visible lg:pb-0">
                 {hosted.map((book, index) => {
                   const active = book.id === activeBook;
                   return (
@@ -233,7 +233,7 @@ function TrackDetailPage() {
                     key={book.id}
                     id={`book-${book.id}`}
                     data-book-card={book.id}
-                    className="relative scroll-mt-28 rounded-2xl border border-border bg-card p-4 shadow-card sm:p-5"
+                    className="relative scroll-mt-28 rounded-2xl border border-border bg-card p-3 shadow-card sm:p-5"
                   >
                     {index === 0 ? (
                       <span className="absolute -top-3 left-6 rounded-full bg-secondary-accent px-3 py-1 font-mono text-[11px] font-bold text-white">
@@ -241,7 +241,7 @@ function TrackDetailPage() {
                       </span>
                     ) : null}
                     <div className="flex items-start gap-4">
-                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
+                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary sm:h-10 sm:w-10 text-primary">
                         {book.kind === "cheatsheet" ? (
                           <FileText className="h-5 w-5" />
                         ) : (
@@ -249,7 +249,7 @@ function TrackDetailPage() {
                         )}
                       </span>
                       <div className="min-w-0 flex-1">
-                        <h2 className="font-display text-base font-bold sm:text-lg">
+                        <h2 className="font-display text-sm font-bold leading-tight sm:text-lg">
                           {book.title}
                         </h2>
                         <p className="mt-2 text-sm leading-6 text-muted-foreground">
