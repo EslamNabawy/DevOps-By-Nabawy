@@ -95,8 +95,11 @@ export function AppShell({ children }: { children: ReactNode }) {
                   {dark ? <Sun /> : <Moon />}
                 </Button>
               </nav>
+              <Button variant="ghost" size="sm" asChild className="ml-auto md:hidden">
+                <Link to="/">Home</Link>
+              </Button>
               <Button
-                className="ml-auto md:hidden"
+                className="md:hidden"
                 variant="ghost"
                 size="icon"
                 onClick={() => setMenuOpen(!menuOpen)}
