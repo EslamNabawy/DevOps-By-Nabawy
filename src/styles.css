@@ -183,18 +183,40 @@
     border-color: var(--color-border);
   }
 
+  html {
+    -webkit-text-size-adjust: 100%;
+    scrollbar-gutter: stable;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     letter-spacing: 0;
     min-width: 320px;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Larger tap targets on coarse pointer (mobile) */
+  @media (pointer: coarse) {
+    button,
+    a {
+      min-height: 44px;
+    }
   }
 
   button,
   a,
   input {
     letter-spacing: 0;
+  }
+
+  /* Prevent iOS zoom on focus for <16px inputs */
+  @media (max-width: 640px) {
+    input, select, textarea {
+      font-size: 16px;
+    }
   }
 }
 

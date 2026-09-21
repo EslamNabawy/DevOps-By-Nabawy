@@ -118,7 +118,7 @@ function TrackDetailPage() {
   return (
     <div>
       <section className="border-b border-border bg-hero">
-        <div className="mx-auto max-w-7xl px-6 py-6 sm:py-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-4 py-6 sm:px-6 sm:py-8">
           <Link
             to="/tracks"
             className="mb-7 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary"
@@ -186,7 +186,7 @@ function TrackDetailPage() {
           </Button>
         </section>
       ) : (
-        <section className="mx-auto max-w-7xl px-6 py-8 sm:py-10">
+        <section className="mx-auto max-w-7xl px-4 sm:px-4 py-6 sm:px-6 sm:py-8 sm:py-10">
           <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
             <nav
               aria-label="Track contents"

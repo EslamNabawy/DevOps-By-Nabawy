@@ -25,7 +25,7 @@ export const Route = createFileRoute("/about")({
 
 function AboutPage() {
   return (
-    <div className="mx-auto max-w-3xl px-6 py-8 sm:py-10">
+    <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 sm:py-8 sm:py-10">
       <p className="font-mono text-xs font-bold text-primary">ABOUT</p>
       <h1 className="font-display mt-3 text-2xl font-extrabold sm:text-3xl">
         A library with no memory

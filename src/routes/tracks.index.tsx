@@ -26,7 +26,7 @@ export const Route = createFileRoute("/tracks/")({
 
 function TracksPage() {
   return (
-    <div className="mx-auto max-w-7xl px-6 py-8 sm:py-10">
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10">
       <div className="max-w-3xl">
         <p className="font-mono text-xs font-bold text-primary">LIBRARY MAP</p>
         <h1 className="font-display mt-3 text-2xl font-extrabold sm:text-3xl">
@@ -44,7 +44,7 @@ function TracksPage() {
           .
         </p>
       </div>
-      <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-8 grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3">
         {tracks.map((track) => (
           <TrackCard key={track.slug} track={track} />
         ))}
@@ -58,7 +58,7 @@ function TrackCard({ track }: { track: Track }) {
   const isSoon = track.source === "soon";
   if (isSoon) {
     return (
-      <div className="flex min-h-60 flex-col rounded-2xl border border-dashed border-border bg-muted/40 p-4 opacity-75 cursor-not-allowed select-none">
+      <div className="flex min-h-48 sm:min-h-60 flex-col rounded-2xl border border-dashed border-border bg-muted/40 p-4 opacity-75 cursor-not-allowed select-none">
         <div className="flex items-start justify-between">
           <span className="grid h-10 w-10 place-items-center rounded-xl bg-muted text-muted-foreground">
             <track.icon className="h-5 w-5" />
@@ -80,7 +80,7 @@ function TrackCard({ track }: { track: Track }) {
   return (
     <Link
       to={trackHref(track)}
-      className="group flex min-h-60 flex-col rounded-2xl border border-border bg-card p-4 shadow-card transition-all duration-180 hover:-translate-y-1 hover:border-primary/50 hover:shadow-card-hover"
+      className="group flex min-h-48 sm:min-h-60 flex-col rounded-2xl border border-border bg-card p-4 shadow-card transition-all duration-180 hover:-translate-y-1 hover:border-primary/50 hover:shadow-card-hover"
     >
       <div className="flex items-start justify-between">
         <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary">

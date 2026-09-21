@@ -165,7 +165,7 @@ export function SitePreview({
               </a>
             </div>
             <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-card">
-              <div className="h-[280px] overflow-hidden sm:h-[360px]">
+              <div className="h-[220px] overflow-hidden sm:h-[360px]">
                 <iframe
                   key={frameKey}
                   title={`${siteName} preview`}

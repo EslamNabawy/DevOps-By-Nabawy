@@ -601,26 +601,26 @@ export function PdfViewer({
   }
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 pb-36 pt-5 sm:px-6 md:pb-10">
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div className="min-w-0">
+    <div className="mx-auto w-full max-w-7xl px-4 pb-36 pt-4 sm:px-6 sm:pt-5 md:pb-10">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
+        <div className="min-w-0 flex-1">
           <nav
             aria-label="Breadcrumb"
-            className="text-sm text-muted-foreground"
+            className="text-xs text-muted-foreground sm:text-sm"
           >
             {breadcrumb}
           </nav>
-          <p className="mt-2 font-mono text-xs font-bold text-primary">
+          <p className="mt-1.5 font-mono text-[11px] font-bold text-primary sm:mt-2 sm:text-xs">
             {eyebrow}
           </p>
-          <h1 className="font-display mt-1 max-w-4xl text-xl font-extrabold sm:text-2xl">
+          <h1 className="font-display mt-1 max-w-4xl break-words text-lg font-extrabold leading-tight sm:text-2xl">
             {title}
           </h1>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <span
             aria-live="polite"
-            className="rounded-full border border-border bg-card px-3 py-2 font-mono text-xs font-bold text-muted-foreground"
+            className="rounded-full border border-border bg-card px-3 py-1.5 font-mono text-xs font-bold text-muted-foreground sm:py-2"
           >
             Page {page} of {pageCount}
           </span>
@@ -752,7 +752,7 @@ export function PdfViewer({
           ) : null}
 
           <div className="overflow-auto rounded-2xl border border-border bg-card p-2 shadow-card sm:p-4">
-            <div className="relative mx-auto w-fit max-w-full">
+            <div className="relative mx-auto w-fit max-w-full overflow-hidden">
               <canvas
                 ref={canvasRef}
                 className="h-auto max-w-full rounded bg-white shadow"
@@ -765,8 +765,8 @@ export function PdfViewer({
         </div>
       </div>
 
-      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 px-3 pb-3 md:static md:z-auto md:mt-6 md:px-0 md:pb-0">
-        <div className="pointer-events-auto mx-auto flex w-full max-w-3xl flex-wrap items-center justify-center gap-1 rounded-2xl border border-border bg-background/95 p-2 shadow-card backdrop-blur md:w-fit md:rounded-full">
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 px-2 pb-2 sm:px-3 sm:pb-3 md:static md:z-auto md:mt-6 md:px-0 md:pb-0">
+        <div className="pointer-events-auto mx-auto flex w-full max-w-3xl flex-wrap items-center justify-center gap-1 rounded-2xl border border-border bg-background/95 p-1.5 sm:p-2 shadow-card backdrop-blur sm:gap-1 md:w-fit md:rounded-full">
           <Button
             variant="ghost"
             size="icon"

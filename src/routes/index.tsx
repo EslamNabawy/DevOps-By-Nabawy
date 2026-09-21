@@ -28,18 +28,18 @@ function Index() {
   return (
     <div>
       <section className="border-b border-border bg-hero">
-        <div className="mx-auto max-w-7xl px-6 pb-10 pt-10 text-center sm:pb-12 sm:pt-12">
-          <h1 className="font-display mx-auto max-w-4xl text-2xl font-extrabold leading-tight sm:text-4xl">
+        <div className="mx-auto max-w-7xl px-4 pb-8 pt-8 text-center sm:px-6 sm:pb-12 sm:pt-12">
+          <h1 className="font-display mx-auto max-w-4xl text-xl font-extrabold leading-tight sm:text-4xl">
             Learn DevOps, one page at a time.
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-muted-foreground sm:mt-4 sm:text-base sm:leading-7">
             Search anything, read at your own pace — free, and yours to keep
             coming back to.
           </p>
         </div>
       </section>
-      <section className="mx-auto max-w-7xl px-6 py-8 sm:py-10">
-        <div className="mb-5 flex items-end justify-between gap-6">
+      <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10">
+        <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
           <div>
             <p className="font-mono text-xs font-bold text-primary">
               ALL TRACKS
@@ -48,11 +48,11 @@ function Index() {
               Choose a track
             </h2>
           </div>
-          <p className="max-w-sm text-right text-sm leading-6 text-muted-foreground">
+          <p className="text-sm leading-6 text-muted-foreground sm:max-w-sm sm:text-right">
             Start with the map, then read or open the full course.
           </p>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {tracks.map((track) => (
             <TrackCard key={track.slug} track={track} />
           ))}
@@ -67,7 +67,7 @@ function TrackCard({ track }: { track: Track }) {
   const isSoon = track.source === "soon";
   if (isSoon) {
     return (
-      <div className="flex min-h-60 flex-col rounded-2xl border border-dashed border-border bg-muted/40 p-4 opacity-75 cursor-not-allowed select-none">
+      <div className="flex min-h-48 sm:min-h-60 flex-col rounded-2xl border border-dashed border-border bg-muted/40 p-4 opacity-75 cursor-not-allowed select-none">
         <div className="flex items-start justify-between">
           <span className="grid h-10 w-10 place-items-center rounded-xl bg-muted text-muted-foreground">
             <track.icon className="h-5 w-5" />
@@ -89,7 +89,7 @@ function TrackCard({ track }: { track: Track }) {
   return (
     <Link
       to={trackHref(track)}
-      className="group flex min-h-60 flex-col rounded-2xl border border-border bg-card p-4 shadow-card transition-all duration-180 hover:-translate-y-1 hover:border-primary/50 hover:shadow-card-hover"
+      className="group flex min-h-48 sm:min-h-60 flex-col rounded-2xl border border-border bg-card p-4 shadow-card transition-all duration-180 hover:-translate-y-1 hover:border-primary/50 hover:shadow-card-hover"
     >
       <div className="flex items-start justify-between">
         <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary">

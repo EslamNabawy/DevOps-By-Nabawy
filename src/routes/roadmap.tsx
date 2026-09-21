@@ -147,7 +147,7 @@ function RoadmapPage() {
   return (
     <div>
       <section className="border-b border-border bg-hero">
-        <div className="mx-auto max-w-7xl px-6 py-8 sm:py-10">
+        <div className="mx-auto max-w-7xl px-4 sm:px-4 py-6 sm:px-6 sm:py-8 sm:py-10">
           <p className="mb-3 flex items-center gap-2 font-mono text-xs font-bold text-primary">
             <Map className="h-4 w-4" /> STEP BY STEP
           </p>
@@ -161,7 +161,7 @@ function RoadmapPage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-3xl px-6 py-8">
+      <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 sm:py-8">
         {SECTIONS.map((section, si) => (
           <section key={section.id} className="relative pb-12 last:pb-0">
             {si < SECTIONS.length - 1 && (

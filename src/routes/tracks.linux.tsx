@@ -125,7 +125,7 @@ function LinuxPage() {
   return (
     <div>
       <section className="border-b border-border bg-hero">
-        <div className="mx-auto max-w-7xl px-6 py-6 sm:py-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-4 py-6 sm:px-6 sm:py-8">
           <Link to="/tracks" className="mb-5 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary">
             <ArrowLeft className="h-4 w-4" /> Tracks / <span className="text-foreground">{track.title}</span>
           </Link>
@@ -170,7 +170,7 @@ function LinuxPage() {
       </section>
 
       {tab === "pdfs" ? (
-        <section className="mx-auto max-w-7xl px-6 py-8 sm:py-10">
+        <section className="mx-auto max-w-7xl px-4 sm:px-4 py-6 sm:px-6 sm:py-8 sm:py-10">
           <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
             <nav aria-label="Track contents" className="lg:sticky lg:top-24 lg:self-start">
               <p className="mb-3 hidden font-mono text-xs font-bold text-primary lg:block">MAP</p>
@@ -245,7 +245,7 @@ function LinuxPage() {
           </div>
         </section>
       ) : (
-        <section className="mx-auto max-w-7xl px-6 py-8 sm:py-10">
+        <section className="mx-auto max-w-7xl px-4 sm:px-4 py-6 sm:px-6 sm:py-8 sm:py-10">
           {site ? (
             <div className="mb-6 flex flex-col gap-3 rounded-2xl border border-border bg-card p-5 shadow-card sm:flex-row sm:items-center">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-secondary-accent/10 text-secondary-accent">
@@ -266,7 +266,7 @@ function LinuxPage() {
           {site ? <SitePreview siteName={site.title} siteUrl={site.url} outline={OUTLINE} /> : null}
         </section>
       )}
-      <div className="mx-auto max-w-7xl px-6 pb-10 text-center">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 pb-10 text-center">
         <Link to="/tracks" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
           <ArrowLeft className="h-4 w-4" /> All tracks
         </Link>

@@ -180,7 +180,7 @@ function CicdPage() {
   return (
     <div>
       <section className="border-b border-border bg-hero">
-        <div className="mx-auto max-w-7xl px-6 py-6 sm:py-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-4 py-6 sm:px-6 sm:py-8">
           <Link
             to="/tracks"
             className="mb-5 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary"
@@ -243,7 +243,7 @@ function CicdPage() {
       </section>
 
       {tab === "pdfs" ? (
-        <section className="mx-auto max-w-7xl px-6 py-8 sm:py-10">
+        <section className="mx-auto max-w-7xl px-4 sm:px-4 py-6 sm:px-6 sm:py-8 sm:py-10">
           <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
             <nav
               aria-label="Track contents"
@@ -374,7 +374,7 @@ function CicdPage() {
           </div>
         </section>
       ) : (
-        <section className="mx-auto max-w-7xl px-6 py-8 sm:py-10">
+        <section className="mx-auto max-w-7xl px-4 sm:px-4 py-6 sm:px-6 sm:py-8 sm:py-10">
           {site ? (
             <div className="mb-6 flex flex-col gap-3 rounded-2xl border border-border bg-card p-5 shadow-card sm:flex-row sm:items-center">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-secondary-accent/10 text-secondary-accent">
@@ -408,7 +408,7 @@ function CicdPage() {
         </section>
       )}
 
-      <div className="mx-auto max-w-7xl px-6 pb-10 text-center">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 pb-10 text-center">
         <Link
           to="/tracks"
           className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
