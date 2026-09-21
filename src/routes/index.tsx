@@ -89,28 +89,23 @@ function Index() {
               Choose a track
             </h2>
           </div>
-          <div className="flex flex-col items-start gap-3 sm:items-end">
-            <div className="inline-flex rounded-full border border-border bg-muted/60 p-1">
-              <button
-                type="button"
-                onClick={() => setView("card")}
-                aria-pressed={view === "card"}
-                className={`inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-xs font-semibold transition-colors ${view === "card" ? "bg-card text-foreground shadow-card" : "text-muted-foreground hover:text-foreground"}`}
-              >
-                <LayoutGrid className="h-3.5 w-3.5" /> Card
-              </button>
-              <button
-                type="button"
-                onClick={() => setView("list")}
-                aria-pressed={view === "list"}
-                className={`inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-xs font-semibold transition-colors ${view === "list" ? "bg-card text-foreground shadow-card" : "text-muted-foreground hover:text-foreground"}`}
-              >
-                <List className="h-3.5 w-3.5" /> List
-              </button>
-            </div>
-            <p className="hidden text-sm leading-6 text-muted-foreground sm:block sm:max-w-sm sm:text-right">
-              Start with the map, then read or open the full course.
-            </p>
+          <div className="inline-flex rounded-full border border-border bg-muted/60 p-1">
+            <button
+              type="button"
+              onClick={() => setView("card")}
+              aria-pressed={view === "card"}
+              className={`inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-xs font-semibold transition-colors ${view === "card" ? "bg-card text-foreground shadow-card" : "text-muted-foreground hover:text-foreground"}`}
+            >
+              <LayoutGrid className="h-3.5 w-3.5" /> Card
+            </button>
+            <button
+              type="button"
+              onClick={() => setView("list")}
+              aria-pressed={view === "list"}
+              className={`inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-xs font-semibold transition-colors ${view === "list" ? "bg-card text-foreground shadow-card" : "text-muted-foreground hover:text-foreground"}`}
+            >
+              <List className="h-3.5 w-3.5" /> List
+            </button>
           </div>
         </div>
         {view === "card" ? (
