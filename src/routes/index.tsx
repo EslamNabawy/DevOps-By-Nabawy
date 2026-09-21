@@ -28,14 +28,53 @@ function Index() {
   return (
     <div>
       <section className="border-b border-border bg-hero">
-        <div className="mx-auto max-w-7xl px-4 pb-8 pt-8 text-center sm:px-6 sm:pb-12 sm:pt-12">
-          <h1 className="font-display mx-auto max-w-4xl text-xl font-extrabold leading-tight sm:text-4xl">
-            DevOps Library
-          </h1>
-          <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-muted-foreground sm:mt-4 sm:text-base sm:leading-7">
-            Explore a collection of DevOps resources, from practical guides and
-            websites to downloadable PDFs.
-          </p>
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="max-w-xl text-left">
+              <h1 className="font-display text-2xl font-extrabold leading-tight sm:text-4xl">
+                DevOps Library
+              </h1>
+              <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
+                Explore a collection of DevOps resources, from practical guides
+                and websites to downloadable PDFs.
+              </p>
+            </div>
+            <div className="grid grid-cols-3 gap-2 sm:grid-cols-6 lg:grid-cols-3 sm:gap-3 lg:w-[340px] lg:shrink-0">
+              {tracks.map((track) => {
+                const isSoon = track.source === "soon";
+                const content = (
+                  <>
+                    <span
+                      className={`grid h-9 w-9 place-items-center rounded-xl sm:h-10 sm:w-10 ${isSoon ? "bg-muted text-muted-foreground" : "bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground"}`}
+                    >
+                      <track.icon className="h-4 w-4 sm:h-5 sm:w-5" />
+                    </span>
+                    <span className="mt-1.5 line-clamp-1 text-center font-mono text-[10px] font-bold leading-none sm:text-xs">
+                      {track.slug.toUpperCase()}
+                    </span>
+                  </>
+                );
+                return isSoon ? (
+                  <div
+                    key={track.slug}
+                    className="flex flex-col items-center rounded-2xl border border-dashed border-border bg-muted/30 p-3 opacity-60"
+                    title={`${track.title} — Coming Soon`}
+                  >
+                    {content}
+                  </div>
+                ) : (
+                  <Link
+                    key={track.slug}
+                    to={trackHref(track)}
+                    className="group flex flex-col items-center rounded-2xl border border-border bg-card p-3 shadow-card transition-colors hover:border-primary/50 hover:shadow-card-hover"
+                    title={track.title}
+                  >
+                    {content}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </section>
       <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10">
