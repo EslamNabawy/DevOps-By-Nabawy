@@ -12,7 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SitePreview } from "@/components/website-track";
-import { booksByTrack, companions, pdfUrl, releasePdfUrl } from "@/lib/library";
+import { booksByTrack, companions, onlineUrlForBook, pdfUrl, releasePdfUrl } from "@/lib/library";
 import { trackBadge, tracks } from "@/lib/tracks";
 
 export const Route = createFileRoute("/tracks/linux")({
@@ -221,13 +221,11 @@ function LinuxPage() {
                           <Download className="mr-1 h-4 w-4" /> PDF
                         </a>
                       </Button>
-                      {site ? (
-                        <Button variant="outline" size="sm" asChild>
-                          <a href={site.url} target="_blank" rel="noreferrer">
-                            Read online <ExternalLink className="ml-1 h-4 w-4" />
-                          </a>
-                        </Button>
-                      ) : null}
+                      <Button variant="outline" size="sm" asChild>
+                        <a href={onlineUrlForBook(book) ?? site?.url ?? "#"} target="_blank" rel="noreferrer">
+                          Read online <ExternalLink className="ml-1 h-4 w-4" />
+                        </a>
+                      </Button>
                     </div>
                   </li>
                 ))}

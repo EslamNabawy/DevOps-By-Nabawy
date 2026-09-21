@@ -26,6 +26,21 @@ export const releasePdfUrl = (book: Book) => `${RELEASE_BASE}/${book.pdfName}`;
 export const readUrl = (book: Book) =>
   book.htmlName ? `${import.meta.env.BASE_URL}read/${book.htmlName}` : null;
 
+/** Exact companion-site HTML pages for hosted PDFs (when read online should go to the companion site). */
+export const externalHtmlMap: Record<string, string> = {
+  "terraform-01-foundations": "https://eslamnabawy.github.io/TerraForm-By-Nabawy/books/vol1-foundations.html",
+  "terraform-02-production": "https://eslamnabawy.github.io/TerraForm-By-Nabawy/books/vol2-production.html",
+  "terraform-03-practice-lab": "https://eslamnabawy.github.io/TerraForm-By-Nabawy/books/lab.html",
+  "terraform-04-exam-center": "https://eslamnabawy.github.io/TerraForm-By-Nabawy/books/exam-center.html",
+  "terraform-05-interview-arsenal": "https://eslamnabawy.github.io/TerraForm-By-Nabawy/books/interview-arsenal.html",
+};
+
+export const externalReadUrl = (book: Book): string | null =>
+  externalHtmlMap[book.id] ?? null;
+
+export const onlineUrlForBook = (book: Book): string | null =>
+  readUrl(book) ?? externalReadUrl(book) ?? companions[book.track]?.[0]?.url ?? null;
+
 export const booksByTrack = (slug: string) =>
   books.filter((book) => book.track === slug);
 
