@@ -5,17 +5,17 @@ import { tracks, trackBadge, trackHref, type Track } from "@/lib/tracks";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "DevOps By Nabawy — Learn DevOps, one page at a time" },
+      { title: "DevOps Library — Explore a collection of DevOps resources" },
       {
         name: "description",
         content:
-          "Search anything, read at your own pace — free, and yours to keep coming back to.",
+          "Explore a collection of DevOps resources, from practical guides and websites to downloadable PDFs.",
       },
-      { property: "og:title", content: "DevOps By Nabawy" },
+      { property: "og:title", content: "DevOps Library" },
       {
         property: "og:description",
         content:
-          "Search anything, read at your own pace — free, and yours to keep coming back to.",
+          "Explore a collection of DevOps resources, from practical guides and websites to downloadable PDFs.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -30,11 +30,11 @@ function Index() {
       <section className="border-b border-border bg-hero">
         <div className="mx-auto max-w-7xl px-4 pb-8 pt-8 text-center sm:px-6 sm:pb-12 sm:pt-12">
           <h1 className="font-display mx-auto max-w-4xl text-xl font-extrabold leading-tight sm:text-4xl">
-            Learn DevOps, one page at a time.
+            DevOps Library
           </h1>
           <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-muted-foreground sm:mt-4 sm:text-base sm:leading-7">
-            Search anything, read at your own pace — free, and yours to keep
-            coming back to.
+            Explore a collection of DevOps resources, from practical guides and
+            websites to downloadable PDFs.
           </p>
         </div>
       </section>
