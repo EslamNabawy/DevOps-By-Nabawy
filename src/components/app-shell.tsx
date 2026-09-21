@@ -60,11 +60,11 @@ export function AppShell({ children }: { children: ReactNode }) {
             <div className="mx-auto flex h-14 max-w-7xl items-center gap-3 px-4 sm:px-6">
               <Link
                 to="/"
-                className="flex min-w-0 items-center gap-3"
+                className="flex min-w-0 flex-1 items-center gap-2 sm:flex-none sm:gap-3"
                 aria-label="DevOps By Nabawy home"
               >
                 <Logo className="h-8 w-8 shrink-0" />
-                <span className="font-display hidden text-base font-extrabold sm:block">
+                <span className="font-display truncate text-sm font-extrabold sm:text-base">
                   DevOps By Nabawy
                 </span>
               </Link>
@@ -95,11 +95,11 @@ export function AppShell({ children }: { children: ReactNode }) {
                   {dark ? <Sun /> : <Moon />}
                 </Button>
               </nav>
-              <Button variant="ghost" size="sm" asChild className="ml-auto md:hidden">
+              <Button variant="ghost" size="sm" asChild className="shrink-0 px-2 md:hidden">
                 <Link to="/">Home</Link>
               </Button>
               <Button
-                className="md:hidden"
+                className="shrink-0 md:hidden"
                 variant="ghost"
                 size="icon"
                 onClick={() => setMenuOpen(!menuOpen)}
