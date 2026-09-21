@@ -72,6 +72,9 @@ export function AppShell({ children }: { children: ReactNode }) {
                 className="ml-auto hidden items-center gap-2 md:flex"
                 aria-label="Primary navigation"
               >
+                <Button variant="ghost" asChild>
+                  <Link to="/">Home</Link>
+                </Button>
                 <Button
                   variant="outline"
                   className="h-10 w-56 justify-start text-muted-foreground"
@@ -82,9 +85,6 @@ export function AppShell({ children }: { children: ReactNode }) {
                   <kbd className="ml-auto rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-[10px]">
                     Ctrl K
                   </kbd>
-                </Button>
-                <Button variant="ghost" asChild>
-                  <Link to="/">Home</Link>
                 </Button>
                 <Button
                   variant="ghost"
@@ -107,6 +107,9 @@ export function AppShell({ children }: { children: ReactNode }) {
             </div>
             {menuOpen && (
               <div className="grid gap-2 border-t border-border p-4 md:hidden">
+                <Button variant="ghost" asChild>
+                  <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
+                </Button>
                 <Button
                   variant="outline"
                   onClick={() => {
@@ -116,9 +119,6 @@ export function AppShell({ children }: { children: ReactNode }) {
                 >
                   <Search className="h-4 w-4" />
                   Search
-                </Button>
-                <Button variant="ghost" asChild>
-                  <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
                 </Button>
                 <Button variant="ghost" onClick={toggleTheme}>
                   {dark ? <Sun /> : <Moon />}
