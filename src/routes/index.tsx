@@ -41,7 +41,7 @@ function Index() {
                 and websites to downloadable PDFs.
               </p>
             </div>
-            <div className="grid grid-cols-3 gap-2 sm:grid-cols-6 lg:grid-cols-3 sm:gap-3 lg:w-[340px] lg:shrink-0">
+            <div className="flex gap-2 overflow-x-auto pb-1 [-webkit-overflow-scrolling:touch] [scrollbar-width:none] sm:grid sm:grid-cols-6 sm:overflow-visible sm:pb-0 lg:grid-cols-3 sm:gap-3 lg:w-[340px] lg:shrink-0">
               {tracks.map((track) => {
                 const isSoon = track.source === "soon";
                 const content = (
@@ -59,7 +59,7 @@ function Index() {
                 return isSoon ? (
                   <div
                     key={track.slug}
-                    className="flex flex-col items-center rounded-2xl border border-dashed border-border bg-muted/30 p-3 opacity-60"
+                    className="flex w-20 shrink-0 flex-col items-center rounded-2xl border border-dashed border-border bg-muted/30 p-3 opacity-60 sm:w-auto"
                     title={`${track.title} — Coming Soon`}
                   >
                     {content}
@@ -68,7 +68,7 @@ function Index() {
                   <Link
                     key={track.slug}
                     to={trackHref(track)}
-                    className="group flex flex-col items-center rounded-2xl border border-border bg-card p-3 shadow-card transition-colors hover:border-primary/50 hover:shadow-card-hover"
+                    className="group flex w-20 shrink-0 flex-col items-center rounded-2xl border border-border bg-card p-3 shadow-card transition-colors hover:border-primary/50 hover:shadow-card-hover sm:w-auto"
                     title={track.title}
                   >
                     {content}
