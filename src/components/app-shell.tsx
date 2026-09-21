@@ -82,14 +82,6 @@ export function AppShell({ children }: { children: ReactNode }) {
                     Ctrl K
                   </kbd>
                 </Button>
-                <Button variant="ghost" asChild>
-                  <Link to="/tracks">Tracks</Link>
-                </Button>
-                <Button variant="outline" asChild>
-                  <Link to="/open" search={{ page: 1 }}>
-                    Open a PDF
-                  </Link>
-                </Button>
                 <Button
                   variant="ghost"
                   size="icon"
@@ -121,14 +113,6 @@ export function AppShell({ children }: { children: ReactNode }) {
                   <Search className="h-4 w-4" />
                   Search
                 </Button>
-                <Button variant="ghost" asChild>
-                  <Link to="/tracks">Tracks</Link>
-                </Button>
-                <Button variant="ghost" asChild>
-                  <Link to="/open" search={{ page: 1 }}>
-                    Open a PDF
-                  </Link>
-                </Button>
                 <Button variant="ghost" onClick={toggleTheme}>
                   {dark ? <Sun /> : <Moon />}
                   Switch theme
@@ -137,21 +121,9 @@ export function AppShell({ children }: { children: ReactNode }) {
             )}
           </header>
           <nav
-            className="fixed bottom-0 left-0 right-0 z-40 grid grid-cols-4 border-t border-border bg-background/95 px-2 py-2 backdrop-blur-xl md:hidden"
+            className="fixed bottom-0 left-0 right-0 z-40 grid grid-cols-2 border-t border-border bg-background/95 px-2 py-2 backdrop-blur-xl md:hidden"
             aria-label="Mobile navigation"
           >
-            <MobileNavItem
-              to="/tracks"
-              label="Tracks"
-              icon={FileText}
-              active={location.pathname.startsWith("/tracks")}
-            />
-            <MobileNavItem
-              to="/open"
-              label="Open a PDF"
-              icon={FileText}
-              active={location.pathname === "/open"}
-            />
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
