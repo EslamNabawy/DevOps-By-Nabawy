@@ -190,7 +190,24 @@ export function PdfViewer({
   const [pageCount, setPageCount] = useState(0);
   const [page, setPage] = useState(() => clampPage(initialPage, 1));
   const [draft, setDraft] = useState(() => String(clampPage(initialPage, 1)));
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(() =>
+    typeof window !== "undefined" && window.innerWidth < 640 ? 0.85 : 1,
+  );
+
+  useEffect(() => {
+    const mql = typeof window !== "undefined" ? window.matchMedia("(max-width: 640px)") : null;
+    if (!mql) return;
+    const handler = () => setScale(mql.matches ? 0.85 : 1);
+    // set initial once already done, listen for orientation change
+    if (typeof mql.addEventListener === "function") {
+      mql.addEventListener("change", handler);
+      return () => mql.removeEventListener("change", handler);
+    }
+    // fallback
+    const legacy = mql as unknown as { addListener: (fn: () => void) => void; removeListener: (fn: () => void) => void };
+    legacy.addListener(handler);
+    return () => legacy.removeListener(handler);
+  }, []);
   const [loading, setLoading] = useState(true);
   const [loadProgress, setLoadProgress] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -751,7 +768,7 @@ export function PdfViewer({
             </section>
           ) : null}
 
-          <div className="overflow-auto rounded-2xl border border-border bg-card p-2 shadow-card sm:p-4">
+          <div className="overflow-auto rounded-2xl border border-border bg-card p-2 shadow-card sm:p-4 [-webkit-overflow-scrolling:touch] touch-pan-x touch-pan-y">
             <div className="relative mx-auto w-fit max-w-full overflow-hidden">
               <canvas
                 ref={canvasRef}
@@ -761,21 +778,22 @@ export function PdfViewer({
               />
               <div ref={textRef} className="pdf-text-layer" />
             </div>
+            <p className="mt-2 text-center text-xs text-muted-foreground sm:hidden">Pinch to zoom · Swipe to pan</p>
           </div>
         </div>
       </div>
 
-      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 px-2 pb-2 sm:px-3 sm:pb-3 md:static md:z-auto md:mt-6 md:px-0 md:pb-0">
-        <div className="pointer-events-auto mx-auto flex w-full max-w-3xl flex-wrap items-center justify-center gap-1 rounded-2xl border border-border bg-background/95 p-1.5 sm:p-2 shadow-card backdrop-blur sm:gap-1 md:w-fit md:rounded-full">
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] sm:px-3 sm:pb-3 md:static md:z-auto md:mt-6 md:px-0 md:pb-0">
+        <div className="pointer-events-auto mx-auto flex w-full max-w-3xl flex-wrap items-center justify-center gap-1 rounded-2xl border border-border bg-background/95 p-1.5 shadow-card backdrop-blur sm:gap-1 sm:p-2 md:w-fit md:rounded-full">
           <Button
             variant="ghost"
             size="icon"
-            className="h-10 w-10"
+            className="h-9 w-9 sm:h-10 sm:w-10"
             onClick={() => goToPage(page - 1)}
             disabled={page <= 1}
             aria-label="Previous page"
           >
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
           </Button>
           <input
             value={draft}
@@ -791,17 +809,17 @@ export function PdfViewer({
             onKeyDown={(event) => {
               if (event.key === "Enter" && draft) goToPage(Number(draft));
             }}
-            className="h-10 w-16 rounded-xl border border-border bg-background text-center font-mono text-sm font-bold outline-none"
+            className="h-9 w-14 rounded-xl border border-border bg-background text-center font-mono text-sm font-bold outline-none sm:h-10 sm:w-16"
           />
           <Button
             variant="ghost"
             size="icon"
-            className="h-10 w-10"
+            className="h-9 w-9 sm:h-10 sm:w-10"
             onClick={() => goToPage(page + 1)}
             disabled={page >= pageCount}
             aria-label="Next page"
           >
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
           </Button>
           <span
             aria-hidden="true"
@@ -810,30 +828,30 @@ export function PdfViewer({
           <Button
             variant="ghost"
             size="icon"
-            className="h-10 w-10"
+            className="h-9 w-9 sm:h-10 sm:w-10"
             onClick={() => setScale((value) => Math.max(0.6, value - 0.15))}
             disabled={scale <= 0.6}
             aria-label="Zoom out"
           >
-            <ZoomOut className="h-5 w-5" />
+            <ZoomOut className="h-4 w-4 sm:h-5 sm:w-5" />
           </Button>
           <button
             type="button"
             onClick={() => setScale(1)}
             aria-label="Reset zoom to 100 percent"
-            className="h-10 min-w-16 rounded-xl px-2 font-mono text-xs font-bold text-muted-foreground hover:bg-accent"
+            className="h-9 min-w-14 rounded-xl px-2 font-mono text-xs font-bold text-muted-foreground hover:bg-accent sm:h-10 sm:min-w-16"
           >
             {Math.round(scale * 100)}%
           </button>
           <Button
             variant="ghost"
             size="icon"
-            className="h-10 w-10"
+            className="h-9 w-9 sm:h-10 sm:w-10"
             onClick={() => setScale((value) => Math.min(3, value + 0.15))}
             disabled={scale >= 3}
             aria-label="Zoom in"
           >
-            <ZoomIn className="h-5 w-5" />
+            <ZoomIn className="h-4 w-4 sm:h-5 sm:w-5" />
           </Button>
           <span
             aria-hidden="true"
@@ -852,25 +870,25 @@ export function PdfViewer({
           <Button
             variant="ghost"
             size="icon"
-            className="h-10 w-10"
+            className="h-9 w-9 sm:h-10 sm:w-10"
             onClick={() => setSearchOpen((value) => !value)}
             aria-expanded={searchOpen}
             aria-label="Search in this PDF"
           >
-            <Search className="h-5 w-5" />
+            <Search className="h-4 w-4 sm:h-5 sm:w-5" />
           </Button>
           <Button
             variant={copied ? "secondary" : "ghost"}
             size="icon"
-            className="h-10 w-10"
+            className="h-9 w-9 sm:h-10 sm:w-10"
             onClick={copyPageLink}
             aria-label="Copy link to this page"
             title="Copy link to this page"
           >
             {copied ? (
-              <Check className="h-5 w-5 text-primary" />
+              <Check className="h-4 w-4 text-primary sm:h-5 sm:w-5" />
             ) : (
-              <Link2 className="h-5 w-5" />
+              <Link2 className="h-4 w-4 sm:h-5 sm:w-5" />
             )}
           </Button>
           <span className="hidden w-full text-center text-xs font-semibold text-muted-foreground sm:block">
