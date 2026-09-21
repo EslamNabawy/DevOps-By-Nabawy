@@ -244,11 +244,11 @@ function CicdPage() {
       </section>
 
       {tab === "pdfs" ? (
-        <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8 sm:px-6 sm:py-8 sm:py-10">
+        <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-10">
           <div className="grid gap-4 sm:gap-6 lg:grid-cols-[260px_1fr]">
             <nav
               aria-label="Track contents"
-              className="lg:sticky lg:top-24 lg:self-start"
+              className="min-w-0 -mx-4 px-4 sm:mx-0 sm:px-0 lg:sticky lg:top-24 lg:self-start"
             >
               <p className="mb-3 hidden font-mono text-xs font-bold text-primary lg:block">
                 MAP
