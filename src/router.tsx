@@ -8,7 +8,7 @@ export const getRouter = () => {
   const router = createRouter({
     routeTree,
     context: { queryClient },
-    basepath: "/devops-library",
+    basepath: "/DevOps-By-Nabawy",
     scrollRestoration: true,
     defaultPreloadStaleTime: 0,
   });

@@ -16,7 +16,7 @@ export type Book = {
 export const books: Book[] = manifest.books as Book[];
 
 export const RELEASE_BASE =
-  "https://github.com/EslamNabawy/devops-library/releases/download/content-v1";
+  "https://github.com/EslamNabawy/DevOps-By-Nabawy/releases/download/content-v1";
 
 export const pdfUrl = (book: Book) =>
   `${import.meta.env.BASE_URL}pdf/${book.pdfName}`;

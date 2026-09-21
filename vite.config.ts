@@ -6,9 +6,9 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-// GitHub Pages (project site): served under /devops-library/.
+// GitHub Pages (project site): served under /DevOps-By-Nabawy/.
 // Keep in sync with `basepath` in src/router.tsx.
-const pagesBase = "/devops-library";
+const pagesBase = "/DevOps-By-Nabawy";
 
 // Must match the slugs in src/lib/tracks.ts (single source of truth lives there;
 // duplicated here because vite.config cannot use the `@/` alias).
