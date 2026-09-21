@@ -37,7 +37,7 @@ export const Route = createFileRoute("/tracks/linux")({
 
 const OUTLINE = [
   { n: "01", title: "Linux101 Notes", text: "Cheat sheets, command bank, and RH124 notes." },
-  { n: "02", title: "NTI Linux Course", text: "Structured course material and exercises." },
+  { n: "02", title: "Linux Course", text: "Structured course material and exercises." },
   { n: "03", title: "Practice Lab Drills", text: "Hands-on drills with a global roadmap." },
   { n: "04", title: "Flashcards & Quizzes", text: "Lock in commands with active recall." },
 ];
