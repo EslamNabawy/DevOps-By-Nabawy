@@ -58,6 +58,13 @@ export const trackSectionCount = (slug: string) =>
 export type Companion = { title: string; url: string; note: string };
 
 export const companions: Record<string, Companion[]> = {
+  linux: [
+    {
+      title: "Linux101",
+      url: "https://eslamnabawy.github.io/linux101/#home/home",
+      note: "Notes, labs, flashcards, quizzes",
+    },
+  ],
   terraform: [
     {
       title: "TerraForm by Nabawy",

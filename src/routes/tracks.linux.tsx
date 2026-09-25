@@ -4,12 +4,14 @@ import {
   ArrowRight,
   BookOpen,
   Download,
+  ExternalLink,
   FileText,
+  Globe,
   LoaderCircle,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { booksByTrack, pdfUrl, releasePdfUrl } from "@/lib/library";
+import { booksByTrack, companions, pdfUrl, releasePdfUrl } from "@/lib/library";
 import { trackBadge, trackFormatBadge, tracks } from "@/lib/tracks";
 import { BUILD_META } from "@/lib/build-meta";
 
@@ -37,6 +39,7 @@ function LinuxPage() {
   const track = tracks.find((item) => item.slug === "linux");
   const hosted = booksByTrack("linux");
   const totalPages = hosted.reduce((sum, book) => sum + book.pages, 0);
+  const site = (companions["linux"] ?? [])[0];
 
   const [activeBook, setActiveBook] = useState<string | null>(
     hosted[0]?.id ?? null,
@@ -149,6 +152,28 @@ function LinuxPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-10">
+        {site ? (
+          <div className="mb-6 flex flex-col gap-3 rounded-2xl border border-border bg-card p-5 shadow-card sm:flex-row sm:items-center">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-secondary-accent/10 text-secondary-accent sm:h-10 sm:w-10">
+              <Globe className="h-5 w-5" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="font-mono text-xs font-bold text-secondary-accent">COMPANION COURSE SITE</p>
+              <p className="font-display mt-1 text-lg font-bold">{site.title}</p>
+              <p className="mt-0.5 text-sm leading-6 text-muted-foreground">{site.note}</p>
+            </div>
+            <Button asChild className="shrink-0 whitespace-nowrap">
+              <a
+                href={site.url}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`Open companion site: ${site.title}`}
+              >
+                Open site <ExternalLink className="ml-1 h-4 w-4 shrink-0" />
+              </a>
+            </Button>
+          </div>
+        ) : null}
         <div className="grid gap-4 sm:gap-6 lg:grid-cols-[260px_1fr]">
           <nav aria-label="Track contents" className="min-w-0 -mx-4 px-4 sm:mx-0 sm:px-0 lg:sticky lg:top-24 lg:self-start">
             <p className="mb-3 hidden font-mono text-xs font-bold text-primary lg:block">MAP</p>

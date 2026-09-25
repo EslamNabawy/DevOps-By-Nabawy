@@ -50,9 +50,9 @@ const SECTIONS: RoadSection[] = [
       {
         id: "linux",
         title: "Learn Linux",
-        text: "Processes, filesystems, permissions, networking. Complete PDF guide hosted here.",
+        text: "Processes, filesystems, permissions, networking. PDF guide hosted here, plus companion site.",
         to: "/tracks/linux",
-        tag: "ON THIS SITE",
+        tag: "SITE + COMPANION",
       },
       {
         id: "docker",

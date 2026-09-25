@@ -34,19 +34,25 @@ export function PdfPreview({
   fallbackUrl,
   errorAction,
 }: PdfPreviewProps) {
+  const [doc, setDoc] = useState<PDFDocumentProxy | null>(null);
   const [pageCount, setPageCount] = useState<number | null>(null);
+  const [painted, setPainted] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [reloadToken, setReloadToken] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const docRef = useRef<PDFDocumentProxy | null>(null);
 
   useEffect(() => {
     let cancelled = false;
     let fileUrl: string | null = null;
-    let doc: PDFDocumentProxy | null = null;
+    let document: PDFDocumentProxy | null = null;
     setLoading(true);
     setError(null);
+    setDoc(null);
+    docRef.current = null;
     setPageCount(null);
+    setPainted(false);
 
     const load = async () => {
       try {
@@ -60,7 +66,6 @@ export function PdfPreview({
             : (fileUrl = URL.createObjectURL(source.file));
         const candidates =
           source.kind === "url" && fallbackUrl ? [url, fallbackUrl] : [url];
-        let document: PDFDocumentProxy | null = null;
         let lastError: unknown = null;
         for (const candidate of candidates) {
           try {
@@ -84,18 +89,10 @@ export function PdfPreview({
           await document.cleanup().catch(() => {});
           return;
         }
-        doc = document;
+        docRef.current = document;
+        setDoc(document);
         setPageCount(document.numPages);
-        const page = await document.getPage(1);
-        if (cancelled) return;
-        const viewport = page.getViewport({ scale: 1.5 });
-        const canvas = canvasRef.current;
-        if (canvas) {
-          canvas.width = Math.floor(viewport.width);
-          canvas.height = Math.floor(viewport.height);
-          await page.render({ canvas, viewport }).promise;
-        }
-        if (!cancelled) setLoading(false);
+        setLoading(false);
       } catch (err) {
         if (!cancelled) {
           setError(
@@ -109,14 +106,47 @@ export function PdfPreview({
     void load();
     return () => {
       cancelled = true;
-      if (doc) {
-        void doc.cleanup().catch(() => {});
+      if (document) {
+        void document.cleanup().catch(() => {});
       }
       if (fileUrl) {
         URL.revokeObjectURL(fileUrl);
       }
     };
   }, [source, sourceKey, fallbackUrl, reloadToken]);
+
+  // Paint runs only after the canvas is mounted (loading finished).
+  useEffect(() => {
+    const document = docRef.current;
+    const canvas = canvasRef.current;
+    if (!doc || !document || !canvas) return;
+    let cancelled = false;
+    const paint = async () => {
+      try {
+        const page = await document.getPage(1);
+        if (cancelled) return;
+        const viewport = page.getViewport({ scale: 1.5 });
+        canvas.width = Math.floor(viewport.width);
+        canvas.height = Math.floor(viewport.height);
+        canvas.style.width = `${viewport.width}px`;
+        canvas.style.height = `${viewport.height}px`;
+        await page.render({ canvas, viewport }).promise;
+        if (!cancelled) setPainted(true);
+      } catch (err) {
+        if (
+          !cancelled &&
+          err instanceof Error &&
+          err.name !== "RenderingCancelledException"
+        ) {
+          setError(err.message);
+        }
+      }
+    };
+    void paint();
+    return () => {
+      cancelled = true;
+    };
+  }, [doc]);
 
   if (loading) {
     return (

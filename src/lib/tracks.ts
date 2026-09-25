@@ -121,7 +121,7 @@ export const tracks: Track[] = [
     source: "hosted",
     title: "Linux Primitives",
     description:
-      "Master processes, filesystems, permissions, and networking. Complete guide hosted here.",
+      "Master processes, filesystems, permissions, and networking. Complete guide hosted here, plus companion site.",
     intro: null,
     format: "pdf",
     pages: trackPages("linux"),
@@ -143,7 +143,7 @@ export const trackBadge = (track: Track) => {
 };
 
 /** Tracks with a full companion course site alongside the hosted PDFs. */
-const companionSiteSlugs = ["cicd", "terraform"];
+const companionSiteSlugs = ["cicd", "terraform", "linux"];
 
 /** Small format flag shown next to the page-count badge. */
 export const trackFormatBadge = (track: Track) =>
