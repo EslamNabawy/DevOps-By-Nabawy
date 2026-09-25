@@ -72,16 +72,6 @@ export const companions: Record<string, Companion[]> = {
       note: "8 handbooks, hosted above — full course version with extra drills",
     },
   ],
-  linux: [
-    {
-      title: "Linux101",
-      url: "https://eslamnabawy.github.io/linux101/",
-      note: "Notes, labs, flashcards, quizzes",
-    },
-  ],
 };
 
-/** Tracks with no local data yet. Cards render a "Coming soon" badge. */
-export const comingSoonTracks = ["devops", "aws", "aiops"];
 
-export const isComingSoon = (slug: string) => comingSoonTracks.includes(slug);

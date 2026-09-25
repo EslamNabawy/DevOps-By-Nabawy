@@ -2,12 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://eslamnabawy.github.io/DevOps-By-Nabawy/</loc></url>
   <url><loc>https://eslamnabawy.github.io/DevOps-By-Nabawy/tracks</loc></url>
-  <url><loc>https://eslamnabawy.github.io/DevOps-By-Nabawy/tracks/devops</loc></url>
   <url><loc>https://eslamnabawy.github.io/DevOps-By-Nabawy/tracks/kubernetes</loc></url>
   <url><loc>https://eslamnabawy.github.io/DevOps-By-Nabawy/tracks/docker</loc></url>
-  <url><loc>https://eslamnabawy.github.io/DevOps-By-Nabawy/tracks/aws</loc></url>
   <url><loc>https://eslamnabawy.github.io/DevOps-By-Nabawy/tracks/ansible</loc></url>
-  <url><loc>https://eslamnabawy.github.io/DevOps-By-Nabawy/tracks/aiops</loc></url>
   <url><loc>https://eslamnabawy.github.io/DevOps-By-Nabawy/tracks/terraform</loc></url>
   <url><loc>https://eslamnabawy.github.io/DevOps-By-Nabawy/tracks/cicd</loc></url>
   <url><loc>https://eslamnabawy.github.io/DevOps-By-Nabawy/tracks/linux</loc></url>

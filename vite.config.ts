@@ -1,10 +1,10 @@
-// @lovable.dev/vite-tanstack-config already includes the following — do NOT add them manually
-// or the app will break with duplicate plugins:
-//   - TanStack devtools (dev-only, first), tanstackStart, viteReact, tailwindcss, tsConfigPaths,
-//     nitro (build-only using cloudflare as a default target), VITE_* env injection, @ path alias,
-//     React/TanStack dedupe, error logger plugins, and sandbox detection (port/host/strictPort).
-// You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
-import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+// Vanilla TanStack Start + Vite config (no builder wrappers).
+// Plugins: path aliases, Tailwind, TanStack Start (prerender), React.
+import { defineConfig } from "vite";
+import viteReact from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import tsConfigPaths from "vite-tsconfig-paths";
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 
 // GitHub Pages (project site): served under /DevOps-By-Nabawy/.
 // Keep in sync with `basepath` in src/router.tsx.
@@ -19,9 +19,6 @@ const trackSlugs = [
   "docker",
   "ansible",
   "linux",
-  "devops",
-  "aws",
-  "aiops",
 ];
 
 // Must match book ids in content/manifest.json.
@@ -58,43 +55,46 @@ const bookIds = [
 ];
 
 export default defineConfig({
-  vite: {
-    base: `${pagesBase}/`,
-  },
-  nitro: false, // skip nitro server build; TanStack prerender emits pure static HTML for Pages
-  tanstackStart: {
-    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
-    server: { entry: "server" },
-    // Prerender every route to static HTML for GitHub Pages.
-    // NOTE: never let the crawler fetch *.pdf — prerender writes every
-    // crawled response via res.text(), which corrupts binary PDFs in dist
-    // (blank white pages in the viewer). public/pdf copies stay verbatim.
-    prerender: {
-      enabled: true,
-      crawlLinks: true,
-      autoSubfolderIndex: true,
-      filter: (page: { path: string }) =>
-        !page.path.toLowerCase().endsWith(".pdf"),
-    },
-    pages: [
-      { path: "/", prerender: { enabled: true } },
-      { path: "/tracks", prerender: { enabled: true } },
-      { path: "/tracks/terraform", prerender: { enabled: true } },
-      { path: "/tracks/cicd", prerender: { enabled: true } },
-      { path: "/tracks/linux", prerender: { enabled: true } },
-      { path: "/roadmap", prerender: { enabled: true } },
-      { path: "/about", prerender: { enabled: true } },
-      { path: "/help", prerender: { enabled: true } },
-      { path: "/search", prerender: { enabled: true } },
-      ...trackSlugs.map((slug) => ({
-        path: `/tracks/${slug}`,
-        prerender: { enabled: true },
-      })),
-      ...bookIds.map((bookId) => ({
-        path: `/books/${bookId}`,
-        prerender: { enabled: true },
-      })),
-    ],
-  },
+  base: `${pagesBase}/`,
+  plugins: [
+    tsConfigPaths({
+      projects: ["./tsconfig.json"],
+    }),
+    tailwindcss(),
+    tanstackStart({
+      // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
+      server: { entry: "server" },
+      // Prerender every route to static HTML for GitHub Pages.
+      // NOTE: never let the crawler fetch *.pdf — prerender writes every
+      // crawled response via res.text(), which corrupts binary PDFs in dist
+      // (blank white pages in the viewer). public/pdf copies stay verbatim.
+      prerender: {
+        enabled: true,
+        crawlLinks: true,
+        autoSubfolderIndex: true,
+        filter: (page: { path: string }) =>
+          !page.path.toLowerCase().endsWith(".pdf"),
+      },
+      pages: [
+        { path: "/", prerender: { enabled: true } },
+        { path: "/tracks", prerender: { enabled: true } },
+        { path: "/tracks/terraform", prerender: { enabled: true } },
+        { path: "/tracks/cicd", prerender: { enabled: true } },
+        { path: "/tracks/linux", prerender: { enabled: true } },
+        { path: "/roadmap", prerender: { enabled: true } },
+        { path: "/about", prerender: { enabled: true } },
+        { path: "/help", prerender: { enabled: true } },
+        { path: "/search", prerender: { enabled: true } },
+        ...trackSlugs.map((slug) => ({
+          path: `/tracks/${slug}`,
+          prerender: { enabled: true },
+        })),
+        ...bookIds.map((bookId) => ({
+          path: `/books/${bookId}`,
+          prerender: { enabled: true },
+        })),
+      ],
+    }),
+    viteReact(),
+  ],
 });

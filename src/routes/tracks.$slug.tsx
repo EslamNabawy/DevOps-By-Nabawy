@@ -9,13 +9,9 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  booksByTrack,
-  isComingSoon,
-  pdfUrl,
-  releasePdfUrl,
-} from "@/lib/library";
-import { trackBadge, tracks } from "@/lib/tracks";
+import { booksByTrack, pdfUrl, releasePdfUrl } from "@/lib/library";
+import { trackBadge, trackFormatBadge, tracks } from "@/lib/tracks";
+import { BUILD_META } from "@/lib/build-meta";
 
 export const Route = createFileRoute("/tracks/$slug")({
   head: ({ params }) => {
@@ -42,7 +38,6 @@ function TrackDetailPage() {
   if (!track) throw notFound();
   if (track.format === "website") throw notFound();
   const hosted = booksByTrack(slug);
-  const comingSoon = isComingSoon(slug);
   const totalPages = hosted.reduce((sum, book) => sum + book.pages, 0);
   const firstBookId = hosted[0]?.id;
 
@@ -53,6 +48,7 @@ function TrackDetailPage() {
     "idle" | "working" | "error"
   >("idle");
   const [downloadProgress, setDownloadProgress] = useState<number | null>(null);
+  const [downloadFile, setDownloadFile] = useState<number>(0);
 
   useEffect(() => {
     if (!hosted.length) return;
@@ -76,9 +72,11 @@ function TrackDetailPage() {
     if (downloadState === "working" || !hosted.length) return;
     setDownloadState("working");
     setDownloadProgress(0);
+    setDownloadFile(0);
     try {
       const { default: JSZip } = await import("jszip");
       const zip = new JSZip();
+      let done = 0;
       for (const book of hosted) {
         let data: ArrayBuffer | null = null;
         for (const url of [pdfUrl(book), releasePdfUrl(book)]) {
@@ -95,6 +93,8 @@ function TrackDetailPage() {
           throw new Error(`Could not fetch ${book.pdfName}`);
         }
         zip.file(book.pdfName, data);
+        done += 1;
+        setDownloadFile(done);
       }
       const blob = await zip.generateAsync({ type: "blob" }, (metadata) => {
         setDownloadProgress(Math.round(metadata.percent));
@@ -109,9 +109,11 @@ function TrackDetailPage() {
       window.setTimeout(() => URL.revokeObjectURL(url), 5000);
       setDownloadState("idle");
       setDownloadProgress(null);
+      setDownloadFile(0);
     } catch {
       setDownloadState("error");
       setDownloadProgress(null);
+      setDownloadFile(0);
     }
   };
 
@@ -144,6 +146,12 @@ function TrackDetailPage() {
                     {trackBadge(track)}
                   </span>
                 )}
+                <span className="rounded-full bg-primary/10 px-3 py-1.5 font-mono text-[11px] font-bold text-primary">
+                  {trackFormatBadge(track)}
+                </span>
+                <span className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground">
+                  Last updated {BUILD_META.lastUpdated}
+                </span>
               </div>
             </div>
           </div>
@@ -164,7 +172,7 @@ function TrackDetailPage() {
         </div>
       </section>
 
-      {comingSoon || !hosted.length ? (
+      {!hosted.length ? (
         <section className="mx-auto max-w-xl px-6 py-12 text-center">
           <span
             aria-hidden="true"
@@ -272,12 +280,18 @@ function TrackDetailPage() {
                           to="/books/$bookId"
                           params={{ bookId: book.id }}
                           search={{ page: 1 }}
+                          aria-label={`Read in viewer: ${book.title}`}
                         >
                           Read <ArrowRight className="ml-1 h-4 w-4" />
                         </Link>
                       </Button>
                       <Button variant="outline" className="w-full sm:w-auto" asChild>
-                        <a href={pdfUrl(book)} target="_blank" rel="noreferrer">
+                        <a
+                          href={pdfUrl(book)}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label={`Download PDF: ${book.title}`}
+                        >
                           <Download className="mr-1 h-4 w-4" /> PDF
                         </a>
                       </Button>
@@ -299,7 +313,7 @@ function TrackDetailPage() {
               {downloadState === "working" ? (
                 <>
                   <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-                  Bundling…{" "}
+                  Zipping {downloadFile}/{hosted.length} files…{" "}
                   {downloadProgress !== null ? `${downloadProgress}%` : ""}
                 </>
               ) : (
@@ -308,6 +322,21 @@ function TrackDetailPage() {
                 </>
               )}
             </Button>
+            {downloadState === "working" ? (
+              <div
+                role="progressbar"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={downloadProgress ?? 0}
+                aria-label="Download progress"
+                className="mx-auto mt-3 h-2 w-full max-w-md overflow-hidden rounded-full bg-muted"
+              >
+                <div
+                  className="h-full rounded-full bg-primary transition-all"
+                  style={{ width: `${downloadProgress ?? 0}%` }}
+                />
+              </div>
+            ) : null}
             <p
               aria-live="polite"
               className="mt-3 text-sm text-muted-foreground"

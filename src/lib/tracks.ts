@@ -1,7 +1,5 @@
 import {
   Box,
-  Boxes,
-  Cloud,
   Container,
   GitBranch,
   Terminal,
@@ -12,7 +10,7 @@ import {
 import { books } from "./library";
 
 export type TrackFormat = "pdf" | "website";
-export type TrackSource = "hosted" | "website" | "soon";
+export type TrackSource = "hosted" | "website";
 
 export type Track = {
   slug: string;
@@ -123,7 +121,7 @@ export const tracks: Track[] = [
     source: "hosted",
     title: "Linux Primitives",
     description:
-      "Master processes, filesystems, permissions, and networking. Complete guide hosted here, plus companion site.",
+      "Master processes, filesystems, permissions, and networking. Complete guide hosted here.",
     intro: null,
     format: "pdf",
     pages: trackPages("linux"),
@@ -134,64 +132,24 @@ export const tracks: Track[] = [
     kind: "lab",
     icon: Terminal,
   },
-  {
-    slug: "devops",
-    source: "soon",
-    title: "DevOps Engineering",
-    description: "Culture, delivery flow, observability, and reliable systems.",
-    intro: null,
-    format: "pdf",
-    pages: null,
-    chapters: 14,
-    hours: "18h",
-    level: "Foundation",
-    milestones: 5,
-    kind: "guide",
-    icon: GitBranch,
-  },
-  {
-    slug: "aws",
-    source: "soon",
-    title: "AWS Cloud Architecture",
-    description: "Design secure, resilient systems with core AWS services.",
-    intro: null,
-    format: "pdf",
-    pages: null,
-    chapters: 18,
-    hours: "28h",
-    level: "Advanced",
-    milestones: 7,
-    kind: "guide",
-    icon: Cloud,
-  },
-  {
-    slug: "aiops",
-    source: "soon",
-    title: "AIOps & Telemetry",
-    description: "Connect metrics, logs, traces, and intelligent operations.",
-    intro: null,
-    format: "pdf",
-    pages: null,
-    chapters: 12,
-    hours: "16h",
-    level: "Advanced",
-    milestones: 5,
-    kind: "guide",
-    icon: Boxes,
-  },
 ];
 
-export const trackHref = (track: Track) =>
-  track.slug === "terraform" || track.slug === "cicd" || track.slug === "linux"
-    ? `/tracks/${track.slug}`
-    : `/tracks/${track.slug}`;
+export const trackHref = (track: Track) => `/tracks/${track.slug}`;
 
 export const trackBadge = (track: Track) => {
-  if (track.source === "soon") return "Coming Soon";
   if (track.format === "website") return "Website · Needs internet";
   if (track.pages !== null) return `PDF · ${track.pages} pages`;
   return "PDF · Content to be supplied";
 };
+
+/** Tracks with a full companion course site alongside the hosted PDFs. */
+const companionSiteSlugs = ["cicd", "terraform"];
+
+/** Small format flag shown next to the page-count badge. */
+export const trackFormatBadge = (track: Track) =>
+  companionSiteSlugs.includes(track.slug)
+    ? "Companion Site + PDF"
+    : "PDF Only";
 
 export const searchItems = [
   ...tracks.map((track) => ({

@@ -13,7 +13,8 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SitePreview } from "@/components/website-track";
 import { booksByTrack, companions, onlineUrlForBook, pdfUrl, releasePdfUrl } from "@/lib/library";
-import { trackBadge, tracks } from "@/lib/tracks";
+import { trackBadge, trackFormatBadge, tracks } from "@/lib/tracks";
+import { BUILD_META } from "@/lib/build-meta";
 
 export const Route = createFileRoute("/tracks/cicd")({
   head: () => ({
@@ -89,6 +90,7 @@ function CicdPage() {
     "idle" | "working" | "error"
   >("idle");
   const [downloadProgress, setDownloadProgress] = useState<number | null>(null);
+  const [downloadFile, setDownloadFile] = useState<number>(0);
 
   useEffect(() => {
     if (tab !== "pdfs" || !hosted.length) return;
@@ -112,9 +114,11 @@ function CicdPage() {
     if (downloadState === "working" || !hosted.length) return;
     setDownloadState("working");
     setDownloadProgress(0);
+    setDownloadFile(0);
     try {
       const { default: JSZip } = await import("jszip");
       const zip = new JSZip();
+      let done = 0;
       for (const book of hosted) {
         let data: ArrayBuffer | null = null;
         for (const url of [pdfUrl(book), releasePdfUrl(book)]) {
@@ -131,6 +135,8 @@ function CicdPage() {
           throw new Error(`Could not fetch ${book.pdfName}`);
         }
         zip.file(book.pdfName, data);
+        done += 1;
+        setDownloadFile(done);
       }
       const blob = await zip.generateAsync({ type: "blob" }, (metadata) => {
         setDownloadProgress(Math.round(metadata.percent));
@@ -145,9 +151,11 @@ function CicdPage() {
       window.setTimeout(() => URL.revokeObjectURL(url), 5000);
       setDownloadState("idle");
       setDownloadProgress(null);
+      setDownloadFile(0);
     } catch {
       setDownloadState("error");
       setDownloadProgress(null);
+      setDownloadFile(0);
     }
   };
 
@@ -206,6 +214,12 @@ function CicdPage() {
                     {trackBadge(track)}
                   </span>
                 )}
+                <span className="rounded-full bg-primary/10 px-2 py-1 font-mono text-[11px] font-bold text-primary sm:px-2.5 sm:text-xs">
+                  {trackFormatBadge(track)}
+                </span>
+                <span className="rounded-full border border-border bg-card px-2 py-1 text-[11px] sm:px-2.5 sm:text-xs font-semibold text-muted-foreground">
+                  Last updated {BUILD_META.lastUpdated}
+                </span>
               </div>
             </div>
           </div>
@@ -325,13 +339,23 @@ function CicdPage() {
                     </div>
                     <div className="mt-3 grid grid-cols-2 gap-2 border-t border-border pt-3 sm:mt-4 sm:flex sm:flex-wrap sm:pt-4">
                       <Button variant="outline" size="sm" className="w-full sm:w-auto" asChild>
-                        <a href={pdfUrl(book)} target="_blank" rel="noreferrer">
+                        <a
+                          href={pdfUrl(book)}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label={`Download PDF: ${book.title}`}
+                        >
                           <Download className="mr-1 h-4 w-4" /> PDF
                         </a>
                       </Button>
                       <Button size="sm" className="w-full sm:w-auto" asChild>
-                        <a href={onlineUrlForBook(book) ?? site?.url ?? "#"} target="_blank" rel="noreferrer">
-                          Read online <ExternalLink className="ml-1 h-4 w-4" />
+                        <a
+                          href={onlineUrlForBook(book) ?? site?.url ?? "#"}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label={`Read online on companion site: ${book.title}`}
+                        >
+                          Read online (companion site) <ExternalLink className="ml-1 h-4 w-4" />
                         </a>
                       </Button>
                     </div>
@@ -351,7 +375,7 @@ function CicdPage() {
               {downloadState === "working" ? (
                 <>
                   <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-                  Bundling…{" "}
+                  Zipping {downloadFile}/{hosted.length} files…{" "}
                   {downloadProgress !== null ? `${downloadProgress}%` : ""}
                 </>
               ) : (
@@ -360,6 +384,21 @@ function CicdPage() {
                 </>
               )}
             </Button>
+            {downloadState === "working" ? (
+              <div
+                role="progressbar"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={downloadProgress ?? 0}
+                aria-label="Download progress"
+                className="mx-auto mt-3 h-2 w-full max-w-md overflow-hidden rounded-full bg-muted"
+              >
+                <div
+                  className="h-full rounded-full bg-primary transition-all"
+                  style={{ width: `${downloadProgress ?? 0}%` }}
+                />
+              </div>
+            ) : null}
             <p
               aria-live="polite"
               className="mt-3 text-sm text-muted-foreground"

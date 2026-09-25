@@ -177,13 +177,21 @@ export function AppShell({ children }: { children: ReactNode }) {
                 DevOps By Nabawy
               </span>
             </div>
-            <div className="flex gap-6">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
               <Link to="/about" className="hover:text-primary">
                 About
               </Link>
               <Link to="/help" className="hover:text-primary">
                 Help
               </Link>
+              <a
+                href="https://github.com/EslamNabawy/DevOps-By-Nabawy"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-primary"
+              >
+                GitHub
+              </a>
             </div>
           </div>
         </footer>

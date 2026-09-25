@@ -76,8 +76,21 @@ function BookPdfPage() {
       actions={
         onlineUrl ? (
           <Button variant="outline" size="sm" asChild>
-            <a href={onlineUrl} target="_blank" rel="noreferrer">
-              Read online <ArrowRight className="ml-1 h-4 w-4" />
+            <a
+              href={onlineUrl}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={
+                onlineUrl.startsWith("http")
+                  ? `Read online on companion site: ${book.title}`
+                  : `Read online: ${book.title}`
+              }
+            >
+              {onlineUrl.startsWith("http") ? (
+                <>Read online (companion site) <ArrowRight className="ml-1 h-4 w-4" /></>
+              ) : (
+                <>Read online <ArrowRight className="ml-1 h-4 w-4" /></>
+              )}
             </a>
           </Button>
         ) : undefined
