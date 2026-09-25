@@ -76,15 +76,9 @@ function Index() {
         </div>
       </section>
       <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10">
-        <nav aria-label="Breadcrumb" className="mb-4 text-xs text-muted-foreground sm:text-sm">
-          <span aria-current="page" className="font-semibold text-foreground">Home</span>
-        </nav>
         <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
           <div>
-            <p className="font-mono text-xs font-bold text-primary">
-              ALL TRACKS
-            </p>
-            <h2 className="font-display mt-2 text-xl font-extrabold sm:text-2xl">
+            <h2 className="font-display text-xl font-extrabold sm:text-2xl">
               Choose a track
             </h2>
           </div>

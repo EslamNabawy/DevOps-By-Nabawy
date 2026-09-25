@@ -13,8 +13,6 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { booksByTrack, companions, pdfUrl, releasePdfUrl } from "@/lib/library";
 import { trackBadge, trackFormatBadge, tracks } from "@/lib/tracks";
-import { BUILD_META } from "@/lib/build-meta";
-import { TrackKeywordChips } from "@/components/track-keywords";
 
 export const Route = createFileRoute("/tracks/linux")({
   head: () => ({
@@ -142,11 +140,7 @@ function LinuxPage() {
                 <span className="rounded-full bg-primary/10 px-2 py-1 font-mono text-[11px] font-bold text-primary sm:px-2.5 sm:text-xs">
                   {trackFormatBadge(track)}
                 </span>
-                <span className="rounded-full border border-border bg-card px-2 py-1 text-[11px] sm:px-2.5 sm:text-xs font-semibold text-muted-foreground">
-                  Last updated {BUILD_META.lastUpdated}
-                </span>
               </div>
-              <TrackKeywordChips keywords={track.keywords} label={track.title} />
             </div>
           </div>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">{track.description}</p>
