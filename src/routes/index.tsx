@@ -198,10 +198,6 @@ function AboutAuthor() {
         <div className="min-w-0 flex-1">
           <p className="font-mono text-xs font-bold text-primary">ABOUT THE AUTHOR</p>
           <h2 className="font-display mt-1 text-lg font-bold sm:text-xl">Eslam Tarek Nabawy</h2>
-          <p className="mt-0.5 text-sm font-semibold text-muted-foreground">Flutter &amp; Cross-Platform Engineer</p>
-          <p className="mt-1 text-sm leading-6 text-muted-foreground">
-            Writes practical DevOps guides so you can ship with confidence.
-          </p>
         </div>
         <a
           href="https://eslamnabawy.github.io/Nabawy-s-Portfolio-/"
