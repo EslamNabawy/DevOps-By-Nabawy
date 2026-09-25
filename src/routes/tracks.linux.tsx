@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { booksByTrack, companions, pdfUrl, releasePdfUrl } from "@/lib/library";
 import { trackBadge, trackFormatBadge, tracks } from "@/lib/tracks";
 import { BUILD_META } from "@/lib/build-meta";
+import { TrackKeywordChips } from "@/components/track-keywords";
 
 export const Route = createFileRoute("/tracks/linux")({
   head: () => ({
@@ -145,6 +146,7 @@ function LinuxPage() {
                   Last updated {BUILD_META.lastUpdated}
                 </span>
               </div>
+              <TrackKeywordChips keywords={track.keywords} label={track.title} />
             </div>
           </div>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">{track.description}</p>

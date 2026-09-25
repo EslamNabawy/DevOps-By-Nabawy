@@ -16,6 +16,7 @@ export type Track = {
   slug: string;
   title: string;
   description: string;
+  keywords: string[];
   intro: string | null;
   format: TrackFormat;
   source: TrackSource;
@@ -41,7 +42,19 @@ export const tracks: Track[] = [
     source: "hosted",
     title: "CI/CD Automation",
     description:
-      "Build pipelines that test, secure, and ship continuously. 8 handbooks, hosted here, plus the companion course site.",
+      "From first commit to production release — pipelines, Jenkins, and full-stack observability with Loki, Prometheus, and Grafana.",
+    keywords: [
+      "CI/CD",
+      "Git",
+      "Build Pipelines",
+      "Test Automation",
+      "Jenkins",
+      "Observability",
+      "Prometheus",
+      "Grafana",
+      "Loki",
+      "DevOps Roadmap 2026",
+    ],
     intro: null,
     format: "pdf",
     pages: trackPages("cicd"),
@@ -57,7 +70,16 @@ export const tracks: Track[] = [
     source: "hosted",
     title: "Terraform IaC",
     description:
-      "Provision repeatable cloud infrastructure with HCL. 5 volumes hosted here, plus companion site.",
+      "Go from HCL fundamentals to a production-ready, exam-and-interview-tested Terraform skillset.",
+    keywords: [
+      "Terraform",
+      "IaC",
+      "HCL",
+      "Cloud Provisioning",
+      "Exam Prep",
+      "Interview Prep",
+      "Practice Labs",
+    ],
     intro: null,
     format: "pdf",
     pages: trackPages("terraform"),
@@ -73,8 +95,20 @@ export const tracks: Track[] = [
     source: "hosted",
     title: "Kubernetes Orchestration",
     description:
-      "Deploy, scale, and operate production workloads with confidence. 9 books, hosted here.",
-    intro: null,
+      "Everything from pod scheduling to GitOps — the complete path to running Kubernetes in production.",
+    keywords: [
+      "Kubernetes",
+      "K8s",
+      "Container Orchestration",
+      "RBAC",
+      "Helm",
+      "GitOps",
+      "Networking",
+      "Storage",
+      "Cluster Lifecycle",
+    ],
+    intro:
+      "Master the platform running production workloads at scale. This track breaks down deployment, scaling, and operations in Kubernetes into nine focused books — covering everything from core primitives to the operational patterns that keep clusters reliable under real-world pressure.",
     format: "pdf",
     pages: trackPages("kubernetes"),
     chapters: 259,
@@ -89,8 +123,17 @@ export const tracks: Track[] = [
     source: "hosted",
     title: "Docker & Containers",
     description:
-      "Build lean images and compose dependable development stacks. 2 cheat sheets, hosted here.",
-    intro: null,
+      "The fastest reference for building lean images and dependable Compose stacks — no fluff, just the commands.",
+    keywords: [
+      "Docker",
+      "Containers",
+      "Dockerfile",
+      "Docker Compose",
+      "Image Optimization",
+      "Cheat Sheet",
+    ],
+    intro:
+      "Build lean, dependable containers without the bloat. Two sharp cheat sheets get you building efficient images and composing multi-container development stacks fast — no fluff, just the commands and patterns you'll actually use.",
     format: "pdf",
     pages: trackPages("docker"),
     chapters: 2,
@@ -105,8 +148,17 @@ export const tracks: Track[] = [
     source: "hosted",
     title: "Ansible Automation",
     description:
-      "Turn repetitive operations into clear, reusable playbooks. 4 docs (EN + AR), hosted here.",
-    intro: null,
+      "Automate configuration management with reusable playbooks and roles — fully bilingual, English and Arabic.",
+    keywords: [
+      "Ansible",
+      "Configuration Management",
+      "Playbooks",
+      "Roles",
+      "Automation",
+      "EN + AR",
+    ],
+    intro:
+      "Turn repetitive manual work into clean, reusable playbooks. Available in both English and Arabic, this track's four documents show you how to automate configuration management and operational tasks with confidence, cutting out the tedious work that eats up your time.",
     format: "pdf",
     pages: trackPages("ansible"),
     chapters: 106,
@@ -121,7 +173,15 @@ export const tracks: Track[] = [
     source: "hosted",
     title: "Linux Primitives",
     description:
-      "Master processes, filesystems, permissions, and networking. Complete guide hosted here, plus companion site.",
+      "The Linux foundation every other DevOps skill depends on — processes, filesystems, permissions, and networking, in depth.",
+    keywords: [
+      "Linux",
+      "System Administration",
+      "Processes",
+      "Filesystems",
+      "Permissions",
+      "Networking",
+    ],
     intro: null,
     format: "pdf",
     pages: trackPages("linux"),
