@@ -2,14 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { FileUp, ShieldCheck, X } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { PdfViewer } from "@/components/pdf-viewer";
-
-const parsePage = (value: unknown) => {
-  const raw = Array.isArray(value) ? value[0] : value;
-  const page =
-    typeof raw === "string" || typeof raw === "number" ? Number(raw) : NaN;
-  return Number.isFinite(page) && page >= 1 ? Math.floor(page) : 1;
-};
+import { PdfPreview } from "@/components/pdf-preview";
 
 export const Route = createFileRoute("/open")({
   head: () => ({
@@ -33,13 +26,6 @@ export const Route = createFileRoute("/open")({
 });
 
 function OpenPdfPage() {
-  const search = Route.useSearch();
-  const page = parsePage(
-    typeof search === "object" && search !== null
-      ? (search as Record<string, unknown>)["page"]
-      : undefined,
-  );
-  const navigate = Route.useNavigate();
   const [file, setFile] = useState<File | null>(null);
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -105,7 +91,7 @@ function OpenPdfPage() {
   }
 
   return (
-    <PdfViewer
+    <PdfPreview
       source={source}
       sourceKey={`${file.name}-${file.size}-${file.lastModified}`}
       title={file.name}
@@ -131,6 +117,7 @@ function OpenPdfPage() {
             variant="outline"
             size="sm"
             onClick={() => inputRef.current?.click()}
+            className="whitespace-nowrap"
           >
             Open another
           </Button>
@@ -154,18 +141,6 @@ function OpenPdfPage() {
           />
         </>
       }
-      initialPage={page}
-      buildPageLink={(next) =>
-        new URL(
-          `${import.meta.env.BASE_URL}open?page=${next}`,
-          window.location.origin,
-        ).toString()
-      }
-      onPageChange={(next) => {
-        navigate({
-          search: (previous) => ({ ...previous, page: next }),
-        });
-      }}
       errorAction={
         <Button variant="outline" onClick={() => setFile(null)}>
           Choose another file

@@ -353,9 +353,10 @@ function CicdPage() {
                           href={onlineUrlForBook(book) ?? site?.url ?? "#"}
                           target="_blank"
                           rel="noreferrer"
-                          aria-label={`Read online on companion site: ${book.title}`}
+                          className="whitespace-nowrap"
+                          aria-label={`Read on companion site: ${book.title}`}
                         >
-                          Read online (companion site) <ExternalLink className="ml-1 h-4 w-4" />
+                          Companion site <ExternalLink className="ml-1 h-4 w-4 shrink-0" />
                         </a>
                       </Button>
                     </div>

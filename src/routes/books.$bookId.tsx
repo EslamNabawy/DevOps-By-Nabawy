@@ -1,17 +1,10 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ExternalLink } from "lucide-react";
 import { useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import { PdfViewer } from "@/components/pdf-viewer";
+import { PdfPreview } from "@/components/pdf-preview";
 import { books, onlineUrlForBook, pdfUrl, releasePdfUrl } from "@/lib/library";
 import { tracks } from "@/lib/tracks";
-
-const parsePage = (value: unknown) => {
-  const raw = Array.isArray(value) ? value[0] : value;
-  const page =
-    typeof raw === "string" || typeof raw === "number" ? Number(raw) : NaN;
-  return Number.isFinite(page) && page >= 1 ? Math.floor(page) : 1;
-};
 
 export const Route = createFileRoute("/books/$bookId")({
   head: ({ params }) => {
@@ -25,8 +18,8 @@ export const Route = createFileRoute("/books/$bookId")({
         {
           name: "description",
           content: book
-            ? `${book.title}: read the PDF with page links, search, and thumbnails.`
-            : "DevOps PDF viewer.",
+            ? `${book.title}: preview the PDF, then download or open the full file.`
+            : "DevOps PDF preview.",
         },
       ],
     };
@@ -36,24 +29,18 @@ export const Route = createFileRoute("/books/$bookId")({
 
 function BookPdfPage() {
   const { bookId } = Route.useParams();
-  const search = Route.useSearch();
-  const page = parsePage(
-    typeof search === "object" && search !== null
-      ? (search as Record<string, unknown>)["page"]
-      : undefined,
-  );
-  const navigate = Route.useNavigate();
   const book = books.find((item) => item.id === bookId);
   if (!book) throw notFound();
   const track = tracks.find((item) => item.slug === book.track);
   const onlineUrl = onlineUrlForBook(book);
+  const external = onlineUrl?.startsWith("http") ?? false;
   const source = useMemo(
     () => ({ kind: "url", url: pdfUrl(book) }) as const,
     [book],
   );
 
   return (
-    <PdfViewer
+    <PdfPreview
       source={source}
       sourceKey={book.id}
       title={book.title}
@@ -80,34 +67,30 @@ function BookPdfPage() {
               href={onlineUrl}
               target="_blank"
               rel="noreferrer"
+              className="whitespace-nowrap"
               aria-label={
-                onlineUrl.startsWith("http")
-                  ? `Read online on companion site: ${book.title}`
+                external
+                  ? `Read on companion site: ${book.title}`
                   : `Read online: ${book.title}`
               }
             >
-              {onlineUrl.startsWith("http") ? (
-                <>Read online (companion site) <ArrowRight className="ml-1 h-4 w-4" /></>
+              {external ? (
+                <>
+                  Companion site{" "}
+                  <ExternalLink className="ml-1 h-4 w-4 shrink-0" />
+                </>
               ) : (
-                <>Read online <ArrowRight className="ml-1 h-4 w-4" /></>
+                <>
+                  Read online <ArrowRight className="ml-1 h-4 w-4 shrink-0" />
+                </>
               )}
             </a>
           </Button>
         ) : undefined
       }
-      initialPage={page}
+      downloadUrl={pdfUrl(book)}
+      downloadName={book.pdfName}
       fallbackUrl={releasePdfUrl(book)}
-      buildPageLink={(next) =>
-        new URL(
-          `${import.meta.env.BASE_URL}books/${book.id}?page=${next}`,
-          window.location.origin,
-        ).toString()
-      }
-      onPageChange={(next) => {
-        navigate({
-          search: (previous) => ({ ...previous, page: next }),
-        });
-      }}
     />
   );
 }
