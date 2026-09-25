@@ -128,8 +128,7 @@ export function PdfPreview({
         const viewport = page.getViewport({ scale: 1.5 });
         canvas.width = Math.floor(viewport.width);
         canvas.height = Math.floor(viewport.height);
-        canvas.style.width = `${viewport.width}px`;
-        canvas.style.height = `${viewport.height}px`;
+        canvas.removeAttribute("style");
         await page.render({ canvas, viewport }).promise;
         if (!cancelled) setPainted(true);
       } catch (err) {
@@ -217,7 +216,7 @@ export function PdfPreview({
       <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-card p-3 shadow-card sm:p-5">
         <canvas
           ref={canvasRef}
-          className="mx-auto h-auto max-w-full rounded bg-white shadow"
+          className="mx-auto h-auto w-full rounded bg-white shadow"
           role="img"
           aria-label={`First-page preview of ${title}`}
         />

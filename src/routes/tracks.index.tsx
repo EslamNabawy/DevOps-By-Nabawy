@@ -101,20 +101,20 @@ function TrackCard({ track }: { track: Track }) {
         <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary sm:h-10 sm:w-10">
           <track.icon className="h-4 w-4 sm:h-5 sm:w-5" />
         </span>
-        <span className="inline-flex max-w-[58%] shrink-0 items-center justify-center gap-1 rounded-full border border-border bg-background px-2 py-1 text-[10px] font-semibold leading-none text-muted-foreground sm:max-w-none sm:gap-1.5 sm:px-3 sm:py-1.5 sm:text-xs">
-          <Icon className="h-3 w-3 shrink-0 text-primary sm:h-3.5 sm:w-3.5" />
-          <span className="truncate">{trackBadge(track)}</span>
+        <span className="flex shrink-0 flex-col items-end gap-1.5">
+          <span className="inline-flex items-center justify-center gap-1 rounded-full border border-border bg-background px-2 py-1 text-[10px] font-semibold leading-none text-muted-foreground sm:gap-1.5 sm:px-3 sm:py-1.5 sm:text-xs">
+            <Icon className="h-3 w-3 shrink-0 text-primary sm:h-3.5 sm:w-3.5" />
+            <span className="whitespace-nowrap">{trackBadge(track)}</span>
+          </span>
+          <span className="inline-flex rounded-full bg-primary/10 px-2.5 py-1 font-mono text-[10px] font-bold text-primary sm:text-[11px]">
+            {trackFormatBadge(track)}
+          </span>
         </span>
       </div>
       <h2 className="font-display mt-4 text-base font-bold">{track.title}</h2>
       <p className="mt-2 min-h-12 text-sm leading-6 text-muted-foreground">
         {track.description}
       </p>
-      <div className="mt-2">
-        <span className="inline-flex rounded-full bg-primary/10 px-2.5 py-1 font-mono text-[10px] font-bold text-primary sm:text-[11px]">
-          {trackFormatBadge(track)}
-        </span>
-      </div>
       <div className="mt-auto flex items-center justify-between border-t border-border pt-4 text-sm font-semibold text-primary">
         <span>View track</span>
         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
